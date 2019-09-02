@@ -1,0 +1,94 @@
+<script>
+import wepy from 'wepy';
+import { toast } from '../../utils/utils.js';
+
+export default class editIntroduction extends wepy.page {
+    config = {
+        navigationBarTitleText: '编辑个人简介',
+        navigationBarBackgroundColor:'#FAFAFA',
+        disableScroll:true
+    };
+    components = {};
+
+    data = {
+        leng:0,
+    };
+    methods = {
+        sectionValue(e){
+            let leng = e.detail.value.length
+            this.leng = leng
+        },
+        formSubmit(e){
+            let textarea = e.detail.value.textarea;
+            if(this.starNum && textarea){
+                request(api.work_reviews,'POST',{
+                    m_id : this.m_id,
+                    contents : textarea,
+                    num : this.starNum
+                }).then(res=>{
+                    wx.hideLoading();
+                    if(res.data.status == 200){
+                        toast('评价成功','success')
+                        setTimeout(() => {
+                            wx.reLaunch({
+                                url: './orderLists'
+                            });
+                        }, 700);
+                    }else{
+                        toast(res.data.message || '请求服务器数据异常')
+                    }
+                })
+            }else{
+                toast('请完善信息后提交')
+            }
+        }
+    };
+
+    events = {}
+    onLoad() {};
+    // Other properties
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <form @submit="formSubmit">
+            <view class="evaluateTopBox">
+                <!-- 编辑内容 -->
+                <textarea placeholder="请填写您的个人简介!" placeholder-style="font-size:26rpx;color#c3c3c3" maxlength='200'  @input = 'sectionValue' name='textarea'/>
+                <view class="wordNum">{{leng}}/200</view>
+                <button form-type="submit" class="submitBtn_">保存</button>
+            </view>
+        </form>
+    </view>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #FAFAFA;
+    }
+    form{
+        width: 100%;
+        .evaluateTopBox{
+            width: 100%;
+            padding: 45rpx 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            textarea{
+                width: 100%;
+                height: 315rpx;
+                box-sizing: border-box;
+                padding: 30rpx;
+                background-color: #fff;
+            }
+            .wordNum{
+                width: 100%;
+                padding: 10rpx 30rpx 80rpx 30rpx;
+                text-align: right;
+                font-size: 26rpx;
+                color: #888888;
+            }
+        }
+    }
+</style>

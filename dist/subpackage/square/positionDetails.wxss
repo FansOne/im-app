@@ -1,0 +1,152 @@
+.topButtons {
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 0;
+  margin: 0;
+  line-height: 30rpx;
+  margin-right: 25rpx;
+}
+.positionNameBox {
+  width: 100%;
+  padding: 40rpx 30rpx;
+  border-bottom: 1rpx solid #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.positionNameBox .positionNameLeft .positionTitle {
+  font-size: 50rpx;
+}
+.positionNameBox .positionNameLeft .positionTreatment {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+}
+.positionNameBox .positionNameLeft .positionTreatment .positionAddress,
+.positionNameBox .positionNameLeft .positionTreatment .positionSalary {
+  margin-right: 60rpx;
+}
+.positionNameBox image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+.positionDescribeBox {
+  width: 100%;
+  padding: 40rpx 30rpx;
+  border-bottom: 1rpx solid #f1f1f1;
+}
+.positionDescribeBox .positionDescribeTitle {
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+.positionDescribeBox .textNodes {
+  font-size: 24rpx;
+  margin-bottom: 10rpx;
+}
+.enterpriseEntrance {
+  width: 100%;
+  padding: 40rpx 70rpx 25rpx 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #f1f1f1;
+}
+.enterpriseEntrance .enterpriseEntranceLeft {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.enterpriseEntrance .enterpriseEntranceLeft image {
+  width: 118rpx;
+  height: 118rpx;
+  margin-right: 20rpx;
+}
+.enterpriseEntrance .enterpriseEntranceLeft .enterprise_msg {
+  flex: 1;
+  height: 118rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12rpx 0;
+}
+.enterpriseEntrance .enterpriseEntranceLeft .enterprise_msg view:first-of-type {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.enterpriseEntrance .enterpriseEntranceLeft .enterprise_msg view:last-of-type {
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.enterpriseAddressBox {
+  padding: 40rpx 30rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.enterpriseAddressBox view {
+  padding-left: 15rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+.similarRecommendation {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 50rpx;
+}
+.similarRecommendation .recommendation_left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.similarRecommendation .recommendation_left image {
+  width: 90rpx;
+  height: 90rpx;
+}
+.similarRecommendation .recommendation_left .position_name {
+  flex: 1;
+  padding-bottom: 6rpx;
+  height: 90rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 17rpx;
+}
+.similarRecommendation .recommendation_left .position_name view:first-of-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.similarRecommendation .recommendation_left .position_name view:last-of-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 26rpx;
+  color: #777;
+}
+.similarRecommendation .price-demo view {
+  color: #FF4725;
+  font-weight: 600;
+}
+.applyPosition {
+  width: 100%;
+  height: 140rpx;
+  padding-bottom: 40rpx;
+}
+.applyPosition button {
+  width: 590rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  color: #fff;
+  border-radius: 0;
+  background-color: #00D4D7;
+}

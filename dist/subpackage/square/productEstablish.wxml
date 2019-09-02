@@ -1,0 +1,32 @@
+
+    <view class="list-warp">
+        <form bindsubmit="formSubmit">
+
+            <view class="personalInputItemBox"  wx:for="{{personalInputData}}" wx:key="">
+                <view class="inputItem">
+                    <view class="inputTitle"><text>*</text> {{item.title}}</view>
+                    <input wx:if="{{item.input == 'input'}}" placeholder="{{item.placeholder}}" placeholder-style="color:#999;font-size:28rpx" name="input{{index}}" type="{{item.inputType}}"/>
+                    <picker wx:if="{{item.input == 'picker'}}" mode="{{item.inputType}}" bindchange="pickerChange{{item.index?item.index:index}}" bindcolumnchange="columnchange{{item.index?item.index:index}}" value="{{item.pickerValue}}" range="{{item.pickerRange}}" name="picker{{index}}">
+                        <!-- 多列选择器展示内容 -->
+                        <view class="picker" wx:if="{{item.inputType == 'multiSelector'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerRange[0][item.pickerValue[0]]+'-'+item.pickerRange[1][item.pickerValue[1]]+'-'+item.pickerRange[2][item.pickerValue[2]]):item.placeholder}}
+                        </view>
+                        <!-- 普通选择器 -->
+                        <view class="picker" wx:if="{{item.inputType == 'selector'}}" style="font-size:28rpx;{{item.selectorPicker?'':'color:#999'}}">
+                            {{item.selectorPicker?(item.pickerRange[item.pickerValue]):item.placeholder}}
+                        </view>
+                        <!-- 编辑文章‘富文本’ -->
+                        <view class="picker" wx:if="{{item.inputType == 'otherPage'}}" style="font-size:28rpx;{{item.selectorPicker?'':'color:#999'}}" bindtap="editorPage">
+                            {{item.placeholder}}
+                        </view>
+                    </picker>
+                    <wxc-icon wx:if="{{item.arrow}}" size="25" type="arrow-right" color="#999"/>
+                </view>
+            </view>
+            <!-- 按钮组 -->
+            <view class="demandBtnsBox" style="padding-top:100rpx;">
+                <view>保存</view>
+                <view>保存并发布至广场</view>
+            </view>
+        </form>
+    </view>

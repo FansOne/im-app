@@ -1,0 +1,450 @@
+<script>
+import wepy from 'wepy';
+import { toast } from '../../utils/utils'
+
+export default class editMsg extends wepy.page {
+    config = {
+        navigationBarTitleText: '',
+        navigationBarBackgroundColor:'#FAFAFA',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index',
+            'wxc-list': '../../packages/@minui/wxc-list/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        navigationBarTitle:'',
+        isAdd:false,
+        index: 0,
+        industryPickerIndex:0,
+        industryArray: ['贸易', '制造业', '房地产', '保健品','IT互联网'],
+        pickerChange:false,
+        pickerDateChange1:false,
+        pickerDateChange2:false,
+        industryData:[], //已编辑的条目数据
+        date1: '2017-08-01',
+        date2: '2019-08-01',
+    };
+    methods = {
+        editExperienceSwitch(){
+            let emptyData = false
+            this.industryData.forEach(element => {
+                if(!element.companyName) {
+                    emptyData = true
+                }else{
+                    element.isAdd = false
+                }
+            });
+
+            if(emptyData){
+                toast('请完善修改信息')
+            }else{
+                this.pickerDateChange1 = false
+                this.pickerDateChange2 =false
+                this.pickerChange = false
+                this.isAdd = !this.isAdd
+            }
+        },
+        // 选择行业
+        industryPickerChange(e){
+            this.pickerChange = true
+            this.index = e.detail.value
+        },
+        // 选择入职时间
+        changeData1(e){
+            this.date1 = e.detail.value
+            this.pickerDateChange1 = true
+        },
+        // 选择离职时间
+        changeData2(e){
+            this.date2 = e.detail.value
+            this.pickerDateChange2 = true
+        },
+        // 保存
+        formSubmit(e){
+            // console.log(e.detail.value)
+            let formValue = e.detail.value
+            
+            if(this.navigationBarTitle == '人脉客户'){
+                if(!formValue.companyName || !this.pickerChange || !formValue.industryPicker){
+                    toast('请完善信息后保存')
+                }else{
+                    this.industryData.push({
+                        companyName:formValue.companyName,
+                        industry:this.industryArray[formValue.industryPicker],
+                        industryPicker:formValue.industryPicker
+                    })
+                    this.isAdd = false
+                }
+            }else if(this.navigationBarTitle == '编辑职业经历'){
+                if(!this.pickerDateChange1 || !this.pickerDateChange2 || !formValue.companyName || !formValue.positionName || !formValue.workContant){
+                    toast('请完善信息后保存')
+                }else{
+                    this.industryData.push({
+                        companyName:formValue.companyName,
+                        positionName:formValue.positionName,
+                        intoTime:this.date1,
+                        outTime:this.date2,
+                        workContant:formValue.workContant
+                    })
+                    this.isAdd = false
+                }
+            }else if(this.navigationBarTitle == '编辑教育经历'){
+                if(!this.pickerDateChange1 || !this.pickerDateChange2 || !formValue.companyName || !formValue.major || !formValue.education){
+                    toast('请完善信息后保存')
+                }else{
+                    this.industryData.push({
+                        companyName:formValue.companyName,
+                        education:formValue.education,
+                        major:formValue.major,
+                        intoTime:this.date1,
+                        outTime:this.date2,
+                    })
+                    this.isAdd = false
+                }
+            }
+        },
+        // 删除指定人脉
+        deleteMsgItem(index){
+            this.industryData.splice(index,1)
+        },
+        // 修过指定人脉
+        modifyMsgItem(index){
+            this.isAdd = false
+            this.industryPickerIndex = index
+            this.industryData[index].isAdd = true
+        },
+
+        // 清空编辑输入
+        bindfocus(index){
+            this.industryData[index].companyName = ''
+            this.$apply()
+        },
+        bindfocus1(index){
+            this.industryData[index].positionName = ''
+            if(this.industryData[index].major) this.industryData[index].major = ''
+            this.$apply()
+        },
+        bindfocus2(index){
+            this.industryData[index].education = ''
+        },
+
+        // input修改输入
+        bindinput(e){
+            this.industryData[this.industryPickerIndex].companyName = e.detail.value
+        },
+        bindinput1(e){
+            if(this.industryData[this.industryPickerIndex].positionName) this.industryData[this.industryPickerIndex].positionName = e.detail.value
+            if(this.industryData[this.industryPickerIndex].major) this.industryData[this.industryPickerIndex].major = e.detail.value
+        },
+        bindinput2(e){
+            this.industryData[this.industryPickerIndex].education = e.detail.value
+        },
+        textareaInput(e){
+            this.industryData[this.industryPickerIndex].workContant = e.detail.value
+        },
+
+        // 修改指定picker
+        modifyPickerChange(e){
+            this.industryData[this.industryPickerIndex].industryPicker = e.detail.value
+        },
+        modifyData1(e){
+            this.industryData[this.industryPickerIndex].intoTime = e.detail.value
+        },
+        modifyData2(e){
+            this.industryData[this.industryPickerIndex].outTime = e.detail.value
+        },
+        // 修改保存 --人脉
+        modifyMsgForm(index,prckerIdx,inputValue){
+            if(this.industryData[index].companyName){
+                this.industryData[index].companyName = inputValue
+                this.industryData[index].industry = this.industryArray[prckerIdx]
+                this.industryData[index].industryPicker = prckerIdx
+                this.industryData[index].isAdd = false
+            }else{
+                toast('请完善信息')
+            }
+        },
+        // 修改保存 --职业经历
+        modifyExperienceForm(index,companyName,positionName,intoTime,outTime,workContant){
+            if(!this.industryData[index].companyName || !this.industryData[index].positionName ||!this.industryData[index].workContant){
+                toast('请完善信息')
+            }else{
+                this.industryData[index].companyName = companyName
+                this.industryData[index].positionName = positionName
+                this.industryData[index].intoTime = intoTime
+                this.industryData[index].outTime = outTime
+                this.industryData[index].workContant = workContant
+                this.industryData[index].isAdd = false
+            }
+        },
+        // 修改保存 --教育经历
+        modifyEducationForm(index,companyName,major,intoTime,outTime,education){
+            if(!this.industryData[index].companyName || !this.industryData[index].major ||!this.industryData[index].education){
+                toast('请完善信息')
+            }else{
+                this.industryData[index].companyName = companyName
+                this.industryData[index].major = major
+                this.industryData[index].intoTime = intoTime
+                this.industryData[index].outTime = outTime
+                this.industryData[index].education = education
+                this.industryData[index].isAdd = false
+            }
+        }
+    };
+
+    events = {};
+    onLoad(options) {
+        this.navigationBarTitle = options.title
+        wx.setNavigationBarTitle({
+            title: options.title
+        })
+    };
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <form bindsubmit="formSubmit">
+            <!-- 添加经历 -->
+            <view class="addExperienceBox" @tap="editExperienceSwitch">
+                <image src="{{isAdd?'../../image/reduceMsg.png':'../../image/addMsg.png'}}" />
+                <view>{{isAdd?'取消添加':'点击添加'}}</view>
+            </view>
+            <view class="msgItemBox" wx:if='{{industryData.length}}' wx:for='{{industryData}}' wx:key=''>
+                <!-- 人脉展示 -->
+                <block wx:if="{{navigationBarTitle == '人脉客户'}}">
+                    <view class="companyName">公司名称：{{item.companyName}}</view>
+                    <view class="industry">所属行业：{{item.industry}}</view>
+                </block>
+                <!-- 职业经历展示 -->
+                <block wx:if="{{navigationBarTitle == '编辑职业经历'}}">
+                    <view class="companyName">公司名称：{{item.companyName}}</view>
+                    <view class="industry">职位：{{item.positionName}}</view>
+                    <view class="industry">入职时间：{{item.intoTime}}</view>
+                    <view class="industry">离职时间：{{item.outTime}}</view>
+                    <view class="industry">工作内容：{{item.workContant}}</view>
+                </block>
+                <!-- 教育经历展示 -->
+                <block wx:if="{{navigationBarTitle == '编辑教育经历'}}">
+                    <view class="companyName">学校名称：{{item.companyName}}</view>
+                    <view class="industry">专业：{{item.major}}</view>
+                    <view class="industry">学历：{{item.education}}</view>
+                    <view class="industry">入学时间：{{item.intoTime}}</view>
+                    <view class="industry">毕业时间：{{item.outTime}}</view>
+                </block>
+                <view class="btns">
+                    <view @tap="deleteMsgItem({{index}})">删除</view>
+                    <view @tap='modifyMsgItem({{index}})'>修改</view>
+                </view>
+                <view class="list-warp modifyListWarp" wx:if='{{item.isAdd}}'>
+                    <!-- 修改人脉 -->
+                    <block wx:if="{{navigationBarTitle == '人脉客户'}}">
+                        <wxc-list title="公司名称" arrow="{{false}}">
+                            <input placeholder="请输入公司名称" placeholder-style="color:#999" name='companyName' value="{{item.companyName}}" @focus = 'bindfocus({{index}})' @input='bindinput'/>
+                        </wxc-list>
+                        <wxc-list title="所属行业">
+                            <picker bindchange="modifyPickerChange" value="{{item.industryPicker}}" range="{{industryArray}}" name='industryPicker'>
+                                <view class="picker">
+                                    {{industryArray[item.industryPicker]}}
+                                </view>
+                            </picker>
+                        </wxc-list>
+                    </block>
+                    <!-- 修改职业经历 -->
+                    <block wx:if="{{navigationBarTitle == '编辑职业经历'}}">
+                        <wxc-list title="公司名称" arrow="{{false}}">
+                            <input placeholder="请输入公司名称" placeholder-style="color:#999" name='companyName' value="{{item.companyName}}" @focus = 'bindfocus({{index}})' @input='bindinput'/>
+                        </wxc-list>
+                        <wxc-list title="职位" arrow="{{false}}">
+                            <input placeholder="请输入职位名称" placeholder-style="color:#999" name='positionName' value="{{item.positionName}}" @focus = 'bindfocus1({{index}})' @input='bindinput1'/>
+                        </wxc-list>
+                        <wxc-list title="入职时间">
+                            <picker bindchange="modifyData1" value="{{item.intoTime}}" name='intoTime' mode='date'>
+                                <view class="picker" style="font-size:28rpx;">
+                                    {{item.intoTime}}
+                                </view>
+                            </picker>
+                        </wxc-list>
+                        <wxc-list title="离职时间">
+                            <picker bindchange="modifyData2" value="{{item.outTime}}" name='outTime' mode='date'>
+                                <view class="picker" style="font-size:28rpx;">
+                                    {{item.outTime}}
+                                </view>
+                            </picker>
+                        </wxc-list>
+                        <textarea class="experienceTextarea" value='{{item.workContant}}' name='workContant' style="border:1rpx solid #f1f1f1;color:#000" @input='textareaInput'/>
+                    </block>
+                    <!-- 修改教育经历 -->
+                    <block wx:if="{{navigationBarTitle == '编辑教育经历'}}">
+                        <wxc-list title="学校名称" arrow="{{false}}">
+                            <input placeholder="请输入学校名称" placeholder-style="color:#999" name='companyName' value="{{item.companyName}}" @focus = 'bindfocus({{index}})' @input='bindinput'/>
+                        </wxc-list>
+                        <wxc-list title="专业" arrow="{{false}}">
+                            <input placeholder="请输入所学专业" placeholder-style="color:#999" name='major' value="{{item.major}}" @focus = 'bindfocus1({{index}})' @input='bindinput1'/>
+                        </wxc-list>
+                        <wxc-list title="学历" arrow="{{false}}">
+                            <input placeholder="请输入学历" placeholder-style="color:#999" name='education' value="{{item.education}}" @focus = 'bindfocus2({{index}})' @input='bindinput2'/>
+                        </wxc-list>
+                        <wxc-list title="入学时间">
+                            <picker bindchange="modifyData1" value="{{item.intoTime}}" name='intoTime' mode='date'>
+                                <view class="picker" style="font-size:28rpx;">
+                                    {{item.intoTime}}
+                                </view>
+                            </picker>
+                        </wxc-list>
+                        <wxc-list title="毕业时间">
+                            <picker bindchange="modifyData2" value="{{item.outTime}}" name='outTime' mode='date'>
+                                <view class="picker" style="font-size:28rpx;">
+                                    {{item.outTime}}
+                                </view>
+                            </picker>
+                        </wxc-list>
+                    </block>
+                    <button wx:if="{{navigationBarTitle == '人脉客户'}}" @tap='modifyMsgForm({{index}},{{item.industryPicker}},{{item.companyName}})' class="submitBtn_" style="margin-top:50rpx">保存</button>
+                    <button wx:elif="{{navigationBarTitle == '编辑职业经历'}}" @tap='modifyExperienceForm({{index}},{{item.companyName}},{{item.positionName}},{{item.intoTime}},{{item.outTime}},{{item.workContant}})' class="submitBtn_" style="margin-top:50rpx">保存</button>
+                    <button wx:elif="{{navigationBarTitle == '编辑教育经历'}}" @tap='modifyEducationForm({{index}},{{item.companyName}},{{item.major}},{{item.intoTime}},{{item.outTime}},{{item.education}})' class="submitBtn_" style="margin-top:50rpx">保存</button>
+                </view>
+            </view>
+            <view class="list-warp" wx:if='{{isAdd}}'>
+                <!-- 添加人脉 -->
+                <block  wx:if="{{navigationBarTitle == '人脉客户'}}">
+                    <wxc-list title="公司名称" arrow="{{false}}">
+                        <input placeholder="请输入公司名称" placeholder-style="color:#999" name='companyName'/>
+                    </wxc-list>
+                    <wxc-list title="所属行业">
+                        <picker bindchange="industryPickerChange" value="{{index}}" range="{{industryArray}}" name='industryPicker'>
+                            <view class="picker" style="font-size:28rpx;{{pickerChange?'':'color:#999'}}">
+                                {{pickerChange?industryArray[index]:'请选择行业'}}
+                            </view>
+                        </picker>
+                    </wxc-list>
+                </block>
+                <!-- 添加职业经历 -->
+                <block  wx:if="{{navigationBarTitle == '编辑职业经历'}}">
+                    <wxc-list title="公司名称" arrow="{{false}}">
+                        <input placeholder="请输入公司名称" placeholder-style="color:#999" name='companyName'/>
+                    </wxc-list>
+                    <wxc-list title="职位" arrow="{{false}}">
+                        <input placeholder="请输入职位名称" placeholder-style="color:#999" name='positionName'/>
+                    </wxc-list>
+                    <wxc-list title="入职时间">
+                        <picker bindchange="changeData1" value="{{date1}}" name='intoTime' mode='date'>
+                            <view class="picker" style="font-size:28rpx;{{pickerDateChange1?'':'color:#999'}}">
+                                {{pickerDateChange1?date1:'请选择'}}
+                            </view>
+                        </picker>
+                    </wxc-list>
+                    <wxc-list title="离职时间">
+                        <picker bindchange="changeData2" value="{{date2}}" name='outTime' mode='date'>
+                            <view class="picker" style="font-size:28rpx;{{pickerDateChange2?'':'color:#999'}}">
+                                {{pickerDateChange2?date2:'请选择'}}
+                            </view>
+                        </picker>
+                    </wxc-list>
+                    <textarea class="experienceTextarea" placeholder="请输入工作内容" name='workContant'/>
+                </block>
+                 <!-- 添加教育背景 -->
+                <block  wx:if="{{navigationBarTitle == '编辑教育经历'}}">
+                    <wxc-list title="学校名称" arrow="{{false}}">
+                        <input placeholder="请输入学校名称" placeholder-style="color:#999" name='companyName'/>
+                    </wxc-list>
+                    <wxc-list title="专业" arrow="{{false}}">
+                        <input placeholder="请输入所学专业" placeholder-style="color:#999" name='major'/>
+                    </wxc-list>
+                    <wxc-list title="学历" arrow="{{false}}">
+                        <input placeholder="请输入学历" placeholder-style="color:#999" name='education'/>
+                    </wxc-list>
+                    <wxc-list title="入学时间">
+                        <picker bindchange="changeData1" value="{{date1}}" name='intoTime' mode='date'>
+                            <view class="picker" style="font-size:28rpx;{{pickerDateChange1?'':'color:#999'}}">
+                                {{pickerDateChange1?date1:'请选择'}}
+                            </view>
+                        </picker>
+                    </wxc-list>
+                    <wxc-list title="毕业时间">
+                        <picker bindchange="changeData2" value="{{date2}}" name='outTime' mode='date'>
+                            <view class="picker" style="font-size:28rpx;{{pickerDateChange2?'':'color:#999'}}">
+                                {{pickerDateChange2?date2:'请选择'}}
+                            </view>
+                        </picker>
+                    </wxc-list>
+                </block>
+            </view>
+            <!-- 保存按钮 -->
+            <button wx:if='{{isAdd}}' form-type="submit" class="submitBtn_ fixedBtn">保存</button>
+        </form>
+    </view>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #FAFAFA;
+    }
+    form{
+        width: 100%;
+    }
+    .addExperienceBox{
+        width: 100%;
+        padding: 43rpx 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        image{
+            width: 68rpx;
+            height: 68rpx;
+        }
+        view{
+            // color: #666;
+            font-weight: 600;
+            margin-top: 20rpx;
+        }
+    }
+    .msgItemBox{
+        width: 100%;
+        background-color: #fff;
+        margin-top:30rpx;
+        padding: 40rpx 30rpx;
+        view{
+            font-size: 26rpx;
+            color: #999;
+        }
+        .industry{
+            margin: 16rpx 0;
+        }
+        .btns{
+            display: flex;
+            align-items: center;
+            view{
+                width: 141rpx;
+                height: 56rpx;
+                color: #fff;
+                line-height: 56rpx;
+                text-align: center;
+            }
+            :first-of-type{
+                background-color: #FF3B30;
+            }
+            :last-of-type{
+                background-color: #00D4D7;
+                margin-left: 22rpx;
+            }
+        }
+        .modifyListWarp view{
+            color: #000;
+        }
+    }
+    .fixedBtn{
+        margin-top: 100rpx;
+    }
+    .experienceTextarea{
+        margin-top: 30rpx;
+        height: 280rpx;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 30rpx;
+        background-color: #fff;
+    }
+</style>

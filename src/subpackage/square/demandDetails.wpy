@@ -1,0 +1,176 @@
+<script>
+import wepy from 'wepy';
+
+export default class demandDetails extends wepy.page {
+    config = {
+        navigationBarTitleText: '需求详情',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        previewImage:[
+            'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+            'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2085223376,536181091&fm=26&gp=0.jpg',
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855388&di=4b037df9306c3669c2ca2205751aca23&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F63d0f703918fa0ec76d3f7b92d9759ee3d6ddb6a.jpg',
+            'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=398659568,2690439867&fm=26&gp=0.jpg',
+            'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2976842352,636810530&fm=26&gp=0.jpg',
+            'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2479004758,2731067208&fm=26&gp=0.jpg',
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561700076645&di=606e5153c9ace64b31a11c3ac33a80c4&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F12%2F69%2F74%2F84c58PICAKM.jpg'
+        ],
+    };
+    methods = {
+        // 图片预览
+        previewImage(img){
+            wx.previewImage({
+                current: img, // 当前显示图片的http链接
+                urls: this.previewImage // 需要预览的图片http链接列表
+            })
+        },
+        // 拨打电话
+        makePhoneCall(phoneNumber){
+            wx.makePhoneCall({
+                phoneNumber: phoneNumber
+            })
+        }
+    };
+
+    events = {};
+    onLoad() {};
+    
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <view class="demandTitleBox">
+            <view class="demandTitle">采购服务器</view>
+            <view class="demandShareBox">
+                <button class="topButtons" open-type="share"><wxc-icon size="34" type="share" color='#A1A1A1'></wxc-icon></button>
+                <view class="collectionBtns">
+                    <wxc-icon size="34" type="star" color='#A1A1A1'/>
+                </view>
+            </view>
+        </view>
+        <!-- 需求详情 -->
+        <view class="demandDetailsTextBox">
+            <view>详情描述：</view>
+            <view>近期公司，到货服务器，900台/库存/促销，型号配置xxx 出货价格900/元，或电议，货物地点：西安市莲湖区丰禾 路某某某某某某，发货时间-随时，到货时间：2019-09- 09</view>
+        </view>
+        <!-- 分类 -->
+        <view class="demandDetailsTextBox">
+            <view>分类：</view>
+            <view>行业：IT互联网 产品：云计算</view>
+        </view>
+        <!-- 图片 -->
+        <view class="previewImage">
+            <block wx:for='{{previewImage}}' wx:key=''>
+                <image src="{{item}}" @tap.stop='previewImage({{item}})' mode="aspectFill"/>
+            </block>
+        </view>
+        <!-- 需求说明 -->
+        <view class="demandExplainBox">
+            <view class="demandExplainItem">
+                <view>佣金</view>
+                <view>￥4500</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>联系方式</view>
+                <view>18220505050</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>时间期限</view>
+                <view>5-10天</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>产品价格</view>
+                <view>￥12000</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>价格区间</view>
+                <view>￥2000 - ￥5000</view>
+            </view>
+            <view class="demandExplainItem" style="border-bottom:0;">
+                <view>地区</view>
+                <view>陕西省 西安市 雁塔区</view>
+            </view>
+        </view>
+        <!-- 按钮组 -->
+        <view class="demandBtnsBox">
+            <view @tap="makePhoneCall('18220505050')">电话联系</view>
+            <view>立即申请</view>
+        </view>
+    </view>
+</template>
+
+<style lang="less">
+    .demandTitleBox{
+        width: 100%;
+        padding: 60rpx 30rpx 30rpx 30rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1rpx solid #e7e7e7;
+        .demandTitle{
+            flex: 1;
+            font-size: 50rpx;
+            font-weight: 600;
+            padding-right: 10rpx;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .demandShareBox{
+            display: flex;
+            align-items: center;
+            .topButtons{
+                height: 33rpx;
+                width: 36rpx;
+                margin-right: 20rpx;
+            }
+        }
+    }
+    .demandDetailsTextBox{
+        width: 100%;
+        padding: 30rpx;
+        border-bottom: 1rpx solid #e7e7e7;
+        :first-of-type{
+            font-weight: 600;
+            margin-bottom: 20rpx;
+        }
+        :last-of-type{
+            font-size: 26rpx;
+        }
+    }
+    .previewImage{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 30rpx 15rpx 15rpx 30rpx;
+        image{
+            margin-right: 15rpx;
+            margin-bottom: 15rpx;
+            width: 220rpx;
+            height: 220rpx;
+        }
+    }
+    .demandExplainBox{
+        width: 100%;
+        .demandExplainItem{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 25rpx 30rpx;
+            border-bottom: 1rpx solid #ebebeb;
+            view{
+                font-size: 28rpx;
+                color: #333;
+            }
+        }
+    }
+</style>

@@ -1,0 +1,45 @@
+.personalMsgBtnBox button {
+  width: 590rpx !important;
+  background-color: #00D4D7 !important;
+}
+.userPhoneNumBox {
+  width: 100%;
+  padding: 25rpx 30rpx 10rpx 30rpx;
+  border-bottom: 1rpx solid #ebebeb;
+}
+.userPhoneNumBox .inputTitle {
+  font-size: 28rpx;
+}
+.userPhoneNumBox .inputTitle text {
+  margin-right: 6rpx;
+  display: inline-block;
+  color: red;
+}
+.userPhoneNumBox .phoneNumInputBox {
+  position: relative;
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.userPhoneNumBox .phoneNumInputBox input {
+  text-align: left;
+}
+.userPhoneNumBox .phoneNumInputBox .controlIcon {
+  display: flex;
+  align-items: center;
+}
+.userPhoneNumBox .phoneNumInputBox .controlIcon view {
+  font-size: 28rpx;
+  color: #999;
+  margin-left: 10rpx;
+}
+.smsInput {
+  box-sizing: border-box;
+  padding-left: 10rpx;
+  position: absolute;
+  left: 320rpx;
+  width: 189rpx;
+  text-align: left !important;
+  border: 1rpx solid #f1f1f1;
+}

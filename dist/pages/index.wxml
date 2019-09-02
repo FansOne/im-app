@@ -1,0 +1,166 @@
+
+    <!-- 搜索 -->
+    <view class="search-wrap">
+        <wxc-icon class="search-icon" type="location" size="36" color="#000"/>
+        <view class="search-location">{{address?address:'西安'}}</view>
+        <wxc-search class="search" radius="0" mode="static" placeholder="搜索企业/需求" ph-color="#a0a6b7" style="background-color:#F4F3F8" bindtap="searchPage"/>
+    </view>
+    <!-- 轮播 -->
+    <view style="width:100%;padding:0 30rpx">
+        <swiper indicator-dots autoplay circular="circular" id="swiper">
+            <block  wx:for="{{imgUrls}}" wx:key="">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <!-- 淘企业标题 -->
+    <view class="amoyEnterpriseBox" id="amoyEnterpriseBox" bindtap="enterpriseClassPage">
+        <view style="font-size: 34rpx;color:#000;" class="redLine">淘企业<text>不被淘汰，入职涨薪</text></view>
+    </view>
+    <!-- 企业 -->
+    <view class="enterpriseBox" id="enterpriseBox" style="padding-bottom:0">
+        <block  wx:for="{{enterpriseCover}}" wx:key="">
+            <image src="{{item}}" bindtap="enterpriseDetails" data-wpyenterprisedetails-a="{{item.id}}"/>
+        </block>
+    </view>
+    <!-- 淘精英标题 -->
+    <view class="amoyEnterpriseBox amoyElite" id="amoyElite">
+        <view class="amoyEliteTitle">
+            <view class="redLine">淘精英</view>
+            <image src="../image/new.png"/>
+        </view>
+    </view>
+    <!-- 精英人员 -->
+    <view class="homeFurnishingBox">
+        <scroll-view scroll-x>
+            <view  wx:for="{{amoyElite}}" wx:key="" class="amoyEliteItem" bindtap="personalDetailsPage" data-wpypersonaldetailspage-a="{{item.id}}">
+                <view class="amoyEliteItems">
+                    <image src="{{item.cover}}"/>
+                    <view>{{item.name}}</view>
+                    <view><text>售前</text>{{item.prompt}}</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <!-- 轮播 -->
+    <view style="width:100%;padding:0 30rpx">
+        <swiper autoplay circular="circular" style="height:230rpx" id="swiperTwo">
+            <block  wx:for="{{secondLevelBanner}}" wx:key="">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <!-- 淘产品标题 -->
+    <view class="amoyEnterpriseBox" bindtap="productClassPage">
+        <view class="redLine">淘产品</view>
+        <view>更多<wxc-icon size="22" type="arrow-right" color="#999"/></view>
+    </view>
+    <!-- 产品 -->
+    <view class="enterpriseBox amoyProductBox">
+        <view  wx:for="{{amoyProduct}}" wx:key="" class="amoyProductItem" bindtap="productDeatils">
+            <image src="{{item.img}}"/>
+            <view>{{item.title}}</view>
+        </view>
+    </view>
+    <!-- 为您推荐标题 -->
+    <view class="amoyEnterpriseBox amoyElite" style="{{amoyEliteFixed?'border-bottom:1rpx solid #ececec;position:fixed;top:0;left:0;z-index:10;border-top:1rpx solid #f1f1f1;padding:30rpx;':''}}">
+        <view class="amoyEliteTitle">
+            <view class="redLine">英淘SHOW</view>
+            <image src="../image/new.png"/>
+        </view>
+    </view>
+    <!-- 推荐文案 -->
+    <view class="recommendBox"  wx:for="{{recommend}}" wx:key="" style="{{index == recommend.length-1?'margin-bottom:0':''}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="userName_ExplainLast">{{item.explain}}</view>
+                </view>
+            </view>
+            <view class="{{item.follow?'followBtn':'noFollowBtn'}}" bindtap="follow" data-wpyfollow-a="{{index}}"><wxc-icon wx:if="{{!item.follow}}" size="20" type="add" color="#fff"/> {{item.follow?'已关注':'关注'}}</view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}}">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe" bindtap="demandDetailsPage">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view catchtap="lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            
+            <view wx:if="{{item.show}}" bindtap="demandDetailsPage">
+                <!-- 工作内容 -->
+                <view class="copywritingItem">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" catchtap="hiddenFullText" wx:if="{{item.show}}" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 视频 -->
+            <view class="videoStyle" wx:if="{{!item.previewImage.length}}">
+                <video custom-cache="{{false}}" controls="{{true}}" src="http://192.168.2.126/uploads/20190711/video.mp4"/>
+            </view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" catchtap="previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+        <!-- 分享、评论、点赞 -->
+        <view class="extensionBox">
+            <button class="share" open-type="share" data-userName="{{item.userName}}">
+                <image src="../image/indexShare.png" style="height:26rpx;"/>
+                <view>10</view>
+            </button>
+            <button class="share">
+                <image src="../image/indexComment.png" style="transform: translateY(2rpx)"/>
+                <view>10</view>
+            </button>
+            <button class="share" catchtap="fabulous" data-wpyfabulous-a="{{index}}">
+                <image src="{{item.fabulous?'../image/indexZanSelect.png':'../image/indexZan.png'}}"/>
+                <view>{{item.zanNums}}</view>
+            </button>
+        </view>
+    </view>
+    
+    <view class="mask" catchtouchmove="$registerPopup$preventTouchMove"  wx:if="{{$registerPopup$userRegister}}">
+        <view class="popupBox">
+            <image src="../image/registerIcon.png"/>
+            <view class="text">
+                <view>英淘小程序欢迎您的加入</view>
+                <view>请立即创建名片，开通更多功能</view>
+            </view>
+            <button open-type="getUserInfo" bindgetuserinfo="$registerPopup$getuserinfo" class="jumpBtn">创建个人名片</button>
+        </view>
+    </view>
+
+    <wxc-loadmore  wx:if="{{!loadmoreEnd}}" icon="icon"/>
+    <wxc-loadmore  wx:else is-end="{{loadmoreEnd}}" text="到底啦"/>

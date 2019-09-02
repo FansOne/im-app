@@ -1,0 +1,44 @@
+@import "./../components/registerPopup.wxss";
+page {
+  border-top: 1rpx solid #f1f1f1;
+}
+.message-sec {
+  width: 100%;
+}
+.message-sec .child {
+  width: 100%;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #f1f1f1;
+}
+.message-sec .child .msgCover {
+  width: 90rpx;
+  height: 90rpx;
+}
+.message-sec .child .msgListItemRight {
+  height: 90rpx;
+  flex: 1;
+  padding-left: 20rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.message-sec .child .msgListItemRight .msgerMsgBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 4rpx;
+}
+.message-sec .child .msgListItemRight .msgerMsgBox .msgContent {
+  font-size: 26rpx;
+  color: #777;
+}
+.message-sec .child .msgListItemRight .msgTime {
+  font-size: 26rpx;
+  color: #777;
+}
+view,
+button {
+  display: block;
+  overflow: initial;
+}

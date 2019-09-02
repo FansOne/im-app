@@ -1,0 +1,27 @@
+
+    <view class="container">
+        <view class="releaseBgBox">
+            <view>您想要发布的类别</view>
+        </view>
+        <view class="selectReleaseClassBox">
+            <!-- 发布类型选择 -->
+            <picker-view style="width: 100%; height: 300px;" value="{{pickerviewValue}}" indicator-class="selectedClass" bindchange="bindchange">
+                <picker-view-column>
+                    <view  wx:for="{{isWhere == 0?selectItem:enterpriseSelectItem}}" wx:key="">{{item.title}}</view>
+                </picker-view-column>
+            </picker-view>
+            <!-- 发布按钮 -->
+            <view class="releaseJump" bindtap="jumpReleaseDetails">发布</view>
+        </view>
+    </view>
+    
+    <view class="mask" catchtouchmove="$registerPopup$preventTouchMove"  wx:if="{{$registerPopup$userRegister}}">
+        <view class="popupBox">
+            <image src="../image/registerIcon.png"/>
+            <view class="text">
+                <view>英淘小程序欢迎您的加入</view>
+                <view>请立即创建名片，开通更多功能</view>
+            </view>
+            <button open-type="getUserInfo" bindgetuserinfo="$registerPopup$getuserinfo" class="jumpBtn">创建个人名片</button>
+        </view>
+    </view>

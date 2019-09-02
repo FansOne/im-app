@@ -1,0 +1,54 @@
+form {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 30rpx;
+}
+form .formTitle {
+  padding: 25rpx 0;
+  font-size: 28rpx;
+}
+form .formTitle text {
+  color: red;
+}
+form .formTitle .radioBox {
+  display: inline-block;
+  margin-left: 20rpx;
+}
+form .formTitle .radioBox .radio-group {
+  display: flex;
+  align-items: center;
+}
+form .formTitle .radioBox .radio-group .radio {
+  display: flex;
+  align-items: center;
+  margin-right: 15rpx;
+}
+form .formTitle .radioBox .radio-group .radio radio {
+  transform: scale(0.7);
+}
+form input {
+  background-color: #f7f7f7;
+  height: 99rpx;
+  box-sizing: border-box;
+  padding: 0 25rpx;
+}
+form .articleContant {
+  box-sizing: border-box;
+  width: 100%;
+  height: 264rpx;
+  background-color: #f7f7f7;
+  padding: 25rpx;
+}
+form .articleAbstract {
+  position: relative;
+}
+form .articleAbstract view {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+  padding: 0 15rpx 15rpx 0;
+  font-size: 28rpx;
+  color: #999;
+}

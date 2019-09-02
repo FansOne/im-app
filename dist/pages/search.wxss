@@ -1,0 +1,12 @@
+.search-wrapBox {
+  width: 100%;
+  padding: 0 30rpx;
+  margin-top: 40rpx;
+}
+.search-wrapBox .search-wrap {
+  width: 100%;
+}
+.search-wrapBox .search-wrap .search {
+  width: 100%;
+  background-color: #F6F6F6 !important;
+}

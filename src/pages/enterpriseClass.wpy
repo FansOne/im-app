@@ -1,0 +1,139 @@
+<script>
+import wepy from 'wepy';
+
+const listData = require('../utils/listEnterpriseData.js');
+export default class enterpriseClass extends wepy.page {
+    config = {
+        navigationBarTitleText: '更多企业',
+        usingComponents:{
+            'wxc-search': '../../packages/@minui/wxc-search/dist/index',
+            'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index'
+        }
+    };
+    components = {};
+
+    data = {
+        typeData: [], // 列表数据
+        contentActive: '', // 内容栏id
+        navActive: 0, // 导航栏选中id
+        heightArr: [],
+        containerH: 0,
+        defaultImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561715730636&di=84490d3635632313973d0ec3f63c74db&imgtype=0&src=http%3A%2F%2Fdpic.tiankong.com%2F2a%2Fj6%2FQJ6998324315.jpg'
+    };
+    methods = {
+        // 左侧导航栏点击事件
+        chooseType(e) {
+            let id = e.currentTarget.dataset.id;
+            let index = e.currentTarget.dataset.index;
+            this.contentActive = id
+            this.navActive = index
+        },
+        onScroll(e) {
+            let scrollTop = e.detail.scrollTop;
+            let scrollArr = this.heightArr;
+            if (scrollTop >= scrollArr[scrollArr.length - 1] - this.containerH) {
+                return
+            } else {
+                for (let i = 0; i < scrollArr.length; i++) {
+                    if (scrollTop >= 0 && scrollTop < scrollArr[0]) {
+                        this.navActive = 0
+                        this.$apply()
+                    } else if (scrollTop >= scrollArr[i - 1] && scrollTop < scrollArr[i]) {
+                        this.navActive = i
+                        this.$apply()
+                    }
+                }
+            }
+        },
+    };
+
+    events = {};
+    onReady(){
+        let query = wx.createSelectorQuery();
+        let heightArr = [];
+        let s = 0;
+        query.selectAll('.pesticide').boundingClientRect((react) => {
+            react.forEach((res) => {
+                s += res.height;
+                heightArr.push(s)
+            });
+            this.heightArr = heightArr
+            this.$apply()
+        });
+        query.select('.content').boundingClientRect((res) => {
+            // 计算容器高度
+            this.containerH = res.height
+            this.$apply()
+        }).exec()
+    }
+    onLoad() {
+        this.typeData = listData.data
+    };
+    // Other properties
+}
+</script>
+
+<template lang="wxml">
+    <!-- 顶部搜索 -->
+    
+    <!-- 产品 -->
+    <view class="container">
+        <view class="search-wrap">
+            <wxc-search class="search" show-clear='{{false}}' radius='0' color="#000" placeholder="搜索产品/需求"></wxc-search>
+        </view>
+        <view class="main" wx:if="{{typeData.length}}">
+            <view class="container-linkpage">
+                <!-- 左 -->
+                <view class="nav">
+                    <scroll-view scroll-y="true" style="height: 100%;" class="nav-scroll">
+                        <view wx:for="{{typeData}}" class="nav-item {{index === navActive ? 'active' : ''}}" style="{{index === navActive?'color:#00C5C8;font-size: 32rpx;':''}}" wx:key="{{index}}"
+                            data-id="tty{{item.goods_category_one_id}}" data-index="{{index}}" @tap.stop="chooseType">{{item.goods_category_one_name}}
+                        </view>
+                    </scroll-view>
+                </view>
+                <!-- 右 -->
+                <view class="content content-class" style="padding-top:30rpx;">
+                    <scroll-view scroll-y="true" style="height: 100%;" scroll-into-view="{{contentActive}}" scroll-with-animation="true" bindscroll="onScroll" class="content-scroll">
+                        <!-- 不同分类商品 -->
+                        <view class="pesticide" id="tty{{item.goods_category_one_id}}" wx:for="{{typeData}}" wx:for-index="typeOneIndex" wx:key="{{typeOneIndex}}">
+
+                            <view wx:if="{{twoItem.goods.length}}" wx:for="{{item.goods_category_two}}" wx:for-item="twoItem" wx:for-index="typeTwoIndex" wx:key="{{typeTwoIndex}}">
+                                <!-- 商品说明（类名） -->
+                                <view class="type-name">
+                                    <view class="line"></view>
+                                    <view class="name">{{twoItem.goods_category_two_name}}</view>
+                                    <view class="line"></view>
+                                </view>
+                                <view class="pesticide-container">
+                                    <!-- 商品Item -->
+                                    <view class="pesticide-item" wx:for="{{twoItem.goods}}" data-itemId="{{pes.goods_id}}" wx:for-item="pes" wx:key="{{goodsIndex}}"
+                                        catchtap="tapHandle" wx:for-index="goodsIndex">
+                                        <view class="describe">{{pes.goods_name}}</view>
+                                    </view>
+                                </view>   
+                            </view>
+                        </view>
+                        <wxc-loadmore is-end="{{true}}" text="没有更多"/>
+                    </scroll-view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<style lang="less">
+page {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+.container {
+    color: #333;
+    height: 100%;
+}
+.search {
+    flex-grow: 1;
+    margin: 0rpx 30rpx 30rpx 30rpx;
+}
+</style>

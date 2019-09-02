@@ -1,0 +1,13 @@
+
+    <!-- 选择查询分类 -->
+    <view class="personalMsgTabBox">
+        <view class="borderStyle" style="justify-content:space-between;">
+            <view  wx:for="{{navbar}}" wx:key="" style="{{index == 0?'font-weight:600':''}}" class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+        </view>
+    </view>
+    <!-- 搜索 -->
+    <view class="search-wrapBox">
+        <view class="search-wrap">
+            <wxc-search class="search" radius="0" placeholder="搜索企业/工作者/需求" ph-color="#a0a6b7" style="background-color:#F4F3F8"/>
+        </view>
+    </view>

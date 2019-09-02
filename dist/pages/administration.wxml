@@ -1,0 +1,326 @@
+
+    <view class="container" style="width:{{windowWidth}}px">
+        <!-- Tab -->
+        <view class="personalMsgTabBox">
+            <view class="borderStyle">
+                <view  wx:for="{{navbar}}" wx:key="" class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+            </view>
+            <image src="../image/addMsg.png"  wx:if="{{addIcon}}" bindtap="adminPopupShow" data-wpyadminpopupshow-a="{{currentTab}}"/>
+        </view>
+        <!-- 我的发布 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox" style="margin-top:{{topBoxHeight}}px">
+            <!-- 发布信息 -->
+            
+    <view class="recommendBox"  wx:for="{{$releaseItem$forData}}" wx:key="" style="{{$releaseItem$stylePaddingTop?'':'padding-top:70rpx'}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for="{{item.explain}}" wx:key="" wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view bindtap="$releaseItem$lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{item.show}}">
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if="{{item.show}}" bindtap="$releaseItem$hiddenFullText" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" bindtap="$releaseItem$previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+    </view>
+
+            <!-- 申请者 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0rpx;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">申请者</view>
+                    <image src="../image/new.png"/>
+                </view>
+            </view>
+            
+    <view class="userMsgItemBox"  wx:for="{{$userMsgItem$syncTitle}}" wx:key="">
+        <image src="{{item.cover}}"/>
+        <view class="userMsgItemRight">
+            <view class="userMsgItemRightTop">
+                <view class="userMsg">
+                    <view>{{item.name}}</view>
+                    <view>{{item.lable}}</view>
+                </view>
+                <view class="userBtns">和他联系</view>
+            </view>
+            <view class="userMsgItemRightBottom">{{item.promptText}}</view>
+        </view>
+    </view>
+
+            <!-- 推荐 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">推荐</view>
+                    <image src="../image/new.png"/>
+                </view>
+            </view>
+            
+    <view class="userMsgItemBox"  wx:for="{{$recommendUserMsgItem$syncTitle}}" wx:key="">
+        <image src="{{item.cover}}"/>
+        <view class="userMsgItemRight">
+            <view class="userMsgItemRightTop">
+                <view class="userMsg">
+                    <view>{{item.name}}</view>
+                    <view>{{item.lable}}</view>
+                </view>
+                <view class="userBtns">加人脉</view>
+            </view>
+            <view class="userMsgItemRightBottom">{{item.promptText}}</view>
+        </view>
+    </view>
+
+        </view>
+        <!-- 我的申请 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox" style="margin-top:{{topBoxHeight}}px">
+            
+    <view class="recommendBox"  wx:for="{{$releaseItem$forData}}" wx:key="" style="{{$releaseItem$stylePaddingTop?'':'padding-top:70rpx'}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for="{{item.explain}}" wx:key="" wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view bindtap="$releaseItem$lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{item.show}}">
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if="{{item.show}}" bindtap="$releaseItem$hiddenFullText" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" bindtap="$releaseItem$previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+    </view>
+
+        </view>
+        <!-- 职位管理 -->
+        <view hidden="{{currentTab !== 2}}" class="tabContentBox" style="margin-top:{{topBoxHeight}}px">
+            <!-- 职位 -->
+            <view class="adminPositionBox">
+                <image src="../image/goods-img-default.png"/>
+                <view class="adminPositionRight">
+                    <view class="adminPositionRightL">
+                        <view>项目对接</view>
+                        <view>西安市 雁塔区 某某某</view>
+                    </view>
+                    <wxc-price class="price-demo" value="8888" decimal="none"/>
+                </view>
+            </view>
+            <!-- 申请者 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0rpx;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">申请者</view>
+                    <image src="../image/new.png"/>
+                </view>
+            </view>
+            
+    <view class="userMsgItemBox"  wx:for="{{$userMsgItem$syncTitle}}" wx:key="">
+        <image src="{{item.cover}}"/>
+        <view class="userMsgItemRight">
+            <view class="userMsgItemRightTop">
+                <view class="userMsg">
+                    <view>{{item.name}}</view>
+                    <view>{{item.lable}}</view>
+                </view>
+                <view class="userBtns">和他联系</view>
+            </view>
+            <view class="userMsgItemRightBottom">{{item.promptText}}</view>
+        </view>
+    </view>
+
+            <!-- 推荐 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">推荐</view>
+                    <image src="../image/new.png"/>
+                </view>
+            </view>
+            
+    <view class="userMsgItemBox"  wx:for="{{$recommendUserMsgItem$syncTitle}}" wx:key="">
+        <image src="{{item.cover}}"/>
+        <view class="userMsgItemRight">
+            <view class="userMsgItemRightTop">
+                <view class="userMsg">
+                    <view>{{item.name}}</view>
+                    <view>{{item.lable}}</view>
+                </view>
+                <view class="userBtns">加人脉</view>
+            </view>
+            <view class="userMsgItemRightBottom">{{item.promptText}}</view>
+        </view>
+    </view>
+
+        </view>
+        <!-- 弹窗 -->
+        <scroll-view catchtouchmove="ture" scroll-y class="adminPopupBox" style="width:0px;height:{{windowHeight}}px;overflow: hidden;{{adminPopupShow?'width:'+windowWidth+'px;transition:  all .5s;':''}}">
+            <view class="closeIcon"><wxc-icon type="close" size="35" color="#4444" bindtap="closeAdminPopup"/></view>
+            
+    <view class="recommendBox"  wx:for="{{$releaseItem$forData}}" wx:key="" style="{{$releaseItem$stylePaddingTop?'':'padding-top:70rpx'}}" wx:if="{{currentTab==0}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for="{{item.explain}}" wx:key="" wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view bindtap="$releaseItem$lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{item.show}}">
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if="{{item.show}}" bindtap="$releaseItem$hiddenFullText" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" bindtap="$releaseItem$previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+    </view>
+
+            
+    <view class="userMsgItemBox"  wx:for="{{$userMsgItem$syncTitle}}" wx:key="" wx:if="{{currentTab==2}}">
+        <image src="{{item.cover}}"/>
+        <view class="userMsgItemRight">
+            <view class="userMsgItemRightTop">
+                <view class="userMsg">
+                    <view>{{item.name}}</view>
+                    <view>{{item.lable}}</view>
+                </view>
+                <view class="userBtns">和他联系</view>
+            </view>
+            <view class="userMsgItemRightBottom">{{item.promptText}}</view>
+        </view>
+    </view>
+
+        </scroll-view>
+    </view>
+    
+    <view class="mask" catchtouchmove="$registerPopup$preventTouchMove"  wx:if="{{$registerPopup$userRegister}}">
+        <view class="popupBox">
+            <image src="../image/registerIcon.png"/>
+            <view class="text">
+                <view>英淘小程序欢迎您的加入</view>
+                <view>请立即创建名片，开通更多功能</view>
+            </view>
+            <button open-type="getUserInfo" bindgetuserinfo="$registerPopup$getuserinfo" class="jumpBtn">创建个人名片</button>
+        </view>
+    </view>

@@ -1,0 +1,60 @@
+
+    <view class="container">
+        <view class="demandTitleBox">
+            <view class="demandTitle">采购服务器</view>
+            <view class="demandShareBox">
+                <button class="topButtons" open-type="share"><wxc-icon size="34" type="share" color="#A1A1A1"/></button>
+                <view class="collectionBtns">
+                    <wxc-icon size="34" type="star" color="#A1A1A1"/>
+                </view>
+            </view>
+        </view>
+        <!-- 需求详情 -->
+        <view class="demandDetailsTextBox">
+            <view>详情描述：</view>
+            <view>近期公司，到货服务器，900台/库存/促销，型号配置xxx 出货价格900/元，或电议，货物地点：西安市莲湖区丰禾 路某某某某某某，发货时间-随时，到货时间：2019-09- 09</view>
+        </view>
+        <!-- 分类 -->
+        <view class="demandDetailsTextBox">
+            <view>分类：</view>
+            <view>行业：IT互联网 产品：云计算</view>
+        </view>
+        <!-- 图片 -->
+        <view class="previewImage">
+            <block  wx:for="{{previewImage}}" wx:key="">
+                <image src="{{item}}" catchtap="previewImage" mode="aspectFill" data-wpypreviewimage-a="{{item}}"/>
+            </block>
+        </view>
+        <!-- 需求说明 -->
+        <view class="demandExplainBox">
+            <view class="demandExplainItem">
+                <view>佣金</view>
+                <view>￥4500</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>联系方式</view>
+                <view>18220505050</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>时间期限</view>
+                <view>5-10天</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>产品价格</view>
+                <view>￥12000</view>
+            </view>
+            <view class="demandExplainItem">
+                <view>价格区间</view>
+                <view>￥2000 - ￥5000</view>
+            </view>
+            <view class="demandExplainItem" style="border-bottom:0;">
+                <view>地区</view>
+                <view>陕西省 西安市 雁塔区</view>
+            </view>
+        </view>
+        <!-- 按钮组 -->
+        <view class="demandBtnsBox">
+            <view bindtap="makePhoneCall" data-wpymakephonecall-a="18220505050">电话联系</view>
+            <view>立即申请</view>
+        </view>
+    </view>

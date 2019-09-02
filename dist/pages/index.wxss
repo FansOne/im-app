@@ -1,0 +1,141 @@
+@import "./../components/registerPopup.wxss";
+@import "./../npm/wepy-com-loadings/loadings.wxss";
+page {
+  background-color: #F4F3F8;
+}
+.search-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+  background-color: #fff;
+  padding-bottom: 30rpx;
+}
+.search-location {
+  margin-left: 10rpx;
+  font-size: 26rpx;
+  overflow: hidden;
+}
+.search {
+  flex-grow: 1;
+  margin-right: 30rpx;
+  margin-left: 15rpx;
+  height: 80rpx;
+}
+.search-icon {
+  margin-left: 30rpx;
+}
+swiper {
+  height: 310rpx;
+}
+swiper .slide-image {
+  width: 100%;
+  height: 100%;
+}
+.enterpriseBox {
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  flex-flow: wrap;
+  padding: 0 15rpx 41rpx 30rpx;
+}
+.enterpriseBox image {
+  margin-right: 15rpx;
+  width: 31%;
+  height: 124rpx;
+  margin-bottom: 15rpx;
+}
+.homeFurnishingBox {
+  width: 100%;
+  padding: 0rpx 0 65rpx 20rpx;
+  background-color: #fff;
+}
+.homeFurnishingBox .homeFurnishingTitle {
+  font-size: 34rpx;
+  color: #333;
+}
+.homeFurnishingBox scroll-view {
+  height: 264rpx;
+  width: 100%;
+  white-space: nowrap;
+}
+.homeFurnishingBox scroll-view view:first-of-type {
+  margin-left: 10rpx;
+}
+.homeFurnishingBox scroll-view .amoyEliteItem {
+  display: inline-block;
+  width: 242rpx;
+  height: 244rpx;
+  margin-right: 15rpx;
+  margin-top: 10rpx;
+  box-shadow: 0 0 15rpx #E7E9F2;
+}
+.homeFurnishingBox scroll-view .amoyEliteItem .amoyEliteItems {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 0 35rpx 0;
+}
+.homeFurnishingBox scroll-view .amoyEliteItem .amoyEliteItems image {
+  width: 90rpx;
+  height: 82rpx;
+  border-radius: 50%;
+}
+.homeFurnishingBox scroll-view .amoyEliteItem .amoyEliteItems view:first-of-type {
+  width: 87%;
+  text-align: center;
+  font-size: 32rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.homeFurnishingBox scroll-view .amoyEliteItem .amoyEliteItems view:last-of-type {
+  width: 92%;
+  text-align: center;
+  font-size: 22rpx;
+  color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.homeFurnishingBox scroll-view .amoyEliteItem .amoyEliteItems view:last-of-type text {
+  display: inline-block;
+  padding-right: 6rpx;
+  color: #00D4D7;
+  font-size: 22rpx;
+}
+.amoyProductBox {
+  padding: 0 30rpx;
+}
+.amoyProductBox .amoyProductItem {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.amoyProductBox .amoyProductItem image {
+  margin-right: 0;
+  height: 140rpx;
+  width: 185rpx;
+}
+.amoyProductBox .amoyProductItem view {
+  width: 200rpx;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 24rpx;
+  font-size: 22rpx;
+}
+.videoStyle {
+  width: 100%;
+  height: 480rpx;
+  padding: 20rpx 30rpx 20rpx 30rpx;
+}
+.videoStyle video {
+  width: 100%;
+  height: 100%;
+}

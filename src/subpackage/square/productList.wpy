@@ -1,0 +1,132 @@
+<script>
+import wepy from 'wepy';
+import { productLists } from '../../api/api.js';
+import { request,toast } from '../../utils/utils.js'
+
+export default class productList extends wepy.page {
+    config = {
+        navigationBarTitleText: '产品列表',
+        usingComponents:{
+            'wxc-search': '../../packages/@minui/wxc-search/dist/index',
+            'wxc-abnor': '../../packages/@minui/wxc-abnor/dist/index',
+            'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index'
+        }
+    };
+    components = {};
+
+    data = {
+        allData:null,
+        isShow:false
+    };
+    methods = {
+        // 跳转产品详情
+        productDetails(){
+            wx.navigateTo({
+                url: './productDetails'
+            });
+        },
+        // 跳转搜索页面
+        searchPage(){
+            wx.navigateTo({
+                url: `../../pages/search?currentTab=4`
+            });
+        }
+    };
+
+    events = {};
+    onLoad(options) {
+        // 获取产品数据
+        request(productLists,'POST',{ id: options.id}).then(res=>{
+            if(res.data.code ==1){
+                this.isShow = false
+                this.allData = res.data.data
+            }else{
+                this.isShow = true
+            }
+            this.$apply()
+        }).catch(()=>{
+            this.isShow = true
+            this.$apply()
+        })
+    };
+}
+</script>
+
+<template lang="wxml">
+    <view class="container" wx:if='{{!isShow}}'>
+        <!-- 搜索 -->
+        <view class="search-wrap">
+            <wxc-search class="search" mode='static' show-clear='{{false}}' radius='0' color="#000" placeholder="搜索产品" @tap="searchPage"></wxc-search>
+        </view>
+        <!-- 轮播 -->
+        <view class="swiperPaddingBox">
+            <swiper indicator-dots autoplay circular>
+                <block wx:for="{{allData.banner}}" wx:key=''>
+                    <swiper-item>
+                        <image src="{{item.image}}" class="slide-image"/>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+        <!-- 产品列表 -->
+        <view class="productListBox">
+            <view class="productItem" wx:for='{{allData.product}}' wx:key='' @tap='productDetails({{item.id}})'>
+                <image src="{{item.image}}"/>
+                <view >{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+    <view wx:if='{{isShow}}' style="width:100%;height:220rpx"></view>
+    <wxc-abnor type="REQUEST_ERROR" title='请求服务器数据异常' wx:if='{{isShow}}'/>
+</template>
+
+<style lang="less">
+    .container{
+        width: 100%;
+        .search {
+            flex-grow: 1;
+            margin: 0rpx 30rpx 30rpx 30rpx;
+        }
+        // 轮播
+        .swiperPaddingBox{
+            width: 100%;
+            padding: 0 30rpx;
+            swiper{
+                width: 100%;
+                height: 310rpx;
+                .slide-image{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+    .productListBox{
+        width: 100%;
+        display: flex;
+        flex-flow: wrap;
+        padding-left: 40rpx;
+        padding-top: 60rpx;
+        .productItem{
+            width: 197rpx;
+            margin-right: 40rpx;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25rpx;
+            image{
+                width: 136rpx;
+                height: 94rpx;
+                margin-bottom: 15rpx;
+            }
+            view{
+                width: 100%;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                text-align: center;
+                font-size: 22rpx;
+            }
+        }
+    }
+</style>

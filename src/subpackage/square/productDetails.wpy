@@ -1,0 +1,348 @@
+<script>
+import wepy from 'wepy';
+
+export default class productDetails extends wepy.page {
+    config = {
+        navigationBarTitleText: '产品详情',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        imgUrls: [
+            '../../image/indexFirstBanner.png'
+        ],
+        enterpriseFollow:false,
+        amoyProductData:[
+            {
+                cover:'../../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                cover:'../../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                cover:'../../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                cover:'../../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                cover:'../../image/product.png',
+                title:'无线路由器'
+            },
+        ]
+    };
+    methods = {
+        // 关注
+        follow(index){
+            this.enterpriseFollow = !this.enterpriseFollow
+        },
+    };
+
+    events = {};
+    onLoad() {};
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <!-- 轮播 -->
+        <swiper autoplay circular id='swiper'>
+            <block wx:for="{{imgUrls}}" wx:key=''>
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+        <!-- 产品介绍 -->
+        <view class="productIntroduceBox">
+            <view class="productTitle">
+                <view>产品详情</view>
+                <view>Iphone XR MAX</view>
+            </view>
+            <view class="productIntroduceText">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <view class="productRanking">
+                <view class="rankingTitle">
+                    <image src="../../image/rankingIcon.png" />
+                    <view>销售指数排行第<text>1</text>名</view>
+                </view>
+                <view class="demandShareBox">
+                    <button class="topButtons" open-type="share"><wxc-icon size="34" type="share" color='#A1A1A1'></wxc-icon></button>
+                    <view class="collectionBtns">
+                        <wxc-icon size="34" type="star" color='#A1A1A1'/>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 产品联系人 -->
+        <view class="productContactBox">
+            <view class="productContactLeft">
+                <image src="../../image/goods-img-default.png" />
+                <view>花泽类</view>
+            </view>
+            <view class="productContactRight">
+                <view class="contactPhoneNumber">
+                    <view>联系电话</view>
+                    <view>18224568985</view>
+                </view>
+                <view class="contantBtn">在线咨询</view>
+            </view>
+        </view>
+        <!-- 企业+企业产品 -->
+        <view class="enterpriseProductBox">
+            <view class="enterpriseTopBox">
+                <view class="enterpriseMsgBox">
+                    <image src="../../image/indexRecommendUser.png" />
+                    <view>上海英淘</view>
+                </view>
+                <view class="{{enterpriseFollow?'followBtn':'noFollowBtn'}}" @tap="follow({{index}})"><wxc-icon wx:if='{{!enterpriseFollow}}' size="20" type="add" color='#fff'/> {{enterpriseFollow?'已关注':'关注'}}</view>
+            </view>
+            <!-- 推荐产品 -->
+            <view class="recommendProductBox">
+                <scroll-view scroll-x>
+                    <view wx:for='{{amoyProductData}}' wx:key='' class="amoyProductBox">
+                        <view class="amoyProduct">
+                            <image src='{{item.cover}}'/>
+                            <view>{{item.title}}</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <!-- 产品详情 -->
+        <view class="product-details-box">
+            <view class="product-details-title">概述</view>
+            <view class="product-details-text">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <view class="product-details-title">产品分类</view>
+            <view class="product-details-text">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <view class="product-details-title">详情</view>
+            <view class="product-details-text">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <image src="../../image/enterpriseDetailBg.png" style="width:100%" mode="widthFix"/>
+        </view>
+    </view>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #F2F1F5;
+        border-bottom: 1rpx solid #f1f1f1;
+    }
+    #swiper{
+        width: 100%;
+        height: 490rpx;
+        .slide-image{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .productIntroduceBox{
+        width: 100%;
+        background-color: #fff;
+        padding: 30rpx;
+        .productTitle{
+            display: flex;
+            align-items: center;
+            :first-of-type{
+                height: 48rpx;
+                line-height: 48rpx;
+                background-color: #00D4D7;
+                color: #fff;
+                padding: 0 10rpx;
+            }
+            :last-of-type{
+                font-size: 32rpx;
+                width: 550rpx;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                padding-left: 20rpx;
+            }
+        }
+        .productIntroduceText{
+            width: 100%;
+            padding: 30rpx 0;
+            font-size: 24rpx;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+        .productRanking{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .rankingTitle{
+                display: flex;
+                align-items: center;
+                image{
+                    width: 22rpx;
+                    height: 26rpx;
+                }
+                view{
+                    margin-left: 10rpx;
+                    font-size: 24rpx;
+                    
+                    text{
+                        color: #f40;
+                    }
+                }
+            }
+            .demandShareBox{
+                display: flex;
+                align-items: center;
+                .topButtons{
+                    height: 33rpx;
+                    width: 36rpx;
+                    margin-right: 20rpx;
+                }
+            }
+        }
+    }
+    .productContactBox{
+        width: 100%;
+        padding: 25rpx 30rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20rpx;
+        background-color: #fff;
+        .productContactLeft{
+            display: flex;
+            align-items: center;
+            image{
+                width: 68rpx;
+                height: 68rpx;
+                border-radius: 50%;
+                margin-right: 15rpx;
+            }
+            view{
+                font-size: 28rpx;
+                
+            }
+        }
+        .productContactRight{
+            display: flex;
+            align-items: center;
+            .contactPhoneNumber{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                margin-right: 15rpx;
+                :first-of-type{
+                    font-size: 26rpx;
+                }
+                :last-of-type{
+                    font-size: 26rpx;
+                    color: #999;
+                }
+            }
+            .contantBtn{
+                height: 60rpx;
+                line-height: 60rpx;
+                background-color: #00D4D7;
+                color: #fff;
+                font-size: 26rpx;
+                color: #fff;
+                padding: 0 15rpx;
+            }
+        }
+    }
+    .enterpriseProductBox{
+        width: 100%;
+        margin-top: 20rpx;
+        background-color: #fff;
+        padding: 30rpx;
+        .enterpriseTopBox{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .enterpriseMsgBox{
+                display: flex;
+                align-items: center;
+                image{
+                    width: 90rpx;
+                    height: 90rpx;
+                    border-radius: 50%;
+                }
+                view{
+                    padding-left: 20rpx;
+                }
+            }
+        }
+        .recommendProductBox{
+            width: 100%;
+            padding-left:7rpx;
+            scroll-view{
+                height: 122rpx;
+                width: 100%;
+                white-space: nowrap;
+                .amoyProductBox{
+                    display:inline-block;
+                    width: 25%;
+                    .amoyProduct{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        image{
+                            width: 114rpx;
+                            height: 94rpx;
+                        }
+                        view{
+                            width: 100%;
+                            text-align: center;
+                            padding: 0 15rpx;
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+                            font-size: 20rpx;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .product-details-box{
+        width: 100%;
+        padding: 45rpx 30rpx;
+        background-color: #fff;
+        margin-top: 20rpx;
+        .product-details-title{
+            position: relative;
+            margin-bottom: 20rpx;
+            font-size: 34rpx;
+            
+            padding-left: 20rpx;
+        }
+        .product-details-title:before{
+            position: absolute;
+            top:0;
+            bottom: 0;
+            margin: auto;
+            left: 0;
+            content: '';
+            width: 6rpx;
+            height: 20rpx;
+            background-color: #00D4D7;
+        }
+        .product-details-text{
+            width: 100%;
+            font-size: 24rpx;
+            margin-bottom: 40rpx;
+        }
+    }
+</style>

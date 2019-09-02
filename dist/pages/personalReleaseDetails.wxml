@@ -1,0 +1,57 @@
+
+    <view class="list-warp">
+        <form bindsubmit="formSubmit">
+
+            <view class="personalInputItemBox"  wx:for="{{forData}}" wx:key="">
+                <view class="inputItem">
+                    <view class="inputTitle"><text>*</text> {{item.title}}</view>
+                    <input wx:if="{{item.input == 'input'}}" placeholder="{{item.placeholder}}" placeholder-style="color:#999;font-size:28rpx" name="input{{index}}" type="{{item.inputType}}"/>
+                    <picker wx:if="{{item.input == 'picker'}}" mode="{{item.inputType}}" bindchange="pickerChange{{isWhere=='1' || pageIdx == '1'?item.index:index}}" bindcolumnchange="columnchange{{pageIdx == '1'?item.index:index}}" value="{{item.pickerValue}}" range="{{item.pickerRange}}" name="picker{{index}}">
+                        <!-- 地区选择器展示内容 -->
+                        <view class="picker" wx:if="{{item.inputType == 'region'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerValue[0]+' · '+item.pickerValue[1]+' · '+item.pickerValue[2]):item.placeholder}}
+                        </view>
+                        <!-- 多列选择器展示内容 -->
+                        <view class="picker" wx:elif="{{item.inputType == 'multiSelector'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerRange[0][item.pickerValue[0]]+'-'+item.pickerRange[1][item.pickerValue[1]]+'-'+item.pickerRange[2][item.pickerValue[2]]):item.placeholder}}
+                        </view>
+                        <!-- 普通选择器 -->
+                        <view class="picker" wx:if="{{item.inputType == 'selector'}}" style="font-size:28rpx;{{selectorPicker?'':'color:#999'}}">
+                            {{selectorPicker?(item.pickerRange[item.pickerValue]):item.placeholder}}
+                        </view>
+                        <!-- 日期选择 -->
+                        <view class="picker" wx:if="{{item.inputType == 'date'}}" style="font-size:28rpx;{{selectData?'':'color:#999'}}">
+                            {{selectData?item.pickerValue:item.placeholder}}
+                        </view>
+                    </picker>
+                    <wxc-icon wx:if="{{item.arrow}}" size="25" type="arrow-right" color="#999"/>
+                </view>
+                <textarea wx:if="{{item.input == 'textarea'}}" placeholder="{{item.placeholder}}" placeholder-style="font-size:26rpx;color#c3c3c3" bindconfirm="bindconfirm" name="textarea{{index}}" style="height:{{item.height?item.height:''}}rpx"/>
+            </view>
+
+            <!-- 图片上传 -->
+            <view class="uploadImgBox"  wx:if="{{!positionTemptation}}">
+                <view class="uploadImgTitle"><text class="promptNum" wx:if="{{SurplusUploadNum != '' }}">可上传图片剩余数量<text style="color:#ff9e6e;font-size:24rpx;">{{9-tempFilePaths.length}}</text>张</text></view>
+                <view class="chooseImgBox">
+                    <image class="chooseImg" src="../image/camera.png" bindtap="chooseImage"/>
+                    <image wx:if="{{pageIdx == 2&&isWhere!=1 || pageIdx == 3&&isWhere ==1 || pageIdx == 3&&isWhere!=1}}" class="chooseImg" src="../image/video.png"/>
+                    <image wx:for="{{tempFilePaths}}" wx:key="" src="{{item}}" class="userSelectImgbox" mode="aspectFill"/>
+                </view>
+            </view>
+            <!-- 职位亮点 -->
+            <view class="uploadImgBox" wx:else>
+                <view class="positionTemptation"><text>*</text>职位亮点</view>
+                <checkbox-group bindchange="checkboxChange">
+                    <label class="checkbox" wx:for="{{positionTemptationData}}" wx:key="">
+                        <checkbox value="{{item.name}}" checked="{{item.checked}}" color="#00d4d7"/>{{item.value}}
+                    </label>
+                </checkbox-group>
+            </view>
+            <!-- 保存按钮 -->
+            <button wx:if="{{pageIdx != 2 || isWhere ==1 }}" form-type="submit" class="submitBtn_ fixedBtn">发布</button>
+            <view class="btnsBox" wx:else>
+                <button form-type="submit">发布</button>
+                <button form-type="submit">匿名发布</button>
+            </view>
+        </form>
+    </view>

@@ -1,0 +1,13 @@
+page {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+.container {
+  color: #333;
+  height: 100%;
+}
+.search {
+  flex-grow: 1;
+  margin: 0rpx 30rpx 30rpx 30rpx;
+}

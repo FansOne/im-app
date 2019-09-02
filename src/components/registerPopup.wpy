@@ -1,0 +1,114 @@
+<template lang="wxml">
+    <view class="mask" catchtouchmove="preventTouchMove"  wx:if='{{userRegister}}'>
+        <view class="popupBox">
+            <image src="../image/registerIcon.png"/>
+            <view class="text">
+                <view>英淘小程序欢迎您的加入</view>
+                <view>请立即创建名片，开通更多功能</view>
+            </view>
+            <button open-type="getUserInfo" @getuserinfo='getuserinfo' class="jumpBtn">创建个人名片</button>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { request,toast } from '../utils/utils.js';
+import { login,imLogin } from '../api/api.js'
+export default class registerPopup extends wepy.component {
+    components = {};
+
+    data = {
+        userRegister:false
+    };
+    methods = {
+        // 遮罩禁止穿透事件
+        preventTouchMove(){},
+        //获取用户信息
+        getuserinfo(e){
+            wx.login({
+                success: (result) => {
+                    request(imLogin,'POST',{ userInfo:e.detail.userInfo,code:result.code })
+                    .then(res=>{
+                        if(res.data.data.status == 200 || res.data.data.status == 0){
+                            wx.navigateTo({
+                                url: `../subpackage/square/personalRegistration?userId=${res.data.data.userId}&avatarUrl=${e.detail.userInfo.avatarUrl}`
+                            }) 
+                        }
+                    })
+                }
+            });
+        }
+    };
+    onLoad(){
+        let find = wx.getStorageSync('loginData').find;
+        // if(find == undefined){
+        //     wx.login({
+        //         success: (result) => {
+        //             request(login,'POST',{ code:result.code}).then(res=>{
+        //                 wx.hideLoading();
+        //                 if(res.data.data.find){
+        //                     this.userRegister = false
+        //                 }else{
+        //                     this.userRegister = true
+        //                 }
+        //                 this.$apply()
+        //                 wx.setStorageSync('loginData', res.data.data);
+        //             })
+        //         }
+        //     })
+        // }else if (find != undefined){
+        //     if(find){
+        //         this.userRegister = false
+        //     }else{
+        //         this.userRegister = true
+        //     }
+        //     this.$apply()
+        // }
+    }
+    events = {};
+    props = {}
+}
+</script>
+
+<style lang="less">
+    .popupBox{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 622rpx;
+        height: 430rpx;
+        background-color: #fff;
+        z-index: 11;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 53rpx 83rpx;
+        image{
+            width: 160rpx;
+            height: 114rpx;
+        }
+        .text{
+            view{
+                font-size: 22rpx;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .jumpBtn{
+            border-radius: 0;
+            font-size: 30rpx;
+            width: 100%;
+            height: 80rpx;
+            background-color: #00D4D7;
+            color: #fff;
+            font-weight: 600;
+            text-align: center;
+            line-height: 80rpx;
+        }
+    }
+</style>

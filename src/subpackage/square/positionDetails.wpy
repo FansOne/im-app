@@ -1,0 +1,269 @@
+<script>
+import wepy from 'wepy';
+
+export default class positionDetails extends wepy.page {
+    config = {
+        navigationBarTitleText: '职位详情',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index',
+            'wxc-price': '../../packages/@minui/wxc-price/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        recommendation:[
+            {
+                cover:'../../image/goods-img-default.png',
+                name:'项目经理',
+                address:'西安市 雁塔区 某某某',
+                money:'23000'
+            },
+            {
+                cover:'../../image/goods-img-default.png',
+                name:'产品销售',
+                address:'西安市 雁塔区 某某某',
+                money:'9000'
+            },
+            {
+                cover:'../../image/goods-img-default.png',
+                name:'岗前培训',
+                address:'西安市 雁塔区 某某某',
+                money:'8000'
+            },
+        ]
+    };
+    methods = {
+        // 跳转企业
+        enterprisePage(){
+            wx.redirectTo({
+                url: './enterpriseDetails'
+            });
+              
+        }
+    };
+
+    events = {};
+    onLoad() {};
+}
+</script>
+
+<template lang="wxml">
+    <view class="positionNameBox">
+        <view class="positionNameLeft">
+            <view class="positionTitle">高级UI设计师</view>
+            <view class="positionTreatment">
+                <view class="positionAddress">西安</view>
+                <view class="positionSalary">10K-15K</view>
+                <button open-type="share" class="topButtons" style="height:36rpx;width:36rpx"> <wxc-icon size="30" color='#a2a2a2' type="share"/></button>
+                <wxc-icon size="30" color='#a2a2a2' type="star"/><!--star-active-->
+            </view>
+        </view>
+        <image src="../../image/indexRecommendUser.png" />
+    </view>
+    <!-- 职位描述 -->
+    <view class="positionDescribeBox">
+        <view class="positionDescribeTitle">职位描述</view>
+        <view class="textNodes">1、国家统招本科（二本及以上）学历</view>
+        <view class="textNodes">2、2年及以上java开发经验，java基础扎实；</view>
+        <view class="textNodes">3、精通Spring+Mybatis，SpringMVC，SpringBoot等 常用开发框架</view>
+        <view class="textNodes">4、熟悉分布式系统的设计和应用，熟悉分布式、缓存、消息等机制；能对分布式常用技术进行合理应用，解决问题；</view>
+    </view>
+    <!-- 职位亮点 -->
+    <view class="positionDescribeBox">
+        <view class="positionDescribeTitle">职位亮点</view>
+        <view style="font-size:26rpx;">大公司 奖金丰厚，时间自由</view>
+    </view>
+    <!-- 企业入口 -->
+    <view class="enterpriseEntrance" @tap="enterprisePage">
+        <view class="enterpriseEntranceLeft">
+            <image src="../../image/goods-img-default.png" />
+            <view class="enterprise_msg">
+                <view>上海英淘</view>
+                <view>互联网 ‧ 上市公司100-499人</view>
+            </view>
+        </view>
+        <wxc-icon size="40" color='#a2a2a2' type="arrow-right"/>
+    </view>
+    <!-- 企业地址 -->
+    <view class="enterpriseAddressBox">
+        <wxc-icon size="26" color='#a2a2a2' type="location"/>
+        <view>陕西省·西安市·雁塔区 高新大都会2号楼1单元</view>
+    </view>
+    <!-- <view class="grayLineBg"></view> -->
+    <!-- 相似岗位推荐 Similar Recommendation-->
+    <!-- <view class="positionDescribeBox">
+        <view class="positionDescribeTitle">相似岗位</view>
+        <view class="similarRecommendation" wx:for='{{recommendation}}' wx:key=''>
+            <view class="recommendation_left">
+                <image src="{{item.cover}}" />
+                <view class="position_name">
+                    <view>{{item.name}}</view>
+                    <view>{{item.address}}</view>
+                </view>
+            </view>
+            <wxc-price class="price-demo" value="{{item.money}}" decimal="none"/>
+        </view>
+    </view> -->
+    <!-- 申请职位 -->
+    <view class="applyPosition">
+        <button>立即申请</button>
+    </view>
+</template>
+
+<style lang="less">
+    .topButtons{
+        background-color: rgba(0, 0, 0, 0);
+        padding: 0;
+        width: 30rpx;
+        height: 30rpx;
+        border-radius: 0;
+        margin: 0;
+        line-height: 30rpx;
+        margin-right: 25rpx;
+        // padding-top: 3rpx;
+    }
+    .positionNameBox{
+        width: 100%;
+        padding: 40rpx 30rpx;
+        border-bottom: 1rpx solid #f1f1f1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .positionNameLeft{
+            .positionTitle{
+                font-size: 50rpx;
+            }
+            .positionTreatment{
+                margin-top: 20rpx;
+                display: flex;
+                align-items: center;
+                .positionAddress,.positionSalary{
+                    margin-right: 60rpx;
+                }
+            }
+        }
+        image{
+            width: 120rpx;
+            height: 120rpx;
+            border-radius: 50%;
+        }
+    }
+    .positionDescribeBox{
+        width: 100%;
+        padding: 40rpx 30rpx;
+        border-bottom: 1rpx solid #f1f1f1;
+        .positionDescribeTitle{
+            font-weight: 600;
+            margin-bottom: 24rpx;
+        }
+        .textNodes{
+            font-size: 24rpx;
+            margin-bottom: 10rpx;
+        }
+    }
+    .enterpriseEntrance{
+        width: 100%;
+        padding: 40rpx 70rpx 25rpx 30rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1rpx solid #f1f1f1;
+        .enterpriseEntranceLeft{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            image{
+                width: 118rpx;
+                height: 118rpx;
+                margin-right: 20rpx;
+            }
+            .enterprise_msg{
+                flex: 1;
+                height: 118rpx;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 12rpx 0;
+                view:first-of-type{
+                    font-weight: bold;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                }
+                view:last-of-type{
+                    font-size: 26rpx;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+    .enterpriseAddressBox{
+        padding: 40rpx 30rpx;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        view{
+            padding-left: 15rpx;
+            font-size: 26rpx;
+            color: #999;
+        }
+    }
+    .similarRecommendation{
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 50rpx;
+        .recommendation_left{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            image{
+                width: 90rpx;
+                height: 90rpx;
+            }
+            .position_name{
+                flex: 1;
+                padding-bottom: 6rpx;
+                height: 90rpx;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding-left: 17rpx;
+                view:first-of-type{
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                    white-space:nowrap;
+                    font-weight: 600;
+                }
+                view:last-of-type{
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                    white-space:nowrap;
+                    font-size: 26rpx;
+                    color: #777;
+                }
+            }
+        }
+        .price-demo view{
+            color: #FF4725;
+            font-weight: 600;
+        }
+    }
+    .applyPosition{
+        width: 100%;
+        height: 140rpx;
+        padding-bottom: 40rpx;
+        button{
+            width: 590rpx;
+            height: 100rpx;
+            line-height: 100rpx;
+            color: #fff;
+            border-radius: 0;
+            background-color: #00D4D7;
+        }
+    }
+</style>

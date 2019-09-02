@@ -1,0 +1,4 @@
+
+    <view class="loadings-{{type}}">
+        <view class="loadings"/>
+    </view>

@@ -1,0 +1,84 @@
+@import "./../components/registerPopup.wxss";
+@import "./../components/releaseItem.wxss";
+@import "./../components/recommendUserMsgItem.wxss";
+@import "./../components/userMsgItem.wxss";
+page {
+  background-color: #f8f8f8;
+}
+.personalMsgTabBox {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 20rpx;
+  background-color: #fff;
+}
+.personalMsgTabBox .personalMsgTabItem {
+  color: #bbb;
+  font-size: 30rpx !important;
+  margin-right: 95rpx !important;
+}
+.personalMsgTabBox .personalMsgTabActive {
+  font-size: 30rpx !important;
+  font-weight: normal !important;
+  color: #000;
+}
+.personalMsgTabBox image {
+  width: 54rpx;
+  height: 54rpx;
+  position: absolute;
+  bottom: 24rpx;
+  right: 30rpx;
+}
+.tabContentBox {
+  width: 100%;
+}
+.amoyElite {
+  background-color: #f8f8f8;
+}
+.adminPositionBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 60rpx 45rpx 30rpx 30rpx;
+  margin-bottom: 25rpx;
+  background-color: #fff;
+}
+.adminPositionBox image {
+  width: 90rpx;
+  height: 90rpx;
+}
+.adminPositionBox .adminPositionRight {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.adminPositionBox .adminPositionRight .adminPositionRightL {
+  height: 90rpx;
+  padding-left: 17rpx;
+}
+.adminPositionBox .adminPositionRight .adminPositionRightL :first-of-type {
+  font-weight: 600;
+}
+.adminPositionBox .adminPositionRight .adminPositionRightL :last-of-type {
+  font-size: 26rpx;
+  color: #777;
+  margin-top: 10rpx;
+}
+.adminPositionBox .adminPositionRight .price-demo view {
+  font-size: 38rpx;
+  color: #00D4D7;
+}
+.adminPopupBox {
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0rpx;
+  background-color: #f8f8f8;
+}
+.adminPopupBox .closeIcon {
+  width: 100%;
+  padding: 30rpx;
+}

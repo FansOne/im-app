@@ -1,0 +1,131 @@
+
+    <view class="container">
+        <!-- 企业基本信息 -->
+        <view class="enterpriseBasicMsgBox" style="background-image: url(http://pu041iqdq.bkt.clouddn.com/enterpriseBanner.png);background-size: 100%">
+            <view class="followBox"/>
+            <!-- 公司信息 -->
+            <view class="BasicMsgBox">
+                <view class="BasicMsgTop">
+                    <image class="enterpriseLogo" src="../../image/userIconIndex.png" mode="aspectFill"/>
+                    <!-- 关注、分享 -->
+                    <view class="BasicMsgTop_right">
+                        <view class="{{enterpriseFollow?'followBtns':'noFollowBtns'}}" bindtap="follow" data-wpyfollow-a="{{index}}"><wxc-icon  wx:if="{{!enterpriseFollow}}" size="30" type="add" color="#fff"/> {{enterpriseFollow?'已关注':'关注'}}</view>
+                        <view class="shareBtn"><button open-type="share" class="topButtons" style="height:73rpx;width:91rpx"><image src="../../image/shareIcon.png"/></button></view>
+                    </view>
+                </view>
+                <view class="BasicMsgBoxLeft">
+                    <view class="enterpriseTitleBox">
+                        <view style="padding-right:20rpx;">领英·中国</view>
+                        <button class="topButtons" bindtap="enterpriseEditPage"><wxc-icon size="30" type="edit" color="#fff"/></button>
+                    </view>
+                    <view class="enterpriseClass">
+                        互联网 ｜领域：渠道 ｜ 外企 2000+ 人
+                    </view>
+                    <view class="businessAreaBox">
+                        运营商
+                    </view>
+                </view>
+            </view>
+            <!-- 公司联系信息 -->
+            <view class="enterpriseLinksBox">
+                <view class="enterpriseAddress">上海·浦东</view>
+                <view class="enterprisePhone">400010001转1</view>
+                <view class="enterpriseWeb">www.linkedin.com</view>
+            </view>
+        </view>
+        <!-- Tab -->
+        <view class="enterpriseMsgTabBox">
+            <view class="borderStyle">
+                <view  wx:for="{{navbar}}" wx:key="" class="enterpriseMsgTabItem  {{currentTab==index ? 'enterpriseMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+            </view>
+        </view>
+        <view class="enterpriseMsgTabBox tabShow" wx:if="{{tabShow}}">
+            <view class="borderStyle">
+                <view wx:for="{{navbar}}" wx:key="" class="enterpriseMsgTabItem  {{currentTab==index ? 'enterpriseMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+            </view>
+        </view>
+        <!-- 公司简介 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox">
+            <!-- 关于我们 -->
+            <view class="synopsisTitle">关于我们</view>
+            <!-- 企业介绍 -->
+            <view class="enterpriseIntroduction">
+                LinkedIn（领英）是全球职场社交平台，覆盖全球6.1亿会员及200多个国家和地区，致力于打造“一站式职业发展平台”，帮助职场人发挥所长，连接无限机会。在领英，您可以轻松打造职业形象、获取商业洞察、拓展职业人脉并发现更多职业机遇。
+            </view>
+            <view class="synopsisTitle">企业文化</view>
+            <view class="enterpriseCover">
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+            </view>
+            <view class="synopsisTitle">荣誉资质</view>
+            <view class="enterpriseCover">
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+            </view>
+            <view class="synopsisTitle">公司地址</view>
+            <view class="enterpriseIntroduction">
+                <view>上海·浦东新区</view>
+                <view>科创路88号新创大厦D4区1245</view>
+            </view>
+            <wxc-abnor type="REQUEST_ERROR" title="服务器数据异常" wx:if="{{wxcAbnorShow}}"/>
+        </view>
+        <!-- 产品方案 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox">
+            <view class="productProgrammeBox">
+                <view class="productProgrammeItem" bindtap="productDetailsPage">
+                    <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                    <view class="productPromptBox">
+                        <view class="productNameBox">
+                            <view>领英</view>
+                            <view>无线路由器</view>
+                        </view>
+                        <view class="productTime">联通5G卓越品质</view>
+                    </view>
+                </view>
+                <view class="productProgrammeItem" bindtap="productDetailsPage">
+                    <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                    <view class="productPromptBox">
+                        <view class="productNameBox">
+                            <view>领英</view>
+                            <view>无线路由器</view>
+                        </view>
+                        <view class="productTime">联通5G卓越品质</view>
+                    </view>
+                </view>
+            </view>
+            <!-- 创建Btn -->
+            <view class="releaseBox" wx:if="{{!wxcAbnorShow}}" bindtap="productEstablish">
+                <image src="../../image/releaseIcon.png"/>
+                <view>创建</view>
+            </view>
+            <wxc-abnor type="REQUEST_ERROR" title="服务器数据异常" wx:if="{{wxcAbnorShow}}"/>
+        </view>
+        <!-- 成功案例 -->
+        <view hidden="{{currentTab !== 2}}" class="tabContentBox">
+            <view class="productProgrammeBox">
+                <view class="productProgrammeItem" wx:for="{{productProgramme}}" wx:key="" bindtap="productDetailsPage">
+                    <image src="{{item.image}}" mode="aspectFill"/>
+                    <view class="productPromptBox">
+                        <view class="productTitle">{{item.name}}</view>
+                        <view class="productIntroduce">{{item.description}}</view>
+                    </view>
+                </view>
+            </view>
+            <!-- 创建Btn -->
+            <!-- <view class="releaseBox" bindtap='productEstablish'  wx:if='{{!wxcAbnorShow}}'>
+                <image src="../../image/releaseIcon.png"/>
+                <view>创建</view>
+            </view> -->
+            <wxc-abnor type="REQUEST_ERROR" title="暂无案例数据"/>
+        </view>
+        <!-- 职位专区 -->
+        <view hidden="{{currentTab !== 3}}" class="tabContentBox">
+            <view class="positionItem" bindtap="positionDetailsPage">
+                <view class="positionLeft">
+                    <view>高级UI设计师</view>
+                    <view>西安市·雁塔区</view>
+                </view>
+                <view class="positionRight"><view class="price-demo">10K-15K</view></view>
+            </view>
+        </view>
+    </view>

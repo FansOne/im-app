@@ -1,0 +1,412 @@
+<script>
+import wepy from 'wepy';
+import releaseItem from '../components/releaseItem'
+import registerPopup from '../components/registerPopup';
+
+export default class about extends wepy.page {
+    config = {
+        navigationBarTitleText: '我的',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {
+        releaseItem,
+        registerPopup
+    };
+
+    data = {
+        bigV:true, //大V界面展示开关
+        aboutOperationModel:[
+            {
+                icon:'../image/originWrite.png',
+                title:'申请成为原创内容创作者'
+            },
+            {
+                icon:'../image/shenqingguanli.png',
+                title:'申请企业版面'
+            },
+            {
+                icon:'../image/icon-test.png',
+                title:'开通企业专版',
+                prompt:'「更多功能,更多资源」'
+            },
+            {
+                icon:'../image/fuwutiaokuan.png',
+                title:'隐私条款'
+            },
+            {
+                icon:'../image/bangzhu.png',
+                title:'帮助与反馈'
+            },
+            {
+                icon:'../image/kefu-2.png',
+                title:'客服'
+            },
+            {
+                icon:'../image/yonghuxieyi.png',
+                title:'用户协议'
+            },
+        ],
+        navbar: [
+            '全部',
+            '图文',
+            '视频'
+        ],
+        currentTab: 0,
+        recommend:[
+            {
+                follow:1,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'李丽丽',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案文案材料，讲解方案文案材料，讲解方案文案材料',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:451
+            },
+            {
+                follow:0,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'花泽类',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:288,
+                previewImage:[
+                    'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+                    'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2085223376,536181091&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855388&di=4b037df9306c3669c2ca2205751aca23&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F63d0f703918fa0ec76d3f7b92d9759ee3d6ddb6a.jpg',
+                    'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=398659568,2690439867&fm=26&gp=0.jpg',
+                    'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2976842352,636810530&fm=26&gp=0.jpg',
+                    'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2479004758,2731067208&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561700076645&di=606e5153c9ace64b31a11c3ac33a80c4&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F12%2F69%2F74%2F84c58PICAKM.jpg'
+                ]
+            },
+            {
+                follow:1,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'汪望迋',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:366
+            },
+        ],
+        recommend1:[
+            {
+                follow:0,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'花泽类',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                previewImage:[
+                    'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+                ]
+            },
+        ],
+        stylePaddingTop:true
+    };
+    methods = {
+        // tab切换
+        navbarTap(status){
+            this.$broadcast('currentStatus',status)
+            this.currentTab = status;
+        },
+        // 发布图文
+        releaseImgText(){
+            wx.navigateTo({
+                url: `./releaseImgText`
+            })
+        },
+        // 发布视频
+        releaseViedoText(){
+            wx.navigateTo({
+                url: `./releaseViedoText`
+            })
+        }
+    };
+
+    events = {};
+    onLoad() {
+        this.$broadcast('currentStatus',0)
+    };
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <!-- 头部 -->
+        <view class="aboutUserMsgBox">
+            <view class="aboutUserMsgTop" style="background-image: url('http://pu041iqdq.bkt.clouddn.com/aboutBanner.png');background-size: 100%">
+                <!-- 大V人脉、分享控件 -->
+                <view  wx:if ='{{bigV}}' class="bigVBox">
+                    <view class="addConnections">
+                        <image src="../image/addFriends.png"/>
+                        <view>私信</view>
+                    </view>
+                    <view class="shareBtn"><button open-type="share" class="topButtons" style="height:72rpx;width:72rpx"><image src="../image/shareIcon.png" /></button></view>
+                </view>
+                <view class="aboutUserMsgUserCover">
+                    <image src="../image/goods-img-default.png" />
+                    <view class="aboutUserCoverRight">
+                        <view class="userName">花泽类 <image wx:if='{{bigV}}' class="bigVLogo" src="../image/vLogo.png" /></view>
+                        <view class="aboutLable">IT互联网｜云计算智慧城市</view>
+                    </view>
+                </view>
+                <view class="aboutUserMsgUserAddress">
+                    <view>西安市</view>
+                    <view>182****8787</view>
+                    <view>上海英淘网络</view>
+                </view>
+            </view>
+            <!-- 收藏｜人脉 -->
+            <view class="UserMsgControlBox">
+                <view class="controlLeft">
+                    <image src="../image/shoucang.png" />
+                    <view class="aboutCollection">
+                        <view>{{bigV?'获赞':'收藏'}}</view>
+                        <view>20</view>
+                    </view>
+                </view>
+                <view class="controlRight">
+                    <image src="../image/renmai.png" />
+                    <view class="aboutCollection">
+                        <view>{{bigV?'粉丝':'人脉'}}</view>
+                        <view>18</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 操作模块 -->
+        <view class="aboutOperationModelBox" wx:if='{{bigV === false}}'>
+            <view class="aboutOperationModelShadow">
+                <view class="operationModelItem" wx:for='{{aboutOperationModel}}' wx:key=''>
+                    <view class="operationModelLeft">
+                        <image src="{{item.icon}}" style="{{index==0?'width:33rpx;':''}}"/>
+                        <view class="operationTitle">{{item.title}}</view>
+                        <view class="operationPrompt">{{item.prompt}}</view>
+                    </view>
+                    <wxc-icon size="30" type="arrow-right" color='#bbb'/>
+                </view>
+            </view>
+        </view>
+        <!-- 大V用户发布信息展示 -->
+        
+        <!-- Tab -->
+        <view class="personalMsgTabBox" wx:if="{{bigV}}">
+            <view class="borderStyle">
+                <view wx:for='{{navbar}}' wx:key='' class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}"  @tap="navbarTap({{index}})">{{item}}</view>
+            </view>
+        </view>
+        <!-- TAB全部 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox" wx:if="{{bigV}}">
+            <releaseItem :recommendData.sync="recommend" :stylePaddingTop='stylePaddingTop'/>
+        </view>
+        <!-- TAB图文 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox" wx:if="{{bigV}}">
+            <releaseItem :recommendDatas.sync="recommend1" :stylePaddingTop='stylePaddingTop'/>
+            <!-- 发布Btn -->
+            <view class="releaseBox" @tap='releaseImgText'>
+                <image src="../image/releaseIcon.png"/>
+                <view>发布</view>
+            </view>
+        </view>
+        <!-- TAB视频 -->
+        <view hidden="{{currentTab !== 2}}" class="tabContentBox" wx:if="{{bigV}}">
+            <releaseItem :recommendData.sync="recommend" :stylePaddingTop='stylePaddingTop'/>
+            <!-- 发布Btn -->
+            <view class="releaseBox" @tap='releaseViedoText'>
+                <image src="../image/releaseIcon.png" />
+                <view>发布</view>
+            </view>
+        </view>
+    </view>
+    <registerPopup/>
+</template>
+
+<style lang="less">
+    .aboutUserMsgBox{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .aboutUserMsgTop{
+            position: relative;
+            width: 100%;
+            height: 450rpx;
+            .aboutUserMsgUserCover{
+                width: 100%;
+                padding: 115rpx 30rpx 58rpx 30rpx;
+                display: flex;
+                align-items: center;
+                image{
+                    width: 128rpx;
+                    height: 128rpx;
+                }
+                .aboutUserCoverRight{
+                    height: 128rpx;
+                    flex: 1;
+                    padding: 8rpx 0 15rpx 20rpx;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .userName{
+                        position: relative;
+                        font-size: 38rpx;
+                        
+                        color: #fff;
+                        .bigVLogo{
+                            display: inline-block;
+                            width: 28rpx;
+                            height: 27rpx;
+                            margin-left: 6rpx;
+                        }
+                    }
+                    .aboutLable{
+                        font-size: 22rpx;
+                        color: #fff;
+                    }
+                }
+            }
+            .aboutUserMsgUserAddress{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 70rpx;
+                view{
+                    color: #fff;
+                    font-size: 24rpx;
+                }
+            }
+            .bigVBox{
+                width: 100%;
+                padding: 0 30rpx;
+                height: 72rpx;
+                position: absolute;
+                top: 36rpx;
+                left: 0;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .addConnections{
+                    width: 166rpx;
+                    height: 72rpx;
+                    background-color: rgba(255,255,255,.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 20rpx;
+                    image{
+                        width: 36rpx;
+                        height: 36rpx;
+                        margin-right: 8rpx;
+                    }
+                    view{
+                        font-size: 36rpx;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        .UserMsgControlBox{
+            z-index: 10;
+            background-color: #fff;
+            width: 691rpx;
+            height: 194rpx;
+            box-shadow: 0 0 10rpx #F3F1F1;
+            transform: translateY(-85rpx);
+            padding: 55rpx 75rpx 0 75rpx;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            .controlLeft,.controlRight{
+                display: flex;
+                align-items: center;
+                image{
+                    width: 78rpx;
+                    height: 78rpx;
+                }
+                .aboutCollection{
+                    margin-left: 37rpx;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding-top: 8rpx;
+                    :first-of-type{
+                        
+                    }
+                    :last-of-type{
+                        color: #ccc;
+                    }
+                }
+            }
+        }
+    }
+    .aboutOperationModelBox{
+        z-index: 10;
+        transform: translateY(-50rpx);
+        width: 100%;
+        padding: 0 30rpx;
+        .aboutOperationModelShadow{
+            width: 100%;
+            box-shadow: 0 0 10rpx #F3F1F1;
+            .operationModelItem{
+                padding: 34rpx 30rpx;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .operationModelLeft{
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    image{
+                        width: 35rpx;
+                        height: 35rpx;
+                    }
+                    .operationTitle{
+                        
+                        margin-left: 20rpx;
+                    }
+                    .operationPrompt{
+                        font-size: 28rpx;
+                        color: #999;
+                    }
+                }
+            }
+        }
+    }
+    .personalMsgTabBox{
+        background-color: #fff;
+        transform: translateY(-40rpx);
+        padding:0rpx 127rpx 30rpx 127rpx !important;
+        .borderStyle{
+            justify-content: space-between;
+            .personalMsgTabItem {
+                margin-right: 0;
+                color: #bbb;
+                
+            }
+            .personalMsgTabActive{
+                color: #000;
+            }
+        }
+    }
+    .tabContentBox{
+        background-color: rgb(245, 245, 245);
+    }
+</style>

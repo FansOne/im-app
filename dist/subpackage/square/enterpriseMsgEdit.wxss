@@ -1,0 +1,10 @@
+@import "./../../components/rightPicker.wxss";
+.personalInputItemBox .inputItem input {
+  flex: 1;
+  padding-left: 15rpx;
+}
+.personalMsgBtnBox button {
+  width: 590rpx !important;
+  background-color: #00D4D7 !important;
+  margin-bottom: 40rpx;
+}

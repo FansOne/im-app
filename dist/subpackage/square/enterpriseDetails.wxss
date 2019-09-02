@@ -1,0 +1,217 @@
+.enterpriseBasicMsgBox {
+  width: 100%;
+  height: 559rpx;
+  padding: 30rpx;
+}
+.enterpriseBasicMsgBox .followBox {
+  height: 53rpx;
+  margin-bottom: 62rpx;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop .enterpriseLogo {
+  width: 136rpx;
+  height: 136rpx;
+  border-radius: 8rpx;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop .BasicMsgTop_right {
+  display: flex;
+  align-items: center;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop .BasicMsgTop_right .followBtns,
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop .BasicMsgTop_right .noFollowBtns {
+  width: 166rpx;
+  height: 72rpx;
+  font-size: 36rpx;
+  line-height: 72rpx;
+  text-align: center;
+  margin-right: 20rpx;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop .BasicMsgTop_right .followBtns {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgTop .BasicMsgTop_right .noFollowBtns {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgBoxLeft {
+  margin-bottom: 42rpx;
+  padding-top: 24rpx;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgBoxLeft .enterpriseTitleBox {
+  display: flex;
+  align-items: center;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgBoxLeft .enterpriseTitleBox view {
+  color: #fff;
+  font-size: 40rpx;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgBoxLeft .enterpriseClass {
+  color: #fff;
+  font-size: 24rpx;
+  margin: 12rpx 0;
+}
+.enterpriseBasicMsgBox .BasicMsgBox .BasicMsgBoxLeft .businessAreaBox {
+  color: #fff;
+  font-size: 24rpx;
+}
+.enterpriseBasicMsgBox .enterpriseLinksBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.enterpriseBasicMsgBox .enterpriseLinksBox view {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 4rpx 10rpx;
+  font-size: 24rpx;
+  color: #fff;
+}
+.enterpriseBasicMsgBox .enterpriseLinksBox .enterpriseWeb {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300rpx;
+  overflow: hidden;
+}
+.enterpriseMsgTabBox {
+  height: 170rpx;
+  width: 100%;
+  padding: 0 32rpx;
+}
+.enterpriseMsgTabBox .borderStyle {
+  width: 100%;
+  height: 170rpx;
+  border-bottom: 1rpx solid #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.enterpriseMsgTabBox .borderStyle .enterpriseMsgTabItem {
+  font-weight: 600;
+  font-size: 24rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  width: 172rpx;
+  text-align: center;
+}
+.enterpriseMsgTabBox .borderStyle .enterpriseMsgTabActive {
+  color: #fff;
+  background-color: #00D4D7;
+}
+.tabShow {
+  background-color: #fff;
+  height: 145rpx;
+  border-top: 1rpx solid #f1f1f1;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+.tabShow .borderStyle {
+  height: 145rpx;
+}
+.tabContentBox {
+  position: relative;
+  width: 100%;
+  padding: 0 30rpx 35rpx 30rpx;
+}
+.tabContentBox .synopsisTitle {
+  font-size: 34rpx;
+  font-weight: 600;
+  padding: 50rpx 0 20rpx 0;
+}
+.tabContentBox .enterpriseIntroduction {
+  width: 100%;
+  padding: 26rpx 25rpx;
+  background-color: #f7f7f7;
+  font-size: 26rpx;
+  text-align: justify;
+}
+.tabContentBox .enterpriseCover {
+  border-top: 1rpx solid #f1f1f1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.tabContentBox .enterpriseCover image {
+  margin-top: 50rpx;
+  width: 317rpx;
+  height: 252rpx;
+}
+.tabContentBox .productProgrammeBox {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem {
+  width: 330rpx;
+  margin-top: 50rpx;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem image {
+  width: 330rpx;
+  height: 252rpx;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem .productPromptBox .productNameBox {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 0;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem .productPromptBox .productNameBox view:first-of-type {
+  color: #fff;
+  font-size: 22rpx;
+  background-color: #FE6543;
+  padding: 0 7rpx;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem .productPromptBox .productNameBox view:last-of-type {
+  flex: 1;
+  padding-left: 7rpx;
+  font-size: 24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem .productPromptBox .productTime {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20rpx;
+  padding: 0 7rpx;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem .productPromptBox .productTitle {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 15rpx 0;
+}
+.tabContentBox .productProgrammeBox .productProgrammeItem .productPromptBox .productIntroduce {
+  font-size: 24rpx;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabContentBox .positionItem {
+  width: 100%;
+  padding: 30rpx 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.tabContentBox .positionItem .positionLeft view:first-of-type {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+.tabContentBox .positionItem .positionLeft view:last-of-type {
+  margin-top: 15rpx;
+  font-size: 25rpx;
+  color: #999;
+}
+.tabContentBox .positionItem .positionRight .price-demo {
+  color: #FF4725;
+  font-weight: 600;
+}

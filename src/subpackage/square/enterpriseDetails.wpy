@@ -1,0 +1,474 @@
+<script>
+import wepy from 'wepy';
+import { companyDetails } from '../../api/api.js';
+import { request,toast } from '../../utils/utils.js'
+
+export default class enterpriseDetails extends wepy.page {
+    config = {
+        navigationBarTitleText: '企业详情',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index',
+            'wxc-abnor': '../../packages/@minui/wxc-abnor/dist/index',
+        },
+    };
+    components = {};
+
+    data = {
+        id:0,
+        allData:null,
+        topBoxHeight:0,
+        tabShow:false,
+        enterpriseFollow:false,
+        navbar: ['公司简介','产品方案','成功案例','职位专区'],
+        currentTab: 0,
+        enterpriseCover:[
+            '../../image/goods-img-default.png',
+            '../../image/goods-img-default.png'
+        ],
+        productProgramme:[],
+        positionMag:[],
+        wxcAbnorShow:false
+    };
+    methods = {
+        // 关注
+        follow(index){
+            this.enterpriseFollow = !this.enterpriseFollow
+        },
+        // 跳转企业信息编辑页面
+        enterpriseEditPage(){
+            wx.navigateTo({
+                url: `./enterpriseMsgEdit`
+            })
+        },
+        // tab切换
+        navbarTap(status){
+          this.currentTab = status;
+        //   this.dataDetails(status,this.id)
+        },
+        // 跳转职位详情
+        positionDetailsPage(){
+            wx.navigateTo({
+                url: './positionDetails'
+            });
+        },
+        // 跳转产品详情
+        productDetailsPage(){
+            wx.navigateTo({
+                url: `./productDetails`
+            })
+        },
+        // 创建产品
+        productEstablish(){
+            wx.navigateTo({
+                url: `./productEstablish`
+            })
+        }
+    };
+
+    events = {};
+    onReady(){
+        let query = wx.createSelectorQuery();
+        query.select('.enterpriseBasicMsgBox').boundingClientRect(rect=>{
+            this.topBoxHeight = rect.height
+            this.$apply()
+        }).exec();
+    }
+    onLoad(options) {
+        this.id = options.id
+        // 请求企业详情数据
+        // this.dataDetails(0,options.id)
+    };
+    onPageScroll(e){
+        if(e.scrollTop>=this.topBoxHeight){
+            this.tabShow = true
+            this.$apply()
+        }else{
+            this.tabShow = false
+            this.$apply()
+        }
+    }
+    // 请求企业详情数据
+    dataDetails(flag,id){
+        request(companyDetails,'POST',{flag:flag,id:id}).then(res=>{
+            if(res.data.code != 1){
+                this.wxcAbnorShow = true
+            }else{
+                this.wxcAbnorShow = false
+                if(flag == 0){
+                    res.data.data.keywords = res.data.data.keywords.replace(',', ' | ');
+                    res.data.data.diyname = res.data.data.diyname.replace(',', '、');
+                    this.allData = res.data.data
+                }else if(flag == 1 || flag == 2){
+                    this.productProgramme = res.data.data
+                }else if(flag == 3){
+                    this.positionMag = res.data.data
+                }
+            }
+            this.$apply()
+        })
+    }
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <!-- 企业基本信息 -->
+        <view class="enterpriseBasicMsgBox" style="background-image: url(http://pu041iqdq.bkt.clouddn.com/enterpriseBanner.png);background-size: 100%">
+            <view class="followBox"></view>
+            <!-- 公司信息 -->
+            <view class="BasicMsgBox">
+                <view class="BasicMsgTop">
+                    <image class="enterpriseLogo" src="../../image/userIconIndex.png" mode="aspectFill"/>
+                    <!-- 关注、分享 -->
+                    <view class="BasicMsgTop_right">
+                        <view class="{{enterpriseFollow?'followBtns':'noFollowBtns'}}" @tap="follow({{index}})"><wxc-icon wx:if='{{!enterpriseFollow}}' size="30" type="add" color='#fff'/> {{enterpriseFollow?'已关注':'关注'}}</view>
+                        <view class="shareBtn"><button open-type="share" class="topButtons" style="height:73rpx;width:91rpx"><image src="../../image/shareIcon.png" /></button></view>
+                    </view>
+                </view>
+                <view class="BasicMsgBoxLeft">
+                    <view class="enterpriseTitleBox">
+                        <view style="padding-right:20rpx;">领英·中国</view>
+                        <button class="topButtons" @tap='enterpriseEditPage'><wxc-icon size="30" type="edit" color='#fff'></wxc-icon></button>
+                    </view>
+                    <view class="enterpriseClass">
+                        互联网 ｜领域：渠道 ｜ 外企 2000+ 人
+                    </view>
+                    <view class="businessAreaBox">
+                        运营商
+                    </view>
+                </view>
+            </view>
+            <!-- 公司联系信息 -->
+            <view class="enterpriseLinksBox">
+                <view class="enterpriseAddress">上海·浦东</view>
+                <view class="enterprisePhone">400010001转1</view>
+                <view class="enterpriseWeb">www.linkedin.com</view>
+            </view>
+        </view>
+        <!-- Tab -->
+        <view class="enterpriseMsgTabBox">
+            <view class="borderStyle">
+                <view wx:for='{{navbar}}' wx:key='' class="enterpriseMsgTabItem  {{currentTab==index ? 'enterpriseMsgTabActive' : ''}}"  @tap="navbarTap({{index}})">{{item}}</view>
+            </view>
+        </view>
+        <view class="enterpriseMsgTabBox tabShow" wx:if='{{tabShow}}'>
+            <view class="borderStyle">
+                <view wx:for='{{navbar}}' wx:key='' class="enterpriseMsgTabItem  {{currentTab==index ? 'enterpriseMsgTabActive' : ''}}"  @tap="navbarTap({{index}})">{{item}}</view>
+            </view>
+        </view>
+        <!-- 公司简介 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox">
+            <!-- 关于我们 -->
+            <view class="synopsisTitle">关于我们</view>
+            <!-- 企业介绍 -->
+            <view class="enterpriseIntroduction">
+                LinkedIn（领英）是全球职场社交平台，覆盖全球6.1亿会员及200多个国家和地区，致力于打造“一站式职业发展平台”，帮助职场人发挥所长，连接无限机会。在领英，您可以轻松打造职业形象、获取商业洞察、拓展职业人脉并发现更多职业机遇。
+            </view>
+            <view class="synopsisTitle">企业文化</view>
+            <view class="enterpriseCover">
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+            </view>
+            <view class="synopsisTitle" >荣誉资质</view>
+            <view class="enterpriseCover">
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+            </view>
+            <view class="synopsisTitle">公司地址</view>
+            <view class="enterpriseIntroduction">
+                <view>上海·浦东新区</view>
+                <view>科创路88号新创大厦D4区1245</view>
+            </view>
+            <wxc-abnor type="REQUEST_ERROR" title='服务器数据异常' wx:if='{{wxcAbnorShow}}'/>
+        </view>
+        <!-- 产品方案 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox">
+            <view class="productProgrammeBox">
+                <view class="productProgrammeItem" @tap="productDetailsPage">
+                    <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                    <view class="productPromptBox">
+                        <view class="productNameBox">
+                            <view>领英</view>
+                            <view>无线路由器</view>
+                        </view>
+                        <view class="productTime" >联通5G卓越品质</view>
+                    </view>
+                </view>
+                <view class="productProgrammeItem" @tap="productDetailsPage">
+                    <image src="../../image/goods-img-default.png" mode="aspectFill"/>
+                    <view class="productPromptBox">
+                        <view class="productNameBox">
+                            <view>领英</view>
+                            <view>无线路由器</view>
+                        </view>
+                        <view class="productTime" >联通5G卓越品质</view>
+                    </view>
+                </view>
+            </view>
+            <!-- 创建Btn -->
+            <view class="releaseBox" wx:if='{{!wxcAbnorShow}}' @tap='productEstablish'>
+                <image src="../../image/releaseIcon.png"/>
+                <view>创建</view>
+            </view>
+            <wxc-abnor type="REQUEST_ERROR" title='服务器数据异常' wx:if='{{wxcAbnorShow}}'/>
+        </view>
+        <!-- 成功案例 -->
+        <view hidden="{{currentTab !== 2}}" class="tabContentBox">
+            <view class="productProgrammeBox">
+                <view class="productProgrammeItem" wx:for='{{productProgramme}}' wx:key='' @tap="productDetailsPage">
+                    <image src="{{item.image}}" mode="aspectFill"/>
+                    <view class="productPromptBox">
+                        <view class="productTitle">{{item.name}}</view>
+                        <view class="productIntroduce">{{item.description}}</view>
+                    </view>
+                </view>
+            </view>
+            <!-- 创建Btn -->
+            <!-- <view class="releaseBox" @tap='productEstablish'  wx:if='{{!wxcAbnorShow}}'>
+                <image src="../../image/releaseIcon.png"/>
+                <view>创建</view>
+            </view> -->
+            <wxc-abnor type="REQUEST_ERROR" title='暂无案例数据'/>
+        </view>
+        <!-- 职位专区 -->
+        <view hidden="{{currentTab !== 3}}" class="tabContentBox">
+            <view class="positionItem" @tap='positionDetailsPage'>
+                <view class="positionLeft">
+                    <view>高级UI设计师</view>
+                    <view>西安市·雁塔区</view>
+                </view>
+                <view class="positionRight"><view class="price-demo">10K-15K</view></view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<style lang="less">
+    .enterpriseBasicMsgBox{
+        width: 100%;
+        height: 559rpx;
+        padding: 30rpx;
+        .followBox{
+            height: 53rpx;
+            margin-bottom: 62rpx;
+        }
+        .BasicMsgBox{
+            .BasicMsgTop{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .enterpriseLogo{
+                    width: 136rpx;
+                    height: 136rpx;
+                    // border: 1rpx solid #f1f1f1;
+                    border-radius: 8rpx;
+                }
+                .BasicMsgTop_right{
+                    display: flex;
+                    align-items: center;
+                    .followBtns,.noFollowBtns{
+                        width: 166rpx;
+                        height: 72rpx;
+                        font-size: 36rpx;
+                        line-height: 72rpx;
+                        text-align: center;
+                        margin-right: 20rpx;
+                    }
+                    .followBtns{
+                        // background-color: #FE6543;
+                        background-color: rgba(255, 255, 255, .3);
+                        color: #fff;  
+                    }
+                    .noFollowBtns{
+                        color: #fff;
+                        background-color: rgba(255, 255, 255, .3)
+                    }
+                }
+            }
+            .BasicMsgBoxLeft{
+                margin-bottom: 42rpx;
+                padding-top: 24rpx;
+                .enterpriseTitleBox{
+                    display: flex;
+                    align-items: center;
+                    view{
+                        color: #fff;
+                        font-size: 40rpx;
+                    }
+                }
+                .enterpriseClass{
+                    color: #fff;
+                    font-size: 24rpx;
+                    margin: 12rpx 0;
+                }
+                .businessAreaBox{
+                    color: #fff;
+                    font-size: 24rpx;
+                }
+            }
+        }
+        .enterpriseLinksBox{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            view{
+                background-color: rgba(255, 255, 255, .3);
+                padding: 4rpx 10rpx;
+                font-size: 24rpx;
+                color: #fff;
+            }
+            .enterpriseWeb{
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                max-width: 300rpx;
+                overflow: hidden;
+            }
+        }
+    }
+    .enterpriseMsgTabBox{
+        height: 170rpx;
+        width: 100%;
+        padding: 0 32rpx;
+        .borderStyle{
+            width: 100%;
+            height: 170rpx;
+            border-bottom: 1rpx solid #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .enterpriseMsgTabItem{
+                font-weight: 600;
+                font-size: 24rpx;
+                height: 70rpx;
+                line-height: 70rpx;
+                width: 172rpx;
+                text-align: center;
+            }
+            .enterpriseMsgTabActive{
+                color: #fff;
+                background-color: #00D4D7;
+            }
+        }
+    }
+    .tabShow{
+        background-color: #fff;
+        height: 145rpx;
+        border-top: 1rpx solid #f1f1f1;
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        .borderStyle{
+            height: 145rpx;
+        }
+    }
+    .tabContentBox{
+        position: relative;
+        width: 100%;
+        padding: 0 30rpx 35rpx 30rpx;
+        .synopsisTitle{
+            font-size: 34rpx;
+            font-weight: 600;
+            padding: 50rpx 0 20rpx 0;
+        }
+        .enterpriseIntroduction{
+            width: 100%;
+            padding: 26rpx 25rpx;
+            background-color: #f7f7f7;
+            font-size: 26rpx;
+            text-align: justify;
+        }
+        .enterpriseCover{
+            border-top: 1rpx solid #f1f1f1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            image{
+                margin-top: 50rpx;
+                width: 317rpx;
+                height: 252rpx;
+            }
+        }
+        .productProgrammeBox{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .productProgrammeItem{
+                width: 330rpx;
+                margin-top: 50rpx;
+                image{
+                    width: 330rpx;
+                    height: 252rpx;
+                }
+                .productPromptBox{
+                    .productNameBox{
+                        display: flex;
+                        align-items: center;
+                        padding: 15rpx 0;
+                        view:first-of-type{
+                            color: #fff;
+                            font-size: 22rpx;
+                            background-color: #FE6543;
+                            padding: 0 7rpx;
+                        }
+                        view:last-of-type{
+                            flex: 1;
+                            padding-left: 7rpx;
+                            font-size: 24rpx;
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
+                    .productTime{
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
+                        // background-color: #f7f7f7;
+                        font-size: 20rpx;
+                        padding: 0 7rpx;
+                    }
+                    .productTitle{
+                        font-weight: 600;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
+                        padding: 15rpx 0;
+                    }
+                    .productIntroduce{
+                        font-size: 24rpx;
+                        color: #666;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+        .positionItem{
+            width: 100%;
+            padding: 30rpx 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            .positionLeft{
+                view:first-of-type{
+                    font-size: 34rpx;
+                    font-weight: 600;
+                }
+                view:last-of-type{
+                    margin-top: 15rpx;
+                    font-size: 25rpx;
+                    color: #999;
+                }
+            }
+            .positionRight{
+                .price-demo{
+                    color: #FF4725;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+</style>

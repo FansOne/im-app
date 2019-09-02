@@ -1,0 +1,136 @@
+<script>
+import wepy from 'wepy';
+import { productCategory } from '../../api/api.js';
+import { request } from '../../utils/utils.js';
+
+export default class productClass extends wepy.page {
+    config = {
+        navigationBarTitleText: '更多产品',
+        usingComponents:{
+            'wxc-search': '../../packages/@minui/wxc-search/dist/index',
+            'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index',
+            'wxc-loading': '../../packages/@minui/wxc-loading/dist/index'
+        }
+    };
+    components = {};
+
+    data = {
+        typeData: [], // 列表数据
+        contentActive: '', // 内容栏id
+        navActive: 0, // 导航栏选中索引
+        defaultImg: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=466014254,3101228283&fm=26&gp=0.jpg',
+        isShow:true
+    };
+    methods = {
+        // 左侧导航栏点击事件
+        chooseType(e) {
+            let id = e.currentTarget.dataset.id;
+            let index = e.currentTarget.dataset.index;
+            this.contentActive = id
+            this.navActive = index
+        },
+        // 跳转相关分类下产品页面
+        productList(id){
+            wx.navigateTo({
+                url: `./productList?id=${id}`
+            });            
+        },
+        // 跳转搜索页面
+        searchPage(){
+            wx.navigateTo({
+                url: `../../pages/search?currentTab=4`
+            });
+        }
+    };
+
+    events = {};
+    onLoad() {
+        setTimeout(() => {
+            this.isShow = false
+            this.$apply()
+        }, 777);
+        this.typeData = require('../../utils/listData.js').data
+        // request(productCategory).then(res=>{
+        //     if(res.data.code == 1){
+        //         this.isShow = false
+        //         this.typeData = res.data.data
+        //     }else{
+        //         this.isShow = true
+        //     }
+        //     this.$apply()
+        // })
+    };
+}
+</script>
+
+<template lang="wxml">
+    <!-- 顶部搜索 -->
+    
+    <!-- 产品 -->
+    <view class="container" wx:if="{{!isShow}}">
+        <view class="search-wrap">
+            <wxc-search class="search" show-clear='{{false}}' radius='0' color="#000" placeholder="搜索产品" mode='static' @tap='searchPage'></wxc-search>
+        </view>
+        <view class="main" wx:if="{{typeData.length}}">
+            <view class="container-linkpage">
+                <!-- 左 -->
+                <view class="nav">
+                    <scroll-view scroll-y="true" style="height: 100%;" class="nav-scroll">
+                        <view wx:for="{{typeData}}" class="nav-item {{index === navActive ? 'active' : ''}}" style="{{index === navActive?'color:#00C5C8;font-size: 32rpx;':''}}" wx:key="{{index}}"
+                            data-id="tty{{item.goods_category_one_id}}" data-index="{{index}}" @tap.stop="chooseType">{{item.goods_category_one_name}}
+                        </view>
+                    </scroll-view>
+                </view>
+                <!-- 右 -->
+                <view class="content content-class" style="padding-top:30rpx;">
+                    <scroll-view scroll-y="true" style="height: 100%;" scroll-into-view="{{contentActive}}" scroll-with-animation="true" class="content-scroll">
+                        <!-- 分类商品 -->
+                        <view class="pesticide" id="tty{{item.goods_category_one_id}}">
+
+                            <view wx:if="{{twoItem.goods.length}}" wx:for="{{typeData[navActive].goods_category_two}}" wx:for-item="twoItem" wx:for-index="typeTwoIndex" wx:key="{{typeTwoIndex}}">
+                                <!-- 商品说明（类名） -->
+                                <view class="type-name">
+                                    <view class="line"></view>
+                                    <view class="name">{{twoItem.goods_category_two_name}}</view>
+                                    <view class="line"></view>
+                                </view>
+                                <view class="pesticide-container">
+                                    <!-- 商品Item -->
+                                    <view class="pesticide-item" wx:for="{{twoItem.goods}}" data-itemId="{{pes.goods_id}}" wx:for-item="pes" wx:key="{{goodsIndex}}"
+                                        catchtap="productList({{pes.id}})" wx:for-index="goodsIndex">
+                                        <image src="{{pes.goods_cover || defaultImg}}" mode="aspectFit"></image>
+                                        <view class="describe">{{pes.goods_name}}</view>
+                                    </view>
+                                </view>   
+                            </view>
+                        </view>
+                        <wxc-loadmore is-end="{{true}}" text="没有更多"/>
+                    </scroll-view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- loading -->
+    <wxc-loading
+        is-show="{{isShow}}"
+        image="http://pu041iqdq.bkt.clouddn.com/loadingMain.png"
+        slip="http://pu041iqdq.bkt.clouddn.com/loadingScend.png"
+    />
+</template>
+
+<style lang="less">
+page {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+.container {
+    color: #333;
+    height: 100%;
+}
+.search {
+    flex-grow: 1;
+    margin: 0rpx 30rpx 30rpx 30rpx;
+}
+</style>

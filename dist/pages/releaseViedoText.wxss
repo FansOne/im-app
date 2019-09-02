@@ -1,0 +1,17 @@
+form {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30rpx;
+}
+form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1rpx solid #eee;
+  padding: 20rpx 30rpx;
+  margin-bottom: 40rpx;
+}
+form .chooseVideo {
+  width: 140rpx;
+  height: 140rpx;
+  margin-bottom: 40rpx;
+}

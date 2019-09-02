@@ -1,0 +1,25 @@
+
+  
+    <view class="editor-wrapper" style="min-height: {{$editor$windowHeight}}px" scroll-y enable-back-to-top="enable-back-to-top">
+  <view class="editor-add-wrapper">
+    <view class="editor-add iconfont icon-align-left" data-index="-1" bindtap="$editor$addText"/>
+    <view class="editor-add iconfont icon-image" data-index="-1" bindtap="$editor$addImage"/>
+  </view>
+  <block  wx:for="{{$editor$nodeList}}" wx:for-item="node" wx:for-index="index" wx:key="{{index}}">
+    <view class="editor-node-wrapper">
+      <block wx:if="{{node.name === 'p'}}">
+        <textarea class="editor-textarea" value="{{node.children[0].text}}" auto-height maxlength="-1" data-index="{{index}}" bindinput="$editor$onTextareaInput">
+        </textarea>
+      </block>
+      <block wx:if="{{node.name === 'img'}}">
+        <image class="editor-image" src="{{node.attrs.src}}" style="height: {{node.attrs._height * 700}}rpx"/>
+      </block>
+      <view class="editor-delete iconfont icon-close" data-index="{{index}}" bindtap="$editor$deleteNode"/>
+    </view>
+    <view class="editor-add-wrapper">
+      <view class="editor-add iconfont icon-align-left" data-index="{{index}}" bindtap="$editor$addText"/>
+      <view class="editor-add iconfont icon-image" data-index="{{index}}" bindtap="$editor$addImage"/>
+    </view>
+  </block>
+  <button class="editor-submit-btn" bindtap="$editor$onFinish">完成</button>
+</view>

@@ -1,0 +1,84 @@
+
+    <view class="container">
+        <!-- 轮播 -->
+        <swiper autoplay circular="circular" id="swiper">
+            <block  wx:for="{{imgUrls}}" wx:key="">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+        <!-- 产品介绍 -->
+        <view class="productIntroduceBox">
+            <view class="productTitle">
+                <view>产品详情</view>
+                <view>Iphone XR MAX</view>
+            </view>
+            <view class="productIntroduceText">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <view class="productRanking">
+                <view class="rankingTitle">
+                    <image src="../../image/rankingIcon.png"/>
+                    <view>销售指数排行第<text>1</text>名</view>
+                </view>
+                <view class="demandShareBox">
+                    <button class="topButtons" open-type="share"><wxc-icon size="34" type="share" color="#A1A1A1"/></button>
+                    <view class="collectionBtns">
+                        <wxc-icon size="34" type="star" color="#A1A1A1"/>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 产品联系人 -->
+        <view class="productContactBox">
+            <view class="productContactLeft">
+                <image src="../../image/goods-img-default.png"/>
+                <view>花泽类</view>
+            </view>
+            <view class="productContactRight">
+                <view class="contactPhoneNumber">
+                    <view>联系电话</view>
+                    <view>18224568985</view>
+                </view>
+                <view class="contantBtn">在线咨询</view>
+            </view>
+        </view>
+        <!-- 企业+企业产品 -->
+        <view class="enterpriseProductBox">
+            <view class="enterpriseTopBox">
+                <view class="enterpriseMsgBox">
+                    <image src="../../image/indexRecommendUser.png"/>
+                    <view>上海英淘</view>
+                </view>
+                <view class="{{enterpriseFollow?'followBtn':'noFollowBtn'}}" bindtap="follow" data-wpyfollow-a="{{index}}"><wxc-icon  wx:if="{{!enterpriseFollow}}" size="20" type="add" color="#fff"/> {{enterpriseFollow?'已关注':'关注'}}</view>
+            </view>
+            <!-- 推荐产品 -->
+            <view class="recommendProductBox">
+                <scroll-view scroll-x>
+                    <view wx:for="{{amoyProductData}}" wx:key="" class="amoyProductBox">
+                        <view class="amoyProduct">
+                            <image src="{{item.cover}}"/>
+                            <view>{{item.title}}</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <!-- 产品详情 -->
+        <view class="product-details-box">
+            <view class="product-details-title">概述</view>
+            <view class="product-details-text">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <view class="product-details-title">产品分类</view>
+            <view class="product-details-text">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <view class="product-details-title">详情</view>
+            <view class="product-details-text">
+                宝马公司创建于1916年，总部设在德国巴伐利亚州慕尼黑。BMW的蓝白标志宝马总蓝白标志宝马
+            </view>
+            <image src="../../image/enterpriseDetailBg.png" style="width:100%" mode="widthFix"/>
+        </view>
+    </view>

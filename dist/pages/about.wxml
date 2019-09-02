@@ -1,0 +1,273 @@
+
+    <view class="container">
+        <!-- 头部 -->
+        <view class="aboutUserMsgBox">
+            <view class="aboutUserMsgTop" style="background-image: url('http://pu041iqdq.bkt.clouddn.com/aboutBanner.png');background-size: 100%">
+                <!-- 大V人脉、分享控件 -->
+                <view  wx:if="{{bigV}}" class="bigVBox">
+                    <view class="addConnections">
+                        <image src="../image/addFriends.png"/>
+                        <view>私信</view>
+                    </view>
+                    <view class="shareBtn"><button open-type="share" class="topButtons" style="height:72rpx;width:72rpx"><image src="../image/shareIcon.png"/></button></view>
+                </view>
+                <view class="aboutUserMsgUserCover">
+                    <image src="../image/goods-img-default.png"/>
+                    <view class="aboutUserCoverRight">
+                        <view class="userName">花泽类 <image  wx:if="{{bigV}}" class="bigVLogo" src="../image/vLogo.png"/></view>
+                        <view class="aboutLable">IT互联网｜云计算智慧城市</view>
+                    </view>
+                </view>
+                <view class="aboutUserMsgUserAddress">
+                    <view>西安市</view>
+                    <view>182****8787</view>
+                    <view>上海英淘网络</view>
+                </view>
+            </view>
+            <!-- 收藏｜人脉 -->
+            <view class="UserMsgControlBox">
+                <view class="controlLeft">
+                    <image src="../image/shoucang.png"/>
+                    <view class="aboutCollection">
+                        <view>{{bigV?'获赞':'收藏'}}</view>
+                        <view>20</view>
+                    </view>
+                </view>
+                <view class="controlRight">
+                    <image src="../image/renmai.png"/>
+                    <view class="aboutCollection">
+                        <view>{{bigV?'粉丝':'人脉'}}</view>
+                        <view>18</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 操作模块 -->
+        <view class="aboutOperationModelBox" wx:if="{{bigV === false}}">
+            <view class="aboutOperationModelShadow">
+                <view class="operationModelItem" wx:for="{{aboutOperationModel}}" wx:key="">
+                    <view class="operationModelLeft">
+                        <image src="{{item.icon}}" style="{{index==0?'width:33rpx;':''}}"/>
+                        <view class="operationTitle">{{item.title}}</view>
+                        <view class="operationPrompt">{{item.prompt}}</view>
+                    </view>
+                    <wxc-icon size="30" type="arrow-right" color="#bbb"/>
+                </view>
+            </view>
+        </view>
+        <!-- 大V用户发布信息展示 -->
+        
+        <!-- Tab -->
+        <view class="personalMsgTabBox" wx:if="{{bigV}}">
+            <view class="borderStyle">
+                <view wx:for="{{navbar}}" wx:key="" class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+            </view>
+        </view>
+        <!-- TAB全部 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox" wx:if="{{bigV}}">
+            
+    <view class="recommendBox"  wx:for="{{$releaseItem$forData}}" wx:key="" style="{{$releaseItem$stylePaddingTop?'':'padding-top:70rpx'}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for="{{item.explain}}" wx:key="" wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view bindtap="$releaseItem$lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{item.show}}">
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if="{{item.show}}" bindtap="$releaseItem$hiddenFullText" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" bindtap="$releaseItem$previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+    </view>
+
+        </view>
+        <!-- TAB图文 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox"  wx:if="{{bigV}}">
+            
+    <view class="recommendBox"  wx:for="{{$releaseItem$forData}}" wx:key="" style="{{$releaseItem$stylePaddingTop?'':'padding-top:70rpx'}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for="{{item.explain}}" wx:key="" wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view bindtap="$releaseItem$lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{item.show}}">
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if="{{item.show}}" bindtap="$releaseItem$hiddenFullText" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" bindtap="$releaseItem$previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+    </view>
+
+            <!-- 发布Btn -->
+            <view class="releaseBox" bindtap="releaseImgText">
+                <image src="../image/releaseIcon.png"/>
+                <view>发布</view>
+            </view>
+        </view>
+        <!-- TAB视频 -->
+        <view hidden="{{currentTab !== 2}}" class="tabContentBox"  wx:if="{{bigV}}">
+            
+    <view class="recommendBox"  wx:for="{{$releaseItem$forData}}" wx:key="" style="{{$releaseItem$stylePaddingTop?'':'padding-top:70rpx'}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for="{{item.explain}}" wx:key="" wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if="{{!item.show}}">
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view>{{item.demandDescribe}}</view>
+                        <view bindtap="$releaseItem$lookFullText" data-wpylookfulltext-a="{{index}}">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if="{{item.show}}">
+                    <view>需求描述：</view>
+                    <view>
+                        <view>{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{item.show}}">
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if="{{item.show}}">
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if="{{item.show}}" bindtap="$releaseItem$hiddenFullText" data-wpyhiddenfulltext-a="{{index}}">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" bindtap="$releaseItem$previewImage" mode="aspectFill" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemImg}}"/>
+                </block>
+            </view>
+        </view>
+    </view>
+
+            <!-- 发布Btn -->
+            <view class="releaseBox" bindtap="releaseViedoText">
+                <image src="../image/releaseIcon.png"/>
+                <view>发布</view>
+            </view>
+        </view>
+    </view>
+    
+    <view class="mask" catchtouchmove="$registerPopup$preventTouchMove"  wx:if="{{$registerPopup$userRegister}}">
+        <view class="popupBox">
+            <image src="../image/registerIcon.png"/>
+            <view class="text">
+                <view>英淘小程序欢迎您的加入</view>
+                <view>请立即创建名片，开通更多功能</view>
+            </view>
+            <button open-type="getUserInfo" bindgetuserinfo="$registerPopup$getuserinfo" class="jumpBtn">创建个人名片</button>
+        </view>
+    </view>

@@ -1,0 +1,65 @@
+.demandTitleBox {
+  width: 100%;
+  padding: 60rpx 30rpx 30rpx 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #e7e7e7;
+}
+.demandTitleBox .demandTitle {
+  flex: 1;
+  font-size: 50rpx;
+  font-weight: 600;
+  padding-right: 10rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.demandTitleBox .demandShareBox {
+  display: flex;
+  align-items: center;
+}
+.demandTitleBox .demandShareBox .topButtons {
+  height: 33rpx;
+  width: 36rpx;
+  margin-right: 20rpx;
+}
+.demandDetailsTextBox {
+  width: 100%;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #e7e7e7;
+}
+.demandDetailsTextBox :first-of-type {
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+.demandDetailsTextBox :last-of-type {
+  font-size: 26rpx;
+}
+.previewImage {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 30rpx 15rpx 15rpx 30rpx;
+}
+.previewImage image {
+  margin-right: 15rpx;
+  margin-bottom: 15rpx;
+  width: 220rpx;
+  height: 220rpx;
+}
+.demandExplainBox {
+  width: 100%;
+}
+.demandExplainBox .demandExplainItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25rpx 30rpx;
+  border-bottom: 1rpx solid #ebebeb;
+}
+.demandExplainBox .demandExplainItem view {
+  font-size: 28rpx;
+  color: #333;
+}

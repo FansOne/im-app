@@ -1,0 +1,11 @@
+
+    <view class="container">
+        <form bindsubmit="formSubmit">
+            <view class="evaluateTopBox">
+                <!-- 编辑内容 -->
+                <textarea placeholder="请填写您的个人简介!" placeholder-style="font-size:26rpx;color#c3c3c3" maxlength="200" bindinput="sectionValue" name="textarea"/>
+                <view class="wordNum">{{leng}}/200</view>
+                <button form-type="submit" class="submitBtn_">保存</button>
+            </view>
+        </form>
+    </view>

@@ -1,0 +1,102 @@
+<template lang="wxml">
+    <view class='recommendBox' wx:for='{{forData}}' wx:key="" style="{{stylePaddingTop?'':'padding-top:70rpx'}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="explainBox">
+                        <view wx:for='{{item.explain}}' wx:key='' wx:for-index="idx" wx:for-item="itemName">{{itemName}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}};border-bottom:none;">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe">
+                <view class="switchArticle" wx:if='{{!item.show}}'>
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view >{{item.demandDescribe}}</view>
+                        <view @tap="lookFullText({{index}})">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if='{{item.show}}'>
+                    <view>需求描述：</view>
+                    <view>
+                        <view >{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if='{{item.show}}'>
+                <!-- 工作内容 -->
+                <view class="copywritingItem" wx:if='{{item.show}}'>
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem" wx:if='{{item.show}}'>
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" wx:if='{{item.show}}'>
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" wx:if='{{item.show}}'  @tap="hiddenFullText({{index}})">收起</view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for='{{item.previewImage}}' wx:key='' wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" @tap='previewImage({{index}},{{itemImg}})' mode="aspectFill"/>
+                </block>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class releaseItem extends wepy.component {
+    components = {};
+
+    data = {
+        forData:[]
+    };
+    methods = {
+    };
+
+    events = {
+        currentStatus:(status)=>{
+            if(status==0){
+                this.forData = this.recommendData
+            }else if(status==1){
+                this.forData = this.recommendDatas
+            }
+        },
+        adminPopup:(currentTab)=>{
+            if(currentTab==0){
+                this.forData = this.recommendDatas
+            }
+        }
+    };
+    props = {
+        recommendData: {
+            type: Array,
+            default: null
+        },
+        recommendDatas:{
+            type: Array,
+            default: null
+        },
+        stylePaddingTop:Boolean
+    }
+}
+</script>
+
+<style lang="less">
+/** less **/
+</style>

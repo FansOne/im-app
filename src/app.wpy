@@ -1,0 +1,158 @@
+<style lang="less">
+  @import './style/base.less';
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  view{
+    box-sizing: border-box;
+    color: #000;
+    font-size: 30rpx;
+  }
+  button::after{
+    border: none;
+  }
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import { login } from './api/api'
+import { request } from './utils/utils'
+
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/administration',
+      'pages/release',
+      'pages/about',
+      'pages/enterpriseClass',
+      'pages/personalReleaseDetails',
+      'pages/releaseImgText',
+      'pages/releaseViedoText',
+      'pages/search',
+      'pages/chatIndexLists'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '英淘',
+      navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color:"#999999",
+      selectedColor: "#000",
+      list: [{
+        pagePath: "pages/index",
+        text: "广场",
+        iconPath: "./image/square.png",
+        selectedIconPath: "./image/square-select.png"
+      },{
+        pagePath: "pages/chatIndexLists",
+        text: "聊天",
+        iconPath: "./image/chat.png",
+        selectedIconPath: "./image/chat_select.png"
+      },{
+        pagePath: "pages/release",
+        text: "发布",
+        iconPath: "./image/release.png",
+        selectedIconPath: "./image/release_select.png"
+      },{
+        pagePath: "pages/administration",
+        text: "管理",
+        iconPath: "./image/administration.png",
+        selectedIconPath: "./image/administration_select.png"     
+      },{
+        pagePath: "pages/about",
+        text: "我的",
+        iconPath: "./image/about.png",
+        selectedIconPath: "./image/about_select.png"
+      }]
+    },
+    subPackages: [
+      {
+        root: 'subpackage',
+        pages: [
+          "editorRichText/editor",
+          "chatIM/chatDetails",
+          "square/enterpriseDetails",
+          "square/enterpriseMsgEdit",
+          "square/productEstablish",
+          "square/productDetails", 
+          "square/positionDetails",
+          "square/personalDetails",
+          "square/editIntroduction",
+          "square/editPersonalSkill",
+          "square/editMsg",
+          "square/productClass",
+          "square/productList",
+          "square/demandDetails",
+          "square/personalRegistration"
+        ]    
+      }
+    ],
+    permission: {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序位置展示"
+      }
+    },
+    networkTimeout: {
+      "request": 8000
+    }
+  }
+
+  globalData = {
+    im: {
+      sdkAppID: 1400231695, // 用户标识接入 SDK 的应用 ID，必填
+      accountType: 15656, // 帐号体系集成中的 accountType，必填
+      accountMode: 0, //帐号模式，0 - 独立模式 1 - 托管模式
+      imId: null, // 用户的 id
+      imName: null, // 用户的 im 名称
+      imAvatarUrl: 'www.baidu.com', // 用户的 im 头像 url
+      userSig: null // 用户通过 imId 向后台申请的签名值 sig
+    }
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+    this.use('promisify');
+  }
+
+  onLaunch() {
+    // 登录
+    // wx.login({
+    //   success: (result) => {
+    //     request(login,'POST',{ code:result.code}).then(res=>{
+    //       wx.setStorageSync('loginData', res.data.data);
+    //     })
+    //   }
+    // })
+  }
+  /**
+   * 初始化 im 参数，返回成功回调
+  */
+  initImParams(cbOk){
+    // wx.login({
+    //   success: (result) => {
+    //     request(login,'POST',{ code:result.code}).then(res=>{
+    //       wx.hideLoading();
+    //       // 初始化 im 数据
+    //       wepy.$instance.globalData.im.imId = res.data.data.imID
+    //       wepy.$instance.globalData.im.userSig = res.data.data.sig
+    //       wepy.$instance.globalData.im.imAvatarUrl = res.data.data.avatarurl
+    //       wepy.$instance.globalData.im.imName = res.data.data.nickname
+    //       wx.setStorageSync('loginData', res.data.data);
+    //       cbOk()
+    //     })
+    //   }
+    // })
+  }
+}
+</script>

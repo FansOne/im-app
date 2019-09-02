@@ -1,0 +1,44 @@
+
+    <!-- 顶部搜索 -->
+    
+    <!-- 产品 -->
+    <view class="container">
+        <view class="search-wrap">
+            <wxc-search class="search" show-clear="{{false}}" radius="0" color="#000" placeholder="搜索产品/需求"/>
+        </view>
+        <view class="main"  wx:if="{{typeData.length}}">
+            <view class="container-linkpage">
+                <!-- 左 -->
+                <view class="nav">
+                    <scroll-view scroll-y="true" style="height: 100%;" class="nav-scroll">
+                        <view wx:for="{{typeData}}" class="nav-item {{index === navActive ? 'active' : ''}}" style="{{index === navActive?'color:#00C5C8;font-size: 32rpx;':''}}" wx:key="{{index}}" data-id="tty{{item.goods_category_one_id}}" data-index="{{index}}" catchtap="chooseType">{{item.goods_category_one_name}}
+                        </view>
+                    </scroll-view>
+                </view>
+                <!-- 右 -->
+                <view class="content content-class" style="padding-top:30rpx;">
+                    <scroll-view scroll-y="true" style="height: 100%;" scroll-into-view="{{contentActive}}" scroll-with-animation="true" bindscroll="onScroll" class="content-scroll">
+                        <!-- 不同分类商品 -->
+                        <view class="pesticide" id="tty{{item.goods_category_one_id}}" wx:for="{{typeData}}" wx:for-index="typeOneIndex" wx:key="{{typeOneIndex}}">
+
+                            <view wx:if="{{twoItem.goods.length}}" wx:for="{{item.goods_category_two}}" wx:for-item="twoItem" wx:for-index="typeTwoIndex" wx:key="{{typeTwoIndex}}">
+                                <!-- 商品说明（类名） -->
+                                <view class="type-name">
+                                    <view class="line"/>
+                                    <view class="name">{{twoItem.goods_category_two_name}}</view>
+                                    <view class="line"/>
+                                </view>
+                                <view class="pesticide-container">
+                                    <!-- 商品Item -->
+                                    <view class="pesticide-item" wx:for="{{twoItem.goods}}" data-itemId="{{pes.goods_id}}" wx:for-item="pes" wx:key="{{goodsIndex}}" catchtap="tapHandle" wx:for-index="goodsIndex">
+                                        <view class="describe">{{pes.goods_name}}</view>
+                                    </view>
+                                </view>   
+                            </view>
+                        </view>
+                        <wxc-loadmore is-end="{{true}}" text="没有更多"/>
+                    </scroll-view>
+                </view>
+            </view>
+        </view>
+    </view>

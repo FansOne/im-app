@@ -1,0 +1,178 @@
+<script>
+import wepy from 'wepy';
+import { toast } from '../../utils/utils'
+
+export default class editPersonalSkill extends wepy.page {
+    config = {
+        navigationBarTitleText: '编辑个人技能',
+        navigationBarBackgroundColor:'#FAFAFA',
+        disableScroll:true,
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        remmondSkill:[
+            '售后服务',
+            '英语',
+            '技术支持',
+            '服务器运维',
+            '大数据'
+        ],
+        placeholder:'请填写技能（最多不超过三个）',
+        textareaValue:null,
+        textareaValueView:[],
+        textareDisabled:false,
+        focus:false
+    };
+    methods = {
+        sliderchange(e){
+            console.log(e.detail.value)
+        },
+        //输入确认
+        bindconfirm(e){
+            let title = e.detail.value;
+            this.placeholder =''
+            this.textareaValue = ''
+            this.focus = true
+            this.$apply()
+            if(this.textareaValueView.length < 3){
+                this.textareaValueView.push({
+                    title:title,
+                    value:35
+                })
+            }else{
+                this.textareaValue = ''
+                this.textareDisabled=true
+                toast('最多不超过3个')
+            }
+            this.$apply()
+        },
+        // 点击推荐技能
+        remmondSkill(item){
+            this.placeholder =''
+            if(this.textareaValueView.length < 3){
+                this.textareaValueView.push({
+                    title:item,
+                    value:35
+                })
+                this.$apply()
+            }else{
+                this.textareaValue = ''
+                this.textareDisabled=true
+                toast('最多不超过3个')
+            }
+        },
+        // 删除指定项技能
+        delectBlock(index){
+            this.textareaValueView.splice(index,1)
+            this.textareDisabled=false
+        }
+    };
+    events = {};
+    onLoad() {};
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <view class="inputBox">
+            <view wx:if='{{textareaValueView}}' wx:for='{{textareaValueView}}' wx:key='' class="smallBlock1" @tap='delectBlock({{index}})'>
+                <view class="smallBlock1_">
+                    <view>{{item.title}}</view>
+                    <wxc-icon class="search-icon" type="close" size="20" color="#fff"></wxc-icon>
+                </view>
+            </view>
+            <textarea disabled='{{textareDisabled}}' placeholder="{{placeholder}}" focus='{{focus}}' placeholder-style="font-size:26rpx;color#c3c3c3" @confirm = 'bindconfirm' value="{{textareaValue}}" name='textarea' auto-height/>
+        </view>
+        <!-- 推荐技能 -->
+        <view class="remmondSkillBox">
+            <view class="title">推荐技能</view>
+            <view class="remmondSkillItemBox">
+                <view wx:for='{{remmondSkill}}' wx:key='' @tap='remmondSkill({{item}})' class="smallBlock">
+                    {{item}}
+                </view>
+            </view>
+        </view>
+        <!-- 技能掌握度调节 -->
+        <view class="skillSlider" wx:for='{{textareaValueView}}' wx:key=''>
+            <view>{{item.title}}</view>
+            <slider bindchange="sliderchange" block-size='20' show-value value='{{item.value}}' step="10" backgroundColor='#EFEFEF' activeColor='#00D4D7'/>
+        </view>
+        <button form-type="submit" class="submitBtn_" style="margin-top:50rpx;">保存</button>
+    </view>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #FAFAFA;
+    }
+    .container{
+        .inputBox{
+            width: 100%;
+            padding: 28rpx 30rpx;
+            background-color: #fff;
+            .smallBlock1{
+                display: inline-block;
+                margin-right: 25rpx;
+                height: 57rpx;
+                line-height: 57rpx;
+                margin-top: 20rpx;
+                margin-bottom: 10rpx;
+                .smallBlock1_{
+                    padding: 0 15rpx;
+                    display: flex;
+                    align-items: center;
+                    background-color: #00D4D7;
+                    view{
+                        color: #fff;
+                        margin-right: 10rpx;
+                    }
+                }
+            }
+            textarea{
+                width: 100%;
+            }
+        }
+        .remmondSkillBox{
+            width: 100%;
+            padding: 70rpx 0 50rpx 0;
+            .title{
+                width: 100%;
+                padding: 0 30rpx;
+                font-size: 32rpx;
+                color: #666;
+                font-weight: 600;
+            }
+            .remmondSkillItemBox{
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 30rpx 10rpx 0 30rpx;
+            }
+        }
+        .skillSlider{
+            width: 100%;
+            padding: 0 30rpx;
+            view{
+                font-weight: 600;
+                color: #666;
+            }
+            slider{
+                margin: 0;
+                padding: 30rpx 0;
+            }
+        }
+    }
+    .smallBlock{
+        padding: 0 15rpx;
+        margin-right: 20rpx;
+        margin-bottom: 20rpx;
+        height: 57rpx;
+        color: #fff;
+        line-height: 57rpx;
+        background-color: #00D4D7;
+    }
+</style>

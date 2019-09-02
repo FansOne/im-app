@@ -1,0 +1,229 @@
+page {
+  background-color: #fefefe;
+}
+.personalTopBox {
+  width: 100%;
+  height: 536rpx;
+}
+.personalTopBox .personalBg {
+  width: 100%;
+  height: 356rpx;
+}
+.personalTopBox .personalMsgBox {
+  z-index: 10;
+  width: 100%;
+  padding: 0 30rpx;
+  transform: translateY(-161rpx);
+}
+.personalTopBox .personalMsgBox .personalMsg {
+  background-color: #fff;
+  width: 100%;
+  height: 331rpx;
+  box-shadow: 0 0 10rpx #F3F1F1;
+  padding: 20rpx 40rpx 30rpx 40rpx;
+}
+.personalTopBox .personalMsgBox .personalMsg .shareBox {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.personalTopBox .personalMsgBox .personalMsg .shareBox .topButtons {
+  width: 36rpx;
+  height: 36rpx;
+}
+.personalTopBox .personalMsgBox .personalMsg .userMagBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.personalTopBox .personalMsgBox .personalMsg .userMagBox image {
+  width: 116rpx;
+  height: 116rpx;
+  border-radius: 7rpx;
+}
+.personalTopBox .personalMsgBox .personalMsg .userMagBox .userMsgRight {
+  height: 116rpx;
+  padding: 10rpx 20rpx;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.personalTopBox .personalMsgBox .personalMsg .userMagBox .userMsgRight :first-of-type {
+  font-size: 34rpx;
+  letter-spacing: 3rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.personalTopBox .personalMsgBox .personalMsg .userMagBox .userMsgRight :last-of-type {
+  font-size: 24rpx;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.personalTopBox .personalMsgBox .personalMsg .userContact {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 70rpx;
+}
+.personalTopBox .personalMsgBox .personalMsg .userContact view {
+  font-size: 24rpx;
+}
+.tabContentBox {
+  width: 100%;
+  padding: 70rpx 30rpx 0rpx 30rpx;
+}
+.tabContentBox .dataIntegrityBox .dataIntegrityTitle {
+  font-size: 28rpx;
+}
+.tabContentBox .dataIntegrityBox .dataIntegrityTitle text {
+  display: inline-block;
+  padding-left: 8rpx;
+  font-size: 24rpx;
+  color: #999;
+  font-weight: normal;
+}
+.tabContentBox .dataIntegrityBox .progressBox {
+  margin-top: 30rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.tabContentBox .dataIntegrityBox .progressBox :first-of-type {
+  width: 460rpx;
+}
+.tabContentBox .dataIntegrityBox .progressBox .progressTextPrompt {
+  font-size: 24rpx;
+  color: #999;
+  padding-left: 15rpx;
+}
+.tabContentBox .dataIntegrityTitleBox {
+  width: 100%;
+  padding: 70rpx 0 21rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tabContentBox .dataIntegrityTitleBox :first-of-type {
+  font-size: 32rpx;
+}
+.tabContentBox .dataIntegrityTitleBox wxc-icon {
+  flex: 1;
+  text-align: right;
+}
+.tabContentBox .introductionMsg {
+  font-size: 26rpx;
+}
+.tabContentBox .recommendPersonalBox {
+  width: 100%;
+}
+.tabContentBox .recommendPersonalBox scroll-view {
+  height: 198rpx;
+  width: 100%;
+  white-space: nowrap;
+}
+.tabContentBox .recommendPersonalBox scroll-view .amoyPersonalBox {
+  margin-right: 20rpx;
+  margin-top: 10rpx;
+  display: inline-block;
+  width: 282rpx;
+  height: 178rpx;
+  background-color: #fff;
+  box-shadow: 0 0 10rpx #ebebeb;
+  padding: 40rpx 0;
+}
+.tabContentBox .recommendPersonalBox scroll-view .amoyPersonalBox .amoyProduct {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.tabContentBox .recommendPersonalBox scroll-view .amoyPersonalBox .amoyProduct view {
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabContentBox .recommendPersonalBox scroll-view .amoyPersonalBox .amoyProduct :first-of-type {
+  font-size: 26rpx;
+}
+.tabContentBox .recommendPersonalBox scroll-view .amoyPersonalBox .amoyProduct :last-of-type {
+  font-size: 26rpx;
+  color: #666;
+}
+.tabContentBox .experienceBox {
+  width: 100%;
+  box-shadow: 0 0 10rpx #ebebeb;
+  padding: 10rpx 20rpx 20rpx 20rpx;
+}
+.tabContentBox .experienceBox .experienceItem {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10rpx;
+}
+.tabContentBox .experienceBox .experienceItem :first-of-type {
+  flex: 0.24;
+  font-size: 24rpx;
+}
+.tabContentBox .experienceBox .experienceItem :last-of-type {
+  flex: 0.76;
+  font-size: 24rpx;
+  color: #999;
+}
+.tabContentBox .personalSkillBox {
+  box-shadow: none;
+}
+.tabContentBox .personalSkillBox .experienceItem {
+  margin-bottom: 40rpx;
+}
+.tabContentBox .dynamicBox {
+  margin-bottom: 50rpx;
+  width: 100%;
+  box-shadow: 0 0 10rpx #ebebeb;
+  padding: 0rpx 0rpx 30rpx 0rpx;
+}
+.tabContentBox .dynamicBox .previewImageBox {
+  width: 100%;
+  padding: 30rpx 15rpx 0rpx 30rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabContentBox .dynamicBox .previewImageBox image {
+  width: 200rpx;
+  height: 170rpx;
+  margin-right: 15rpx;
+  margin-bottom: 15rpx;
+}
+.tabContentBox .dynamicBox .dynamicTitle {
+  width: 100%;
+  padding: 15rpx 30rpx 10rpx 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tabContentBox .dynamicBox .dynamicTitle :last-of-type {
+  font-size: 24rpx;
+  color: #999;
+}
+.tabContentBox .dynamicBox .dynamicIntroduce {
+  padding: 0 30rpx;
+  font-size: 24rpx;
+  color: #999;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.tabShow {
+  background-color: #fff;
+  height: 145rpx;
+  border-top: 1rpx solid #f1f1f1;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}

@@ -1,0 +1,58 @@
+
+    <view class="list-warp">
+        <view class="personalCoverBox">
+            <image src="{{tempFilePaths?tempFilePaths:'../../image/unknownUser.png'}}" class="userCover" bindtap="chooseImage" mode="aspectFill">
+                <image src="../../image/personalCameraUpdata.png"/>
+            </image>
+        </view>
+        <form bindsubmit="formSubmit">
+
+            <view class="personalInputItemBox"  wx:for="{{enterpriseMsg}}" wx:key="">
+                <view class="inputItem">
+                    <view class="inputTitle"><text>*</text> {{item.title}}</view>
+                    <input wx:if="{{item.input == 'input'}}" placeholder="{{item.placeholder}}" placeholder-style="color:#999;font-size:28rpx" name="input{{index}}" type="{{item.inputType}}"/>
+                    <picker wx:if="{{item.input == 'picker'}}" mode="{{item.inputType}}" bindchange="pickerChange{{item.index?item.index:index}}" bindcolumnchange="columnchange{{item.index?item.index:index}}" value="{{item.pickerValue}}" range="{{item.pickerRange}}" name="picker{{index}}">
+                        <!-- 地区选择器展示内容 -->
+                        <view class="picker" wx:if="{{item.inputType == 'region'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerValue[0]+' · '+item.pickerValue[1]+' · '+item.pickerValue[2]):item.placeholder}}
+                        </view>
+                        <!-- 多列选择器展示内容 -->
+                        <view class="picker" wx:elif="{{item.inputType == 'multiSelector'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerRange[0][item.pickerValue[0]]+'-'+item.pickerRange[1][item.pickerValue[1]]+'-'+item.pickerRange[2][item.pickerValue[2]]):item.placeholder}}
+                        </view>
+                        <!-- 普通选择器 -->
+                        <view class="picker" wx:if="{{item.inputType == 'selector'}}" style="font-size:28rpx;{{item.selectorPicker?'':'color:#999'}}">
+                            {{item.selectorPicker?(item.pickerRange[item.pickerValue]):item.placeholder}}
+                        </view>
+                        <!-- 日期选择 -->
+                        <view class="picker" wx:if="{{item.inputType == 'date'}}" style="font-size:28rpx;{{selectData?'':'color:#999'}}">
+                            {{selectData?item.pickerValue:item.placeholder}}
+                        </view>
+                    </picker>
+                    <wxc-icon wx:if="{{item.arrow}}" size="25" type="arrow-right" color="#999"/>
+                </view>
+                <textarea wx:if="{{item.input == 'textarea'}}" placeholder="{{item.placeholder}}" placeholder-style="font-size:26rpx;color#c3c3c3" bindconfirm="bindconfirm" name="textarea{{index}}" style="height:{{item.height?item.height:''}}rpx"/>
+            </view>
+            <!-- 保存按钮 -->
+            <view class="btnsBox personalMsgBtnBox" style="margin-top:80rpx;">
+                <button form-type="submit">保存</button>
+            </view>
+        </form>
+    </view>
+    
+    <view class="showPicker" bindtap="$rightPicker$showPicker">MyPicker</view>
+
+    <cover-view class="{{ $rightPicker$showPicker ? 'shade-container' : 'hide-container' }}"  wx:if="{{ $rightPicker$firstShow }}">
+        <cover-view class="left-shade" bindtap="$rightPicker$hidePicker"/>
+        <cover-view class="right-choose">
+            <cover-view class="button-container">
+                <cover-view class="cancal" bindtap="$rightPicker$cancal">取消</cover-view>
+                <cover-view class="sure" bindtap="$rightPicker$sure">确定</cover-view>
+            </cover-view>	
+            <cover-view class="picker-container">
+                <cover-view wx:for="{{ $rightPicker$chooseList }}" wx:key="index" wx:for-item="item" bindtap="$rightPicker$chooseItem" class="picker-item {{item.flag?'picker-item-choose':''}}" data-value="{{ item.value }}">
+                    {{ item.name }}
+                </cover-view>
+            </cover-view>
+        </cover-view>
+    </cover-view>

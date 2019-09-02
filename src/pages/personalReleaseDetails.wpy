@@ -1,0 +1,612 @@
+<script>
+let arr = [];
+let pics = [];
+import wepy from 'wepy';
+
+export default class personalReleaseDetails extends wepy.page {
+    config = {
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        isWhere:'',     //  个人/企业开关
+        pageIdx:'',
+        forData:[],     //根据个人/企业控制渲染数据
+        
+        // -----------------------------------------个人
+        shipment:[     //我要出货
+            {
+                title:'产品名称',
+                placeholder:'请输入名称',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'产品介绍',
+                placeholder:'请输入产品详情',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            },
+            {
+                title:'联系方式',
+                placeholder:'请输入联系方式',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'价格',
+                placeholder:'请输入价格',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'行业/产品',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'multiSelector',
+                pickerValue:[],
+                pickerRange:[['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+            },
+            {
+                title:'地区',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'region',
+                pickerValue:[],
+            },
+        ],
+        technology:[  //技术支持
+            {
+                title:'名称',
+                placeholder:'请输入名称',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'介绍',
+                placeholder:'请输入产品详情',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            },
+            {
+                title:'佣金',
+                placeholder:'请输入价格',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'行业/产品',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'multiSelector',
+                pickerValue:[],
+                index:4,
+                pickerRange:[['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+            },
+            {
+                title:'地区',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'region',
+                index:5,
+                pickerValue:[],
+            },
+            {
+                title:'截至日期',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'date',
+                index:6,
+                pickerValue:'2019-09-09',
+            },
+        ],
+        eightDiagrams:[  //职场八卦
+            {
+                title:'分享八卦',
+                placeholder:'请输入要分享的内容',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            }
+        ],
+        dynamic:[ // 发布动态
+            {
+                title:'我的动态',
+                placeholder:'请输入要分享的内容',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            }
+        ],
+        
+        // -----------------------------------------企业
+        helpSell:[     //帮我卖
+            {
+                title:'产品名称',
+                placeholder:'请输入名称',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'产品详情',
+                placeholder:'请输入产品详情',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            },
+            {
+                title:'联系方式',
+                placeholder:'请输入联系方式',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'产品价格',
+                placeholder:'人民币/元',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'佣金',
+                placeholder:'人民币/元',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'有效时间',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['5-10天','10-15天','15-20天','20-25天','一月','一月以上'],
+                index:7
+            },
+        ],
+        enterpriseTechnology:[  //技术支持企业
+            {
+                title:'名称',
+                placeholder:'请输入名称',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'介绍',
+                placeholder:'请输入产品详情',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            },
+            {
+                title:'佣金',
+                placeholder:'请输入价格',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'行业',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'multiSelector',
+                pickerValue:[],
+                index:4,
+                pickerRange:[['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+            },
+            {
+                title:'时间限制',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['5-10天','10-15天','15-20天','20-25天','一月','一月以上'],
+                index:7
+            },
+            {
+                title:'地区',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'region',
+                index:5,
+                pickerValue:[],
+            },
+        ],
+        wantBuy:[ //我要采购
+            {
+                title:'标题',
+                placeholder:'请输入标题',
+                arrow:false,
+                input:'textarea',
+                inputType:'text',
+                height:99
+            },
+            {
+                title:'采购详情',
+                placeholder:'请输入采购详情',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            },
+            {
+                title:'时间限制',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['5-10天','10-15天','15-20天','20-25天','一月','一月以上'],
+                index:7
+            },
+            {
+                title:'价格区间',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['50-100','1000-3000','5000-10000','10000-18000','20000-35000','40000+'],
+                index:8
+            },
+            {
+                title:'交货地区',
+                placeholder:'选择地区',
+                arrow:true,
+                input:'picker',
+                inputType:'region',
+                index:5,
+                pickerValue:[],
+            }
+        ],
+        enterpriseDynamic:[ // 企业动态
+            {
+                title:'企业动态',
+                placeholder:'请输入要分享的内容',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            }
+        ],
+        positionRelease:[ //职位发布
+            {
+                title:'职位名称',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['销售','工程师','售后','研发','行政','运营','商务','HR','财务','市场','高管','CEO','其他'],
+                index:7
+            },
+            {
+                title:'职位详情',
+                placeholder:'1、工作内容 2、任务要求 3、特别说明',
+                arrow:false,
+                input:'textarea',
+                inputType:'text'
+            },
+            {
+                title:'产品',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'multiSelector',
+                pickerValue:[],
+                index:4,
+                pickerRange:[['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+            },
+            {
+                title:'地区',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'region',
+                index:5,
+                pickerValue:[],
+            }
+        ],
+
+        selectData:false,
+        selectorPicker:false,
+        positionTemptation:false, //职位亮点
+        positionTemptationData:[
+            {name: 'USA', value: '技术大牛',checked: 'true'},
+            {name: 'CHN', value: '领导Nice'},
+            {name: 'BRA', value: '五险一金'},
+            {name: 'JPN', value: '奖金丰厚'},
+            {name: 'ENG', value: '扁平化管理'},
+            {name: 'TUR', value: '各项补助'},
+        ],
+        // 用户上传图片
+        tempFilePaths:[],
+        SurplusUploadNum:'',
+        count:9,
+    };
+    methods = {
+        // 多列选择器
+        columnchange4(e){ //滑动列
+            // console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
+            // 我要出货
+            var data = {
+                pickerRange: this.shipment[4].pickerRange,
+                pickerValue: this.shipment[4].pickerValue
+            };
+            // 技术支持--个人
+            var data = {
+                pickerRange: this.technology[3].pickerRange,
+                pickerValue: this.technology[3].pickerValue
+            };
+            // 职位发布
+            var data = {
+                pickerRange: this.positionRelease[2].pickerRange,
+                pickerValue: this.technology[2].pickerValue
+            };
+            // 技术支持--企业
+            var data = {
+                pickerRange: this.enterpriseTechnology[3].pickerRange,
+                pickerValue: this.enterpriseTechnology[3].pickerValue
+            };
+            data.pickerValue[e.detail.column] = e.detail.value;
+            switch (e.detail.column) {
+            case 0:
+                switch (data.pickerValue[0]) {
+                    case 0:
+                        data.pickerRange[1] = ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'];
+                        data.pickerRange[2] = ['猪肉绦虫', '吸血虫'];
+                        break;
+                    case 1:
+                        data.pickerRange[1] = ['鱼', '两栖动物', '爬行动物'];
+                        data.pickerRange[2] = ['鲫鱼', '带鱼'];
+                        break;
+                }
+                data.pickerValue[1] = 0;
+                data.pickerValue[2] = 0;
+                break;
+            case 1:
+                switch (data.pickerValue[0]) {
+                case 0:
+                    switch (data.pickerValue[1]) {
+                        case 0:
+                            data.pickerRange[2] = ['猪肉绦虫', '吸血虫'];
+                            break;
+                        case 1:
+                            data.pickerRange[2] = ['蛔虫'];
+                            break;
+                        case 2:
+                            data.pickerRange[2] = ['蚂蚁', '蚂蟥'];
+                            break;
+                        case 3:
+                            data.pickerRange[2] = ['河蚌', '蜗牛', '蛞蝓'];
+                            break;
+                        case 4:
+                            data.pickerRange[2] = ['昆虫', '甲壳动物', '蛛形动物', '多足动物'];
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch (data.pickerValue[1]) {
+                        case 0:
+                            data.pickerRange[2] = ['鲫鱼', '带鱼'];
+                            break;
+                        case 1:
+                            data.pickerRange[2] = ['青蛙', '娃娃鱼'];
+                            break;
+                        case 2:
+                            data.pickerRange[2] = ['蜥蜴', '龟', '壁虎'];
+                            break;
+                    }
+                    break;
+                }
+                data.pickerValue[2] = 0;
+                break;
+            }
+        },
+        pickerChange4(e){
+            // 我要出货
+            this.shipment[4].pickerValue = e.detail.value
+            // 技术支持
+            this.technology[3].pickerValue = e.detail.value
+            // 职位发布
+            this.positionRelease[2].pickerValue = e.detail.value
+            // 技术支持--企业
+            this.enterpriseTechnology[3].pickerValue = e.detail.value
+        },
+        // 地区选择器
+        pickerChange5(e){
+            this.shipment[5].pickerValue = e.detail.value
+            this.technology[4].pickerValue = e.detail.value
+            this.positionRelease[3].pickerValue = e.detail.value
+            this.enterpriseTechnology[5].pickerValue = e.detail.value
+            this.wantBuy[4].pickerValue = e.detail.value
+        },
+        // 日期选择
+        pickerChange6(e){
+            // console.log(e.detail.value)
+            this.selectData = true
+            this.technology[5].pickerValue = e.detail.value
+            this.$apply()
+        },
+        // 普通选择器
+        pickerChange7(e){
+            this.selectorPicker = true
+            if(this.isWhere == 1 && this.pageIdx==0) this.helpSell[5].pickerValue = e.detail.value
+            if(this.isWhere == 1 && this.pageIdx==4) this.positionRelease[0].pickerValue = e.detail.value
+            if(this.isWhere == 1 && this.pageIdx==1) this.enterpriseTechnology[4].pickerValue = e.detail.value
+            if(this.isWhere == 1 && this.pageIdx==2) this.wantBuy[2].pickerValue = e.detail.value
+        },
+        // 普通选择器
+        pickerChange8(e){
+            this.selectorPicker = true
+            if(this.isWhere == 1 && this.pageIdx==4) this.positionRelease[4].pickerValue = e.detail.value
+            if(this.isWhere == 1 && this.pageIdx==2) this.wantBuy[3].pickerValue = e.detail.value
+        },
+        // 上传图片
+        chooseImage(){
+            this.count =  9 - this.tempFilePaths.length
+            this.$apply()
+            if(this.tempFilePaths.length < 9){
+                wx.chooseImage({
+                    count: this.count,
+                    sizeType: ['original', 'compressed'],
+                    sourceType: ['album', 'camera'],
+                    success: (res)=> {
+                        pics = []
+                        arr = arr.concat(res.tempFilePaths)
+                        this.tempFilePaths = arr
+                        this.SurplusUploadNum = this.count-1
+                        this.$apply()
+                        this.tempFilePaths.forEach(element => {
+                            // wx.uploadFile({
+                            //     url:'https://api.zhizubaba.com/api/up_images',
+                            //     filePath: element,
+                            //     header:{
+                            //         'Content-Type':'multipart/form-data'                                  
+                            //     },
+                            //     name: 'files',
+                            //     success:  (res)=> {
+                                //   pics.push(JSON.parse(res.data).message)
+                            //     }
+                            // })
+                        });
+                    }
+                })
+            }else{
+                wx.showToast({
+                    title: '已达到上传上限！',
+                    icon: 'none'
+                });
+            }
+        },
+        // 职位亮点复选
+        checkboxChange(e){
+            console.log(e.detail.value)
+        }
+    };
+
+    events = {};
+    onLoad(options) {
+        if(options.isWhere == 0){ //个人发布
+            if(options.pageIdx==0){ //我要出货
+                this.forData = this.shipment
+            }else if(options.pageIdx==1){ //技术支持
+                this.forData = this.technology 
+            }else if(options.pageIdx==2){ //职场八卦
+                this.forData = this.eightDiagrams 
+            }else{ //动态发布
+                this.forData = this.dynamic 
+            }
+        }else if(options.isWhere == 1){ //企业发布
+            if(options.pageIdx == 0){ //帮我卖
+                this.forData = this.helpSell
+            }else if(options.pageIdx == 1){ //技术支持
+                this.forData = this.enterpriseTechnology
+            }else if(options.pageIdx == 2){
+                this.forData = this.wantBuy
+            }else if(options.pageIdx == 3){
+                this.forData = this.enterpriseDynamic
+            }else if(options.pageIdx==4){ //职位发布
+                this.forData = this.positionRelease
+                this.positionTemptation = true
+            }
+            // else if(options.pageIdx==2){ //职场八卦
+            //     this.forData = this.eightDiagrams 
+            // }else{ //动态发布
+            //     this.forData = this.dynamic 
+            // }
+        }
+        this.isWhere = options.isWhere
+        this.pageIdx = options.pageIdx;
+        wx.setNavigationBarTitle({
+            title: options.title,
+        });
+    };
+    // Other properties
+}
+</script>
+
+<template lang="wxml">
+    <view class="list-warp">
+        <form bindsubmit="formSubmit">
+
+            <view class="personalInputItemBox" wx:for="{{forData}}" wx:key=''>
+                <view class="inputItem">
+                    <view class="inputTitle"><text>*</text> {{item.title}}</view>
+                    <input wx:if="{{item.input == 'input'}}" placeholder="{{item.placeholder}}" placeholder-style="color:#999;font-size:28rpx" name='input{{index}}' type="{{item.inputType}}"/>
+                    <picker wx:if="{{item.input == 'picker'}}" mode="{{item.inputType}}" @change="pickerChange{{isWhere=='1' || pageIdx == '1'?item.index:index}}" @columnchange="columnchange{{pageIdx == '1'?item.index:index}}" value="{{item.pickerValue}}" range="{{item.pickerRange}}" name='picker{{index}}'>
+                        <!-- 地区选择器展示内容 -->
+                        <view class="picker" wx:if="{{item.inputType == 'region'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerValue[0]+' · '+item.pickerValue[1]+' · '+item.pickerValue[2]):item.placeholder}}
+                        </view>
+                        <!-- 多列选择器展示内容 -->
+                        <view class="picker" wx:elif="{{item.inputType == 'multiSelector'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerRange[0][item.pickerValue[0]]+'-'+item.pickerRange[1][item.pickerValue[1]]+'-'+item.pickerRange[2][item.pickerValue[2]]):item.placeholder}}
+                        </view>
+                        <!-- 普通选择器 -->
+                        <view class="picker" wx:if="{{item.inputType == 'selector'}}" style="font-size:28rpx;{{selectorPicker?'':'color:#999'}}">
+                            {{selectorPicker?(item.pickerRange[item.pickerValue]):item.placeholder}}
+                        </view>
+                        <!-- 日期选择 -->
+                        <view class="picker" wx:if="{{item.inputType == 'date'}}" style="font-size:28rpx;{{selectData?'':'color:#999'}}">
+                            {{selectData?item.pickerValue:item.placeholder}}
+                        </view>
+                    </picker>
+                    <wxc-icon wx:if='{{item.arrow}}' size="25" type="arrow-right" color='#999'/>
+                </view>
+                <textarea wx:if="{{item.input == 'textarea'}}" placeholder="{{item.placeholder}}" placeholder-style="font-size:26rpx;color#c3c3c3" @confirm = 'bindconfirm' name='textarea{{index}}' style="height:{{item.height?item.height:''}}rpx"/>
+            </view>
+
+            <!-- 图片上传 -->
+            <view class="uploadImgBox" wx:if='{{!positionTemptation}}'>
+                <view class="uploadImgTitle"><text class="promptNum" wx:if="{{SurplusUploadNum != '' }}">可上传图片剩余数量<text style='color:#ff9e6e;font-size:24rpx;'>{{9-tempFilePaths.length}}</text>张</text></view>
+                <view class="chooseImgBox">
+                    <image class="chooseImg" src="../image/camera.png" @tap='chooseImage'/>
+                    <image wx:if='{{pageIdx == 2&&isWhere!=1 || pageIdx == 3&&isWhere ==1 || pageIdx == 3&&isWhere!=1}}' class="chooseImg" src='../image/video.png'/>
+                    <image wx:for='{{tempFilePaths}}' wx:key='' src='{{item}}' class='userSelectImgbox' mode="aspectFill"/>
+                </view>
+            </view>
+            <!-- 职位亮点 -->
+            <view class="uploadImgBox" wx:else>
+                <view class="positionTemptation"><text>*</text>职位亮点</view>
+                <checkbox-group bindchange="checkboxChange">
+                    <label class="checkbox" wx:for="{{positionTemptationData}}" wx:key=''>
+                        <checkbox value="{{item.name}}" checked="{{item.checked}}" color='#00d4d7'/>{{item.value}}
+                    </label>
+                </checkbox-group>
+            </view>
+            <!-- 保存按钮 -->
+            <button wx:if='{{pageIdx != 2 || isWhere ==1 }}' form-type="submit" class="submitBtn_ fixedBtn">发布</button>
+            <view class="btnsBox" wx:else>
+                <button form-type="submit">发布</button>
+                <button form-type="submit">匿名发布</button>
+            </view>
+        </form>
+    </view>
+</template>
+
+<style lang="less">
+    .fixedBtn{
+        margin-bottom: 40rpx;
+    }
+</style>

@@ -1,0 +1,204 @@
+page {
+  background-color: #F2F1F5;
+  border-bottom: 1rpx solid #f1f1f1;
+}
+#swiper {
+  width: 100%;
+  height: 490rpx;
+}
+#swiper .slide-image {
+  width: 100%;
+  height: 100%;
+}
+.productIntroduceBox {
+  width: 100%;
+  background-color: #fff;
+  padding: 30rpx;
+}
+.productIntroduceBox .productTitle {
+  display: flex;
+  align-items: center;
+}
+.productIntroduceBox .productTitle :first-of-type {
+  height: 48rpx;
+  line-height: 48rpx;
+  background-color: #00D4D7;
+  color: #fff;
+  padding: 0 10rpx;
+}
+.productIntroduceBox .productTitle :last-of-type {
+  font-size: 32rpx;
+  width: 550rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 20rpx;
+}
+.productIntroduceBox .productIntroduceText {
+  width: 100%;
+  padding: 30rpx 0;
+  font-size: 24rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.productIntroduceBox .productRanking {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.productIntroduceBox .productRanking .rankingTitle {
+  display: flex;
+  align-items: center;
+}
+.productIntroduceBox .productRanking .rankingTitle image {
+  width: 22rpx;
+  height: 26rpx;
+}
+.productIntroduceBox .productRanking .rankingTitle view {
+  margin-left: 10rpx;
+  font-size: 24rpx;
+}
+.productIntroduceBox .productRanking .rankingTitle view text {
+  color: #f40;
+}
+.productIntroduceBox .productRanking .demandShareBox {
+  display: flex;
+  align-items: center;
+}
+.productIntroduceBox .productRanking .demandShareBox .topButtons {
+  height: 33rpx;
+  width: 36rpx;
+  margin-right: 20rpx;
+}
+.productContactBox {
+  width: 100%;
+  padding: 25rpx 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  background-color: #fff;
+}
+.productContactBox .productContactLeft {
+  display: flex;
+  align-items: center;
+}
+.productContactBox .productContactLeft image {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+  margin-right: 15rpx;
+}
+.productContactBox .productContactLeft view {
+  font-size: 28rpx;
+}
+.productContactBox .productContactRight {
+  display: flex;
+  align-items: center;
+}
+.productContactBox .productContactRight .contactPhoneNumber {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 15rpx;
+}
+.productContactBox .productContactRight .contactPhoneNumber :first-of-type {
+  font-size: 26rpx;
+}
+.productContactBox .productContactRight .contactPhoneNumber :last-of-type {
+  font-size: 26rpx;
+  color: #999;
+}
+.productContactBox .productContactRight .contantBtn {
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #00D4D7;
+  font-size: 26rpx;
+  color: #fff;
+  padding: 0 15rpx;
+}
+.enterpriseProductBox {
+  width: 100%;
+  margin-top: 20rpx;
+  background-color: #fff;
+  padding: 30rpx;
+}
+.enterpriseProductBox .enterpriseTopBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.enterpriseProductBox .enterpriseTopBox .enterpriseMsgBox {
+  display: flex;
+  align-items: center;
+}
+.enterpriseProductBox .enterpriseTopBox .enterpriseMsgBox image {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+}
+.enterpriseProductBox .enterpriseTopBox .enterpriseMsgBox view {
+  padding-left: 20rpx;
+}
+.enterpriseProductBox .recommendProductBox {
+  width: 100%;
+  padding-left: 7rpx;
+}
+.enterpriseProductBox .recommendProductBox scroll-view {
+  height: 122rpx;
+  width: 100%;
+  white-space: nowrap;
+}
+.enterpriseProductBox .recommendProductBox scroll-view .amoyProductBox {
+  display: inline-block;
+  width: 25%;
+}
+.enterpriseProductBox .recommendProductBox scroll-view .amoyProductBox .amoyProduct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.enterpriseProductBox .recommendProductBox scroll-view .amoyProductBox .amoyProduct image {
+  width: 114rpx;
+  height: 94rpx;
+}
+.enterpriseProductBox .recommendProductBox scroll-view .amoyProductBox .amoyProduct view {
+  width: 100%;
+  text-align: center;
+  padding: 0 15rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20rpx;
+}
+.product-details-box {
+  width: 100%;
+  padding: 45rpx 30rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+.product-details-box .product-details-title {
+  position: relative;
+  margin-bottom: 20rpx;
+  font-size: 34rpx;
+  padding-left: 20rpx;
+}
+.product-details-box .product-details-title:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  content: '';
+  width: 6rpx;
+  height: 20rpx;
+  background-color: #00D4D7;
+}
+.product-details-box .product-details-text {
+  width: 100%;
+  font-size: 24rpx;
+  margin-bottom: 40rpx;
+}

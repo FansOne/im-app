@@ -1,0 +1,67 @@
+page {
+  background-color: #FAFAFA;
+}
+.container .inputBox {
+  width: 100%;
+  padding: 28rpx 30rpx;
+  background-color: #fff;
+}
+.container .inputBox .smallBlock1 {
+  display: inline-block;
+  margin-right: 25rpx;
+  height: 57rpx;
+  line-height: 57rpx;
+  margin-top: 20rpx;
+  margin-bottom: 10rpx;
+}
+.container .inputBox .smallBlock1 .smallBlock1_ {
+  padding: 0 15rpx;
+  display: flex;
+  align-items: center;
+  background-color: #00D4D7;
+}
+.container .inputBox .smallBlock1 .smallBlock1_ view {
+  color: #fff;
+  margin-right: 10rpx;
+}
+.container .inputBox textarea {
+  width: 100%;
+}
+.container .remmondSkillBox {
+  width: 100%;
+  padding: 70rpx 0 50rpx 0;
+}
+.container .remmondSkillBox .title {
+  width: 100%;
+  padding: 0 30rpx;
+  font-size: 32rpx;
+  color: #666;
+  font-weight: 600;
+}
+.container .remmondSkillBox .remmondSkillItemBox {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30rpx 10rpx 0 30rpx;
+}
+.container .skillSlider {
+  width: 100%;
+  padding: 0 30rpx;
+}
+.container .skillSlider view {
+  font-weight: 600;
+  color: #666;
+}
+.container .skillSlider slider {
+  margin: 0;
+  padding: 30rpx 0;
+}
+.smallBlock {
+  padding: 0 15rpx;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+  height: 57rpx;
+  color: #fff;
+  line-height: 57rpx;
+  background-color: #00D4D7;
+}

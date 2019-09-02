@@ -1,0 +1,156 @@
+<script>
+import wepy from 'wepy';
+import registerPopup from '../components/registerPopup';
+
+export default class release extends wepy.page {
+    config = {
+        navigationBarTitleText: '',
+        navigationBarBackgroundColor:'#00D4D7',
+        backgroundColorTop:'#00D4D7'
+    };
+    components = {
+        registerPopup
+    };
+
+    data = {
+        selectItem:[ //个人发布
+            {
+                title:'我要出货'
+            },
+            {
+                title:'技术支持'
+            },
+            {
+                title:'职场八卦'
+            },
+            {
+                title:'发布动态'
+            },
+        ],
+        enterpriseSelectItem:[ //企业发布
+            {
+                title:'帮我卖 拿奖励'
+            },
+            {
+                title:'技术支持'
+            },
+            {
+                title:'我要采购'
+            },
+            {
+                title:'企业动态'
+            },
+            {
+                title:'职位发布'
+            },
+        ],
+        isWhere:0,  //   控制个人/企业
+        index:2,
+        pickerviewValue:'',
+        title:''
+    };
+    methods = {
+        // 跳转详情
+        jumpReleaseDetails(){
+            if(this.isWhere == 0){ //个人
+                wx.navigateTo({
+                    url: `./personalReleaseDetails?title=${this.title}&pageIdx=${this.index}&isWhere=${this.isWhere}`
+                })
+            }else if(this.isWhere == 1){ //企业
+                wx.navigateTo({
+                    url: `./personalReleaseDetails?title=${this.title}&pageIdx=${this.index}&isWhere=${this.isWhere}`
+                })
+            }
+        },
+        // 滚动选择时触发change事件
+        bindchange(e){
+            let idx = e.detail.value[0]
+            if(this.isWhere == 0){
+                this.title = this.selectItem[idx].title
+            }else{
+                 this.title = this.enterpriseSelectItem[idx].title
+            }
+            this.index = idx
+        }
+    };
+
+    events = {};
+    onReady(){
+        this.pickerviewValue = [2]
+        if(this.isWhere == 0){
+            this.title = this.selectItem[2].title
+        }else{
+            this.title = this.enterpriseSelectItem[2].title
+        }
+    }
+    onLoad() {};
+}
+</script>
+<template lang="wxml">
+    <view class="container">
+        <view class="releaseBgBox">
+            <view>您想要发布的类别</view>
+        </view>
+        <view class="selectReleaseClassBox">
+            <!-- 发布类型选择 -->
+            <picker-view style="width: 100%; height: 300px;" value="{{pickerviewValue}}" indicator-class='selectedClass' @change='bindchange'>
+                <picker-view-column>
+                    <view wx:for="{{isWhere == 0?selectItem:enterpriseSelectItem}}" wx:key=''>{{item.title}}</view>
+                </picker-view-column>
+            </picker-view>
+            <!-- 发布按钮 -->
+            <view class="releaseJump" @tap='jumpReleaseDetails'>发布</view>
+        </view>
+    </view>
+    <registerPopup/>
+</template>
+
+<style lang="less">
+    .releaseBgBox{
+        height: 335rpx;
+        width: 100%;
+        background-color: #00D4D7;
+        view{
+            padding: 117rpx 30rpx 0 30rpx;
+            color: #fff;
+            font-size: 44rpx;
+            font-weight: 600;
+        }
+    }
+    .selectReleaseClassBox{
+        z-index: 10;
+        width: 660rpx;
+        height: 852rpx;
+        background-color: #fff;
+        box-shadow: 0 0 10rpx #eaeaea;
+        transform: translateY(-96rpx);
+        position: relative;
+        padding: 80rpx 86rpx 58rpx 86rpx;
+        picker-view{
+            margin-bottom: 45rpx;
+            picker-view-column{
+                view{
+                    line-height: 140rpx;
+                    text-align: center;
+                    font-size: 32rpx;
+                    font-weight: 600;
+                }
+            }
+        }
+        .selectedClass{
+            height: 140rpx !important;
+        }
+        .mask-class{
+            // background-color: #f40;
+        }
+        .releaseJump{
+            width: 100%;
+            height: 88rpx;
+            line-height: 88rpx;
+            text-align: center;
+            background-color: #00D4D7;
+            color: #fff;
+            letter-spacing: 3rpx;
+        }
+    }
+</style>

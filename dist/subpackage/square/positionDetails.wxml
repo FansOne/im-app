@@ -1,0 +1,61 @@
+
+    <view class="positionNameBox">
+        <view class="positionNameLeft">
+            <view class="positionTitle">高级UI设计师</view>
+            <view class="positionTreatment">
+                <view class="positionAddress">西安</view>
+                <view class="positionSalary">10K-15K</view>
+                <button open-type="share" class="topButtons" style="height:36rpx;width:36rpx"> <wxc-icon size="30" color="#a2a2a2" type="share"/></button>
+                <wxc-icon size="30" color="#a2a2a2" type="star"/><!--star-active-->
+            </view>
+        </view>
+        <image src="../../image/indexRecommendUser.png"/>
+    </view>
+    <!-- 职位描述 -->
+    <view class="positionDescribeBox">
+        <view class="positionDescribeTitle">职位描述</view>
+        <view class="textNodes">1、国家统招本科（二本及以上）学历</view>
+        <view class="textNodes">2、2年及以上java开发经验，java基础扎实；</view>
+        <view class="textNodes">3、精通Spring+Mybatis，SpringMVC，SpringBoot等 常用开发框架</view>
+        <view class="textNodes">4、熟悉分布式系统的设计和应用，熟悉分布式、缓存、消息等机制；能对分布式常用技术进行合理应用，解决问题；</view>
+    </view>
+    <!-- 职位亮点 -->
+    <view class="positionDescribeBox">
+        <view class="positionDescribeTitle">职位亮点</view>
+        <view style="font-size:26rpx;">大公司 奖金丰厚，时间自由</view>
+    </view>
+    <!-- 企业入口 -->
+    <view class="enterpriseEntrance" bindtap="enterprisePage">
+        <view class="enterpriseEntranceLeft">
+            <image src="../../image/goods-img-default.png"/>
+            <view class="enterprise_msg">
+                <view>上海英淘</view>
+                <view>互联网 ‧ 上市公司100-499人</view>
+            </view>
+        </view>
+        <wxc-icon size="40" color="#a2a2a2" type="arrow-right"/>
+    </view>
+    <!-- 企业地址 -->
+    <view class="enterpriseAddressBox">
+        <wxc-icon size="26" color="#a2a2a2" type="location"/>
+        <view>陕西省·西安市·雁塔区 高新大都会2号楼1单元</view>
+    </view>
+    <!-- <view class="grayLineBg"></view> -->
+    <!-- 相似岗位推荐 Similar Recommendation-->
+    <!-- <view class="positionDescribeBox">
+        <view class="positionDescribeTitle">相似岗位</view>
+        <view class="similarRecommendation" wx:for='{{recommendation}}' wx:key=''>
+            <view class="recommendation_left">
+                <image src="{{item.cover}}" />
+                <view class="position_name">
+                    <view>{{item.name}}</view>
+                    <view>{{item.address}}</view>
+                </view>
+            </view>
+            <wxc-price class="price-demo" value="{{item.money}}" decimal="none"/>
+        </view>
+    </view> -->
+    <!-- 申请职位 -->
+    <view class="applyPosition">
+        <button>立即申请</button>
+    </view>

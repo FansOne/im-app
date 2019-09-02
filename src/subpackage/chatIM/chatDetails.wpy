@@ -1,0 +1,421 @@
+<script>
+import wepy from 'wepy';
+import { accountCheck } from '../../api/api.js'
+var util = require('../../utils/util.js'); // 转换时间插件
+var im = require('../../utils/webim_wx.js'); // 腾讯云 im 包
+var imhandler = require('../../utils/im_handler.js'); // 这个是所有 im 事件的 js
+
+export default class chatDetails extends wepy.page {
+    config = {
+        usingComponents: {
+            'wxc-loading': '../../../packages/@minui/wxc-loading/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        isShow: true,
+        toView:'',
+        friendId: '', 
+        friendName: '',
+        friendAvatarUrl: '',
+        /**
+         * 消息集合（结构如下）：
+         * msgTime 消息时间
+         * myself 消息发送人 1 - 自己发的 0 - 好友发的
+         * avatarUrl 头像
+         * msgText 消息内容
+        */
+        messages: [],// 消息集合
+        complete: 0, // 是否还有历史消息可以拉取，1 - 表示没有，0 - 表示有
+        content: '', // 输入框的文本值
+        lock: false, // 发送消息锁 true - 加锁状态 false - 解锁状态
+        scroll_height: 0,
+    };
+    methods = {
+        /**
+         * 获取文本的消息
+        */
+        getContent(e){
+            this.content = e.detail.value
+        },
+        /**
+         * 发送消息
+        */
+        sendMsg(e){
+            // debugger
+            var that = this
+            if(that.lock){
+                wx.showToast({
+                    title: '发消息太急了，慢一点',
+                    icon:'none'
+                });
+                return
+            }
+            // 开始加锁
+            that.lock = true
+            if (that.content == '' || !that.content.replace(/^\s*|\s*$/g, '')) {
+                wx.showToast({
+                    title: '输入消息内容',
+                    icon:'none'
+                });
+                that.lock = false
+                return;
+            }
+            var content = that.content
+            // 调用腾讯IM发送消息
+            imhandler.onSendMsg(content, function cbOk() {
+                that.addMessage(content, true, that)
+            }, function cbErr(err) {
+                im.Log.error("消息发送失败", err)
+            })
+            // 解锁
+            that.lock = false
+            that.$apply()
+        }
+    };
+    onShow(){
+        var that = this
+        // 私聊参数初始化
+        imhandler.init({
+            accountMode: wepy.$instance.globalData.im.accountMode,
+            accountType: wepy.$instance.globalData.im.accountType,
+            sdkAppID: wepy.$instance.globalData.im.sdkappid,
+            selType: im.SESSION_TYPE.C2C, //私聊
+            imId: wepy.$instance.globalData.im.identifier,
+            imName: wepy.$instance.globalData.im.imName,
+            imAvatarUrl: wepy.$instance.globalData.im.imAvatarUrl,
+            friendId: that.data.friendId,
+            friendName: that.data.friendName,
+            friendAvatarUrl: that.data.friendAvatarUrl,
+            contactListThat: null,
+            chatThat: that
+        })
+        wepy.$instance.initImParams(function cbOk() {
+            // 检查是否登录返回 true 和 false,不登录则重新登录
+            if (im.checkLogin()) {
+                imhandler.getC2CHistoryMsgs(function cbOk(result) {
+                    that.handlerHistoryMsgs(result, that)
+                })
+            } else {
+                imhandler.login(that, wepy.$instance.globalData, function () {
+                    imhandler.getC2CHistoryMsgs(function cbOk(result) {
+                        that.handlerHistoryMsgs(result, that)
+                    });
+                });
+            }
+            wx.hideLoading()
+        })
+    }
+    onReady(){
+        let query = wx.createSelectorQuery();
+        query.select('.reply').boundingClientRect(rect=>{
+            this.scroll_height = wx.getSystemInfoSync().windowHeight - rect.height
+            this.$apply()
+        }).exec();
+    }
+    onLoad(options) {
+        var that = this
+        if (options) { // 设置会话列表传参过来的好友id
+            that.friendId = options.friendId,
+            that.friendName = options.friendName,
+            that.friendAvatarUrl = options.friendAvatarUrl
+            wx.setNavigationBarTitle({
+                title: options.friendName
+            })
+        }
+        // 校验好友关系
+        wx.request({
+            url: accountCheck,
+            method:'POST',
+            data:{
+                "From_Account": wx.getStorageSync('loginData').imID,
+                "To_Account": options.friendId,
+            },
+            success:(res)=>{
+                if(res.statusCode != 200) {
+                    wx.showToast({
+                        title: '好友校验失败',
+                        icon: 'none'
+                    }) 
+                }
+            }
+        })
+        that.data.messages = [] // 清空历史消息
+    };
+    /**
+     * 发送消息
+    */
+    addMessage(msg, isSend, that){
+        var messages = that.messages;
+        var message = {
+            'myself': isSend ? 1 : 0,
+            'avatarUrl': isSend ? wepy.$instance.globalData.im.imAvatarUrl : that.friendAvatarUrl,
+            'msgText': msg,
+            'msgTime': util.getDateDiff(Date.parse(new Date()))
+        }
+        messages.push(message);
+        that.messages = messages,
+        that.content = '' // 清空输入框文本
+        that.$apply()
+        that.scrollToBottom();
+    }
+    scrollToBottom(){
+       this.toView = 'row_' + (this.messages.length - 1)
+       this.$apply()
+    }
+    /**
+     * 处理历史消息
+    */
+    handlerHistoryMsgs(result, that){
+        var historyMsgs = [];
+        for (var i = 0; i < result.MsgList.length; i++) {
+            var msg = result.MsgList[i]
+            var message = {
+                'myself': msg.isSend ? 1 : 0,
+                'avatarUrl': msg.isSend ? wepy.$instance.globalData.im.imAvatarUrl : that.friendAvatarUrl,
+                'msgText': msg.elems[0].content.text,
+                'msgTime': util.getDateDiff(msg.time * 1000)
+            }
+            historyMsgs.push(message)
+        }
+        // 拉取消息后，可以先将下一次拉取信息所需要的数据存储起来
+        wx.setStorageSync('lastMsgTime', result.LastMsgTime);
+        wx.setStorageSync('msgKey', result.MsgKey);
+        that.messages = historyMsgs,
+        that.complete = result.Complete
+        that.toView = 'row_' + (historyMsgs.length - 1)
+        that.isShow = false
+        that.$apply()
+    }
+}
+</script>
+
+<template lang="wxml">
+    <scroll-view scroll-into-view="{{toView}}" style="height: {{scroll_height}}px;"
+    upper-threshold="100"  scroll-y="true" enable-back-to-top="true" class="message-list">
+        <!-- 每一行 -->
+        <view class="row" wx:for="{{messages}}" wx:key="" id="row_{{index}}">
+            <!-- 日期 -->
+            <view class="datetime" wx:if="{{item.msgTime != ''}}">{{item.msgTime}}</view>
+            <!-- 头像与内容文本 -->
+            <view class="body" style="flex-flow: {{item.myself == 0 ? 'row' : 'row-reverse'}}">
+            <view class="avatar-container">
+                <image class="avatar" src="{{item.avatarUrl}}" />
+            </view>
+            <!-- 画对话框 -->
+            <view class="triangle" style="{{item.myself == 1 ? 'right: 140rpx; background: #00D4D7' : 'left: 140rpx;'}}"></view>
+            <view class="content" style="{{item.myself == 1 ? 'background: #00D4D7' : ''}}">
+                <view style="{{item.myself == 1?'color:#fff':''}}">{{item.msgText}}</view>
+            </view>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="reply">
+        <view class="opration-area">
+            <input type="text" adjust-position @input="getContent" value="{{content}}" confirm-type='send' @confirm='sendMsg'/>
+        </view>
+        <view class="send" @tap='sendMsg'>发送</view>
+    </view>
+    <wxc-loading
+        is-show="{{isShow}}"
+        image="http://pu041iqdq.bkt.clouddn.com/loadingMain.png"
+        slip="http://pu041iqdq.bkt.clouddn.com/loadingScend.png"
+    />
+</template>
+
+<style lang="less">
+    /** 聊天窗口样式
+    * 54px为回复框高度，js同
+    */
+
+    /*聊天记录*/
+    .message-list {
+        /*margin-bottom: 54px;*/
+        background: rgb(241, 241, 241);
+    }
+
+    /*单元行*/
+    .row {
+    display: flex;
+    flex-direction: column;
+    margin: 0 30rpx;
+    }
+
+    /*日期*/
+    .datetime {
+        font-size: 10px;
+        padding: 10px 0;
+        color: #999;
+        text-align: center;
+    }
+
+    .send {
+        width: 132rpx;
+        height: 72rpx;
+        text-align: center;
+        line-height: 72rpx;
+        color: #fff;
+        font-size: 28rpx;
+        background-color: #00D4D7;
+        margin-left: 19rpx;
+    }
+
+    /*主体*/
+    .body {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+
+    /*头像容器*/
+    .body.avatar-container {
+        width: 20%;
+    }
+
+    /*头像*/
+    .body .avatar {
+        width: 80rpx;
+        height: 80rpx;
+        border-radius: 50%;
+        margin: 0 20rpx;
+    }
+
+    /*文本消息*/
+    .body .content {
+        font-size: 16px;
+        background: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        line-height: 22px;
+        margin-bottom: 10px;
+    }
+
+    /* 三角箭头 */
+    .body .triangle {
+        background: white;
+        width: 20rpx;
+        height: 20rpx;
+        margin-top: 26rpx;
+        transform: rotate(45deg);
+        position: absolute;
+    }
+
+    /*图片消息*/
+    .picture {
+        width: 160px;
+    }
+
+    /*回复框*/
+    .reply {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 130rpx;
+        border-top: 1px solid rgb(215, 215, 215);
+        background: rgb(245, 245, 245);
+        padding: 16rpx;
+    }
+
+    .reply .voice-image {
+        width: 25px;
+        height: 25px;
+        margin-left: 3%;
+    }
+
+    /*文本输入或语音录入*/
+    .reply .opration-area {
+        flex: 1;
+    }
+
+    /*回复文本框*/
+    .reply input {
+        box-sizing: border-box;
+        background: rgb(252, 252, 252);
+        height: 36px;
+        border: 1px solid rgb(221, 221, 221);
+        border-radius: 0px;
+        padding-left: 10rpx;
+    }
+
+    /*选取图片*/
+    .reply .choose-image {
+        width: 25px;
+        height: 25px;
+        margin-right: 3%;
+    }
+
+    /*按住说话button*/
+    .voice-button {
+        height: 36px;
+        color: #818181;
+        font-size: 14px;
+        line-height: 36px;
+    }
+
+    /*悬浮提示框*/
+    .hud-container {
+        position: fixed;
+        width: 150px;
+        height: 150px;
+        left: 50%;
+        top: 50%;
+        margin-left: -75px;
+        margin-top: -75px;
+    }
+
+    /*背景层*/
+    .hud-background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #999;
+        opacity: .8;
+        z-index: 11;
+        border-radius: 10px;
+    }
+
+    /*悬浮框主体*/
+    .hud-body {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 19;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /*图标*/
+    .hud-body image {
+        margin-top: 20px;
+        width: 80px;
+        height: 80px;
+    }
+
+    /*文字*/
+    .hud-body .tip {
+        color: #fff;
+        text-align: center;
+        width: 90%;
+        line-height: 34px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        width: 90%;
+    }
+
+    .hud-body .warning {
+        background: #cc3333;
+        border-radius: 5px;
+    }
+
+</style>

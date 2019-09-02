@@ -1,0 +1,642 @@
+<script>
+import wepy from 'wepy';
+import Loadings from "wepy-com-loadings";
+import registerPopup from '../components/registerPopup';
+import { apiLocation,indexData,login } from '../api/api.js';
+import { request,toast } from '../utils/utils.js';
+
+export default class index extends wepy.page {
+    config = {
+        backgroundColorBottom:'#fff',
+        usingComponents: {
+            'wxc-toast': '../../packages/@minui/wxc-toast/dist/index',
+            'wxc-loadmore': '../../packages/@minui/wxc-loadmore/dist/index',
+            'wxc-abnor': '../../packages/@minui/wxc-abnor/dist/index',
+            'wxc-loading': '../../packages/@minui/wxc-loading/dist/index',
+
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index',
+            'wxc-search': '../../packages/@minui/wxc-search/dist/index'
+        },
+    };
+    components = {
+        Loadings1:Loadings,
+        Loadings2:Loadings,
+        Loadings3:Loadings,
+        Loadings4:Loadings,
+        Loadings5:Loadings,
+        Loadings6:Loadings,
+        Loadings7:Loadings,
+        Loadings8:Loadings,
+        Loadings9:Loadings,
+        registerPopup
+    };
+
+    data = {
+        imgUrls: [
+            '../image/indexFirstBanner.png',
+            '../image/indexFirstBanner.png',
+            '../image/indexFirstBanner.png'
+        ],
+        address:null,
+        enterpriseCover:[
+            '../image/q1.png',
+            '../image/q1.png',
+            '../image/q1.png',
+            '../image/q1.png',
+            '../image/q1.png',
+            '../image/q1.png'
+        ],
+        amoyElite:[
+            {
+                cover:'../image/userIconIndex.png',
+                name:'smile',
+                prompt:'售前 大数据互联网'
+            },
+            {
+                cover:'../image/userIconIndex.png',
+                name:'smile',
+                prompt:'售前 大数据互联网'
+            },
+            {
+                cover:'../image/userIconIndex.png',
+                name:'smile',
+                prompt:'售前 大数据互联网'
+            },
+            {
+                cover:'../image/userIconIndex.png',
+                name:'smile',
+                prompt:'售前 大数据互联网'
+            }
+        ],
+        secondLevelBanner:[
+            '../image/indexTwoBanner.png'
+        ],
+        amoyProduct:[
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器拾掇拾掇拾掇拾掇'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            },
+            {
+                img:'../image/product.png',
+                title:'无线路由器'
+            }
+        ],
+        recommend:[
+            {
+                follow:1,
+                explain:'总经理 / 互联网行业 / 西安市雁塔区',
+                userName:'李丽丽',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案文案材料，讲解方案文案材料，讲解方案文案材料',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:451
+            },
+            {
+                follow:0,
+                explain:'总经理 / 互联网行业 / 西安市雁塔区',
+                userName:'花泽类',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:288,
+                previewImage:[
+                    'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+                    'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2085223376,536181091&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855388&di=4b037df9306c3669c2ca2205751aca23&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F63d0f703918fa0ec76d3f7b92d9759ee3d6ddb6a.jpg',
+                    'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=398659568,2690439867&fm=26&gp=0.jpg',
+                    'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2976842352,636810530&fm=26&gp=0.jpg',
+                    'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2479004758,2731067208&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561700076645&di=606e5153c9ace64b31a11c3ac33a80c4&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F12%2F69%2F74%2F84c58PICAKM.jpg'
+                ]
+            },
+            {
+                follow:1,
+                explain:'总经理 / 互联网行业 / 西安市雁塔区',
+                userName:'汪望迋',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:366
+            },
+        ],
+        loadmoreEnd:false, //已加载全部数据
+        selectDomHeight:0, //selectAll Height
+        amoyEliteFixed:false, //控制推荐标题吸顶
+    };
+    methods = {
+        // 搜索
+        searchPage(){
+            wx.navigateTo({
+                url: './search'
+            })
+        },
+        // 查看全文
+        lookFullText(index){
+            this.recommend[index].show = true
+        },
+        // 隐藏全文
+        hiddenFullText(index){
+            this.recommend[index].show = false
+        },
+        // 文章点赞
+        fabulous(index){
+            this.recommend[index].fabulous = !this.recommend[index].fabulous
+            if(this.recommend[index].fabulous){
+                this.recommend[index].zanNums++
+            }else{
+                this.recommend[index].zanNums--
+            }
+        },
+        // 关注
+        follow(index){
+            this.recommend[index].follow = !this.recommend[index].follow
+        },
+        // 图片预览
+        previewImage(index,img){
+            wx.previewImage({
+                current: img, // 当前显示图片的http链接
+                urls: this.recommend[index].previewImage // 需要预览的图片http链接列表
+            })
+        },
+        // 跳转企业分类页面
+        enterpriseClassPage(){
+            // wx.navigateTo({
+            //     url: './enterpriseClass'
+            // });
+        },
+        // 跳转产品分类页面
+        productClassPage(){
+            wx.navigateTo({
+                url: '../subpackage/square/productClass'
+            });   
+        },
+        // 企业详情
+        enterpriseDetails(id){
+            wx.navigateTo({
+                url:`../subpackage/square/enterpriseDetails?id=${id}`
+            });
+              
+        },
+        // 产品详情
+        productDeatils(){
+            wx.navigateTo({
+                url: '../subpackage/square/productDetails'
+            });     
+        },
+        // 跳转个人详情
+        personalDetailsPage(id){
+            wx.navigateTo({
+                url: `../subpackage/square/personalDetails?id=${id}`
+            });   
+        },
+        // 跳转需求详情
+        demandDetailsPage(){
+            wx.navigateTo({
+                url: `../subpackage/square/demandDetails`
+            })
+        }
+    };
+
+    events = {};
+    onReady(){
+        let query = wx.createSelectorQuery();
+        query.selectAll('.search-wrap,#swiper,#amoyEnterpriseBox,#amoyEnterpriseBox,#enterpriseBox,#amoyElite,.homeFurnishingBox,#swiperTwo,.amoyProductBox').boundingClientRect(rect=>{
+            let selectDomHeight=0;
+            rect.forEach(element => {
+                selectDomHeight += element.height
+            });
+            this.selectDomHeight = selectDomHeight - 15
+            this.$apply()
+        }).exec();
+    }
+    onShow(){
+        // wx.checkSession({
+        //     success: ()=> {
+        //         return;
+        //     },
+        //     fail: ()=> {
+        //         // 登录
+        //         wx.login({
+        //             success: (result) => {
+        //                 request(login,'POST',{ code:result.code}).then(res=>{
+        //                     wx.hideLoading();
+        //                     wx.setStorageSync('loginData', res.data.data);
+        //                 })
+        //             }
+        //         })
+        //     }
+        // })
+    }
+    onLoad() {
+        // 获取地址
+        // this.userAddress()
+        // 请求首页数据&英陶show
+        // let indexDatas = request(indexData)
+        // Promise.all([indexDatas]).then(res=>{
+        //     this.imgUrls = res[0].data.data.main
+        //     this.enterpriseCover = res[0].data.data.company
+        //     this.amoyElite = res[0].data.data.amoyElite
+        //     this.secondLevelBanner = res[0].data.data.second
+        //     this.amoyProduct = res[0].data.data.product
+        //     this.$apply()
+        // })
+    };
+    onPageScroll(e){
+        if(e.scrollTop >= this.selectDomHeight){
+            this.amoyEliteFixed = true
+            this.$apply()
+        }else{
+            this.amoyEliteFixed = false
+            this.$apply()
+        }
+    }
+    onShareAppMessage(res){
+        let fullTextShare = {};
+        if(res.from == "button"){
+            fullTextShare.title = `当前分享---${res.target.dataset.username}（测试）`
+            fullTextShare.path = '/pages/index'
+        }
+        return fullTextShare
+    }
+    onReachBottom(){
+        setTimeout(()=>{
+            this.loadmoreEnd = true
+            this.$apply()
+        },1500)
+    };
+    // 获取地址
+    // userAddress(){
+    //     wx.getLocation({
+    //         type: 'wgs84',
+    //         success:(res)=> {
+    //             // 逆地址解析
+    //             request(apiLocation,'POST',{lat:res.latitude,lng:res.longitude}).then(res=>{
+    //                 this.address = res.data.data
+    //                 this.$apply()
+    //             })
+    //         },
+    //         fail:(res)=> {
+    //             wx.showModal({
+    //                 title: '授权提示',
+    //                 content: '您已拒绝位置授权，如需获取准确位置请点击‘确定’以获取用户授权设置',
+    //                 showCancel: true,
+    //                 cancelText: '取消',
+    //                 cancelColor: '#000000',
+    //                 confirmText: '确定',
+    //                 confirmColor: '#3CC51F',
+    //                 success: res => {
+    //                     if(res.confirm){
+    //                         wx.openSetting({
+    //                             success:(res)=>{
+    //                                 if(res.authSetting['scope.userLocation']){
+    //                                     toast('授权成功','success')
+    //                                 }
+    //                             }
+    //                         })
+    //                     }
+    //                 }
+    //             });
+    //         }
+    //     })
+    // }
+}
+</script>
+
+<template lang="wxml">
+    <!-- 搜索 -->
+    <view class="search-wrap">
+        <wxc-icon class="search-icon" type="location" size="36" color="#000"></wxc-icon>
+        <view class="search-location">{{address?address:'西安'}}</view>
+        <wxc-search class="search" radius="0" mode="static" placeholder="搜索企业/需求" ph-color='#a0a6b7' style="background-color:#F4F3F8" @tap="searchPage"></wxc-search>
+    </view>
+    <!-- 轮播 -->
+    <view style="width:100%;padding:0 30rpx">
+        <swiper indicator-dots autoplay circular id='swiper'>
+            <block wx:for="{{imgUrls}}" wx:key=''>
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <!-- 淘企业标题 -->
+    <view class="amoyEnterpriseBox" id='amoyEnterpriseBox' @tap='enterpriseClassPage'>
+        <view style="font-size: 34rpx;color:#000;" class="redLine">淘企业<text>不被淘汰，入职涨薪</text></view>
+    </view>
+    <!-- 企业 -->
+    <view class="enterpriseBox" id='enterpriseBox' style="padding-bottom:0">
+        <block wx:for='{{enterpriseCover}}' wx:key=''>
+            <image src="{{item}}"  @tap="enterpriseDetails({{item.id}})"/>
+        </block>
+    </view>
+    <!-- 淘精英标题 -->
+    <view class="amoyEnterpriseBox amoyElite" id='amoyElite'>
+        <view class="amoyEliteTitle">
+            <view class="redLine">淘精英</view>
+            <image src="../image/new.png" />
+        </view>
+    </view>
+    <!-- 精英人员 -->
+    <view class='homeFurnishingBox'>
+        <scroll-view scroll-x>
+            <view wx:for='{{amoyElite}}' wx:key='' class="amoyEliteItem" @tap='personalDetailsPage({{item.id}})'>
+                <view class="amoyEliteItems">
+                    <image src='{{item.cover}}'/>
+                    <view>{{item.name}}</view>
+                    <view><text>售前</text>{{item.prompt}}</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <!-- 轮播 -->
+    <view style="width:100%;padding:0 30rpx">
+        <swiper autoplay circular style="height:230rpx" id='swiperTwo'>
+            <block wx:for="{{secondLevelBanner}}" wx:key=''>
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <!-- 淘产品标题 -->
+    <view class="amoyEnterpriseBox" @tap='productClassPage'>
+        <view class="redLine">淘产品</view>
+        <view>更多<wxc-icon size="22" type="arrow-right" color='#999'></wxc-icon></view>
+    </view>
+    <!-- 产品 -->
+    <view class="enterpriseBox amoyProductBox">
+        <view wx:for='{{amoyProduct}}' wx:key='' class="amoyProductItem" @tap="productDeatils">
+            <image src="{{item.img}}"/>
+            <view>{{item.title}}</view>
+        </view>
+    </view>
+    <!-- 为您推荐标题 -->
+    <view class="amoyEnterpriseBox amoyElite" style="{{amoyEliteFixed?'border-bottom:1rpx solid #ececec;position:fixed;top:0;left:0;z-index:10;border-top:1rpx solid #f1f1f1;padding:30rpx;':''}}">
+        <view class="amoyEliteTitle">
+            <view class="redLine">英淘SHOW</view>
+            <image src="../image/new.png" />
+        </view>
+    </view>
+    <!-- 推荐文案 -->
+    <view class='recommendBox' wx:for='{{recommend}}' wx:key="" style="{{index == recommend.length-1?'margin-bottom:0':''}}">
+        <!-- 发布者信息 -->
+        <view class="recommendUserIconBox">
+            <view class="recommendUserLeft">
+                <image src="{{item.cover}}"/>
+                <view class="userName_Explain">
+                    <view class="userName_ExplainFirst">{{item.userName}}</view>
+                    <view class="userName_ExplainLast">{{item.explain}}</view>
+                </view>
+            </view>
+            <view class="{{item.follow?'followBtn':'noFollowBtn'}}" @tap="follow({{index}})"><wxc-icon wx:if='{{!item.follow}}' size="20" type="add" color='#fff'/> {{item.follow?'已关注':'关注'}}</view>
+        </view>
+        <!-- 文案信息 -->
+        <view class="copywritingMsgBox" style="{{item.previewImage.length?'padding-bottom:0':'padding-bottom:10rpx'}}">
+            <!-- 需求描述 -->
+            <view class="copywritingItem demandDescribe"  @tap="demandDetailsPage">
+                <view class="switchArticle" wx:if='{{!item.show}}'>
+                    <view class="switchArticleTitle">需求描述：</view>
+                    <view class="switchArticleR">
+                        <view >{{item.demandDescribe}}</view>
+                        <view @tap.stop="lookFullText({{index}})">全文</view>
+                    </view>
+                </view>
+                <view class="demandDescribeItem" wx:if='{{item.show}}'>
+                    <view>需求描述：</view>
+                    <view>
+                        <view >{{item.demandDescribe}}</view>
+                    </view>
+                </view>
+            </view>
+            
+            <view wx:if='{{item.show}}'  @tap="demandDetailsPage">
+                <!-- 工作内容 -->
+                <view class="copywritingItem">
+                    <view>工作内容：</view>
+                    <view>{{item.work}}</view>
+                </view>
+                <!-- 目标行业 -->
+                <view class="copywritingItem">
+                    <view>目标行业：</view>
+                    <view>{{item.targetIndustries}}</view>
+                </view>
+                <!-- 目标地区 -->
+                <view class="copywritingItem" >
+                    <view>目标地区：</view>
+                    <view>{{item.targetAddress}}</view>
+                </view>
+            </view>
+            <view class="hiddenFullText" @tap.stop="hiddenFullText({{index}})" wx:if='{{item.show}}'>收起</view>
+            <!-- 视频 -->
+            <view class="videoStyle" wx:if='{{!item.previewImage.length}}'>
+                <video custom-cache="{{false}}" controls='{{true}}' src='http://192.168.2.126/uploads/20190711/video.mp4'/>
+            </view>
+            <!-- 图片 -->
+            <view class="previewImage">
+                <block wx:for='{{item.previewImage}}' wx:key='' wx:for-index="idx" wx:for-item="itemImg">
+                    <image src="{{itemImg}}" @tap.stop='previewImage({{index}},{{itemImg}})' mode="aspectFill"/>
+                </block>
+            </view>
+        </view>
+        <!-- 分享、评论、点赞 -->
+        <view class="extensionBox">
+            <button class="share" open-type="share" data-userName='{{item.userName}}'>
+                <image src="../image/indexShare.png" style="height:26rpx;"/>
+                <view>10</view>
+            </button>
+            <button class="share">
+                <image src="../image/indexComment.png" style="transform: translateY(2rpx)"/>
+                <view>10</view>
+            </button>
+            <button class="share" @tap.stop="fabulous({{index}})">
+                <image src="{{item.fabulous?'../image/indexZanSelect.png':'../image/indexZan.png'}}" />
+                <view>{{item.zanNums}}</view>
+            </button>
+        </view>
+    </view>
+    <registerPopup/>
+    <wxc-loadmore wx:if='{{!loadmoreEnd}}' icon></wxc-loadmore>
+    <wxc-loadmore wx:else is-end="{{loadmoreEnd}}" text="到底啦"></wxc-loadmore>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #F4F3F8;
+    }
+    .search-wrap {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        // height: 80rpx;
+        color: #fff;
+        background-color: #fff;
+        padding-bottom: 30rpx;
+    }
+    .search-location {
+        margin-left: 10rpx;
+        font-size: 26rpx;
+        overflow: hidden;
+    }
+    .search {
+        flex-grow: 1;
+        margin-right: 30rpx;
+        margin-left: 15rpx;
+        height: 80rpx;
+    }
+    .search-icon {
+        margin-left: 30rpx;
+    }
+    // 轮播
+    swiper{
+        height: 310rpx;
+        .slide-image{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    
+    .enterpriseBox{
+        background-color: #fff;
+        width: 100%;
+        display: flex;
+        flex-flow: wrap;
+        padding: 0 15rpx 41rpx 30rpx;
+        image{
+            margin-right: 15rpx;
+            // box-shadow: 0 0 20rpx #ebebeb;
+            width: 31%;
+            height: 124rpx;
+            margin-bottom: 15rpx;
+        }
+    }
+    .homeFurnishingBox{
+        width: 100%;
+        padding: 0rpx 0 65rpx 20rpx;
+        background-color: #fff;
+        .homeFurnishingTitle{
+            font-size: 34rpx;
+            color: #333;
+        }
+        scroll-view{
+            height: 264rpx;
+            width: 100%;
+            white-space: nowrap;
+            view:first-of-type{
+                margin-left: 10rpx;
+            }
+            .amoyEliteItem{
+                display: inline-block;
+                width: 242rpx;
+                height: 244rpx;
+                margin-right: 15rpx;
+                margin-top: 10rpx;
+                box-shadow: 0 0 15rpx #E7E9F2;
+                .amoyEliteItems{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 28rpx 0 35rpx 0;
+                    image{
+                        width: 90rpx;
+                        height: 82rpx;
+                        border-radius: 50%;
+                    }
+                    view:first-of-type{
+                        width: 87%;
+                        text-align: center;
+                        font-size: 32rpx;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
+                    }
+                    view:last-of-type{
+                        width: 92%;
+                        text-align: center;
+                        font-size: 22rpx;
+                        color: #888;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
+                        text{
+                            display: inline-block;
+                            padding-right: 6rpx;
+                            color: #00D4D7;
+                            font-size: 22rpx;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .amoyProductBox{
+        padding:0 30rpx;
+        .amoyProductItem{
+            width: 33%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            image{
+                margin-right: 0;
+                height: 140rpx;
+                width: 185rpx;
+            }
+            view{
+                width: 200rpx;
+                text-align: center;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                margin-bottom: 24rpx;
+                font-size: 22rpx;
+            }
+        }
+    }
+    .videoStyle{
+        width: 100%;
+        height: 480rpx;
+        padding: 20rpx 30rpx 20rpx 30rpx;
+        video{
+            width: 100%;
+            height: 100%;
+        }
+    }
+</style>

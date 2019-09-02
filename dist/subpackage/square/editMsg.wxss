@@ -1,0 +1,67 @@
+page {
+  background-color: #FAFAFA;
+}
+form {
+  width: 100%;
+}
+.addExperienceBox {
+  width: 100%;
+  padding: 43rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+}
+.addExperienceBox image {
+  width: 68rpx;
+  height: 68rpx;
+}
+.addExperienceBox view {
+  font-weight: 600;
+  margin-top: 20rpx;
+}
+.msgItemBox {
+  width: 100%;
+  background-color: #fff;
+  margin-top: 30rpx;
+  padding: 40rpx 30rpx;
+}
+.msgItemBox view {
+  font-size: 26rpx;
+  color: #999;
+}
+.msgItemBox .industry {
+  margin: 16rpx 0;
+}
+.msgItemBox .btns {
+  display: flex;
+  align-items: center;
+}
+.msgItemBox .btns view {
+  width: 141rpx;
+  height: 56rpx;
+  color: #fff;
+  line-height: 56rpx;
+  text-align: center;
+}
+.msgItemBox .btns :first-of-type {
+  background-color: #FF3B30;
+}
+.msgItemBox .btns :last-of-type {
+  background-color: #00D4D7;
+  margin-left: 22rpx;
+}
+.msgItemBox .modifyListWarp view {
+  color: #000;
+}
+.fixedBtn {
+  margin-top: 100rpx;
+}
+.experienceTextarea {
+  margin-top: 30rpx;
+  height: 280rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30rpx;
+  background-color: #fff;
+}

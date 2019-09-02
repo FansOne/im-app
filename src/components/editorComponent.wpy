@@ -1,0 +1,377 @@
+<template lang="wxml">
+    <view
+  class="editor-wrapper"
+  style="min-height: {{windowHeight}}px"
+  scroll-y
+  enable-back-to-top>
+  <view class="editor-add-wrapper">
+    <view class="editor-add iconfont icon-align-left" data-index="-1" bindtap="addText"></view>
+    <view class="editor-add iconfont icon-image" data-index="-1" bindtap="addImage"></view>
+  </view>
+  <block wx:for="{{nodeList}}" wx:for-item="node" wx:for-index="index" wx:key="{{index}}">
+    <view class="editor-node-wrapper">
+      <block wx:if="{{node.name === 'p'}}">
+        <textarea
+          class="editor-textarea"
+          value="{{node.children[0].text}}"
+          auto-height
+          maxlength="-1"
+          data-index="{{index}}"
+          bindinput="onTextareaInput">
+        </textarea>
+      </block>
+      <block wx:if="{{node.name === 'img'}}">
+        <image class="editor-image" src="{{node.attrs.src}}" style="height: {{node.attrs._height * 700}}rpx"></image>
+      </block>
+      <view class="editor-delete iconfont icon-close" data-index="{{index}}" bindtap="deleteNode"></view>
+    </view>
+    <view class="editor-add-wrapper">
+      <view class="editor-add iconfont icon-align-left" data-index="{{index}}" bindtap="addText"></view>
+      <view class="editor-add iconfont icon-image" data-index="{{index}}" bindtap="addImage"></view>
+    </view>
+  </block>
+  <button
+    class="editor-submit-btn"
+    bindtap="onFinish">完成</button>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class editorComponent extends wepy.component {
+    components = {};
+
+    data = {
+        nodeList: [],
+        textBufferPool: [],
+    };
+    methods = {
+        // 事件：添加文本
+        addText(e){
+            this.writeTextToNode();
+            const index = e.currentTarget.dataset.index;
+            const node = {
+                name: 'p',
+                attrs: {
+                class: 'xing-p',
+                },
+                children: [{
+                type: 'text',
+                text: ''
+                }]
+            }
+            const nodeList = this.nodeList;
+            const textBufferPool = this.textBufferPool;
+            nodeList.splice(index + 1, 0, node);
+            textBufferPool.splice(index + 1, 0, '');
+            this.nodeList = nodeList;
+            this.textBufferPool = textBufferPool;
+        },
+        // 事件：添加图片
+        addImage(e){
+            this.writeTextToNode();
+            const index = e.currentTarget.dataset.index;
+            wx.chooseImage({
+                success: res => {
+                    const tempFilePath = res.tempFilePaths[0];
+                    wx.getImageInfo({
+                        src: tempFilePath,
+                        success: res => {
+                            const node = {
+                                name: 'img',
+                                attrs: {
+                                    class: 'xing-img',
+                                    style: 'width: 100%',
+                                    src: tempFilePath,
+                                    _height: res.height / res.width,
+                                },
+                            }
+                            let nodeList = this.nodeList;
+                            let textBufferPool = this.textBufferPool;
+                            nodeList.splice(index + 1, 0, node);
+                            textBufferPool.splice(index + 1, 0, tempFilePath);
+                            this.nodeList = nodeList;
+                            this.textBufferPool = textBufferPool;
+                            this.$apply()
+                        }
+                    })
+                },
+            })
+        },
+        // 事件：删除节点
+        deleteNode(e){
+            this.writeTextToNode();
+            const index = e.currentTarget.dataset.index;
+            let nodeList = this.nodeList;
+            let textBufferPool = this.textBufferPool;
+            nodeList.splice(index, 1);
+            textBufferPool.splice(index, 1);
+            this.nodeList = nodeList;
+            this.textBufferPool = textBufferPool;
+        },
+        // 事件：文本输入
+        onTextareaInput(e){
+            const index = e.currentTarget.dataset.index;
+            let textBufferPool = this.textBufferPool;
+            textBufferPool[index] = e.detail.value;
+            this.textBufferPool = textBufferPool;
+        },
+        onFinish(e){
+            wx.showLoading({
+                title: '正在保存',
+            })
+            this.writeTextToNode();
+            this.handleOutput();
+        } 
+    };
+
+    props = {
+        outputType: {
+            type: String,
+            default: 'html'
+        },
+        // 是否在选择图片后立即上传
+        uploadImageWhenChoose:{
+            type: Boolean,
+            default: false,
+        },
+        imageUploadUrl:String,
+        imageUploadName:String,
+        imageUploadKeyChain:String,
+        html: String,
+        windowHeight:Number
+    }
+    onLoad(){
+        const nodeList = this.HTMLtoNodeList();
+        const textBufferPool = [];
+        nodeList.forEach((node, index) => {
+            if (node.name === 'p') {
+            textBufferPool[index] = node.children[0].text;
+            }
+        })
+        this.textBufferPool = textBufferPool
+        this.nodeList = nodeList
+    }
+    // 方法：HTML转义
+    htmlDecode(str){
+        var s = "";
+        if(str.length == 0) return "";
+        s = str.replace(/&gt;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br>/g, "\n");
+        return s;
+    }
+    // 方法：HTML转义
+    htmlEncode(str){
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&/g, "&gt;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/ /g, "&nbsp;");
+        s = s.replace(/\'/g, "&#39;");
+        s = s.replace(/\"/g, "&quot;");
+        s = s.replace(/\n/g, "<br>");
+        return s;
+    }
+    // 方法：将HTML转为节点
+    HTMLtoNodeList(){
+        let html = this.html;
+        let htmlNodeList = [];
+        while (html.length > 0) {
+            const endTag = html.match(/<\/[a-z0-9]+>/);
+            if (!endTag) break;
+            const htmlNode = html.substring(0, endTag.index + endTag[0].length);
+            htmlNodeList.push(htmlNode);
+            html = html.substring(endTag.index + endTag[0].length);
+        }
+        return htmlNodeList.map(htmlNode => {
+            let node = {attrs: {}};
+            const startTag = htmlNode.match(/<[^<>]+>/);
+            const startTagStr = startTag[0].substring(1, startTag[0].length - 1).trim();
+            node.name = startTagStr.split(/\s+/)[0];
+            startTagStr.match(/[^\s]+="[^"]+"/g).forEach(attr => {
+                const [name, value] = attr.split('=');
+                node.attrs[name] = value.replace(/"/g, '');
+            })
+            if (node.name === 'p') {
+                const endTag = htmlNode.match(/<\/[a-z0-9]+>/);
+                const text = this.htmlDecode(htmlNode.substring(startTag.index + startTag[0].length, endTag.index).trim());
+                node.children = [{
+                    text,
+                    type: 'text',
+                }]
+            }
+            return node;
+        })
+    }
+    // 方法：上传图片
+    uploadImage(node){
+        return new Promise(resolve => {
+            let options = {
+                filePath: node.attrs.src,
+                url: this.imageUploadUrl,
+                name: this.imageUploadName,
+            }
+            options.success = res => {
+                const keyChain = this.imageUploadKeyChain.split('.');
+                let url = JSON.parse(res.data);
+                keyChain.forEach(key => {
+                    url = url[key];
+                })
+                node.attrs.src = url;
+                node.attrs._uploaded = true;
+                resolve();
+            }
+            wx.uploadFile(options);
+      })
+    }
+    // 方法：将缓冲池的文本写入节点
+    writeTextToNode(e){
+        const textBufferPool = this.textBufferPool;
+        const nodeList = this.nodeList;
+        nodeList.forEach((node, index) => {
+            if (node.name === 'p') {
+                node.children[0].text = textBufferPool[index];
+            }
+        })
+        this.nodeList = nodeList
+    }
+    // 方法：处理节点，递归
+    handleOutput(index = 0){
+        let nodeList = this.nodeList;
+        if (index >= nodeList.length) {
+            wx.hideLoading();
+            if (this.outputType.toLowerCase() === 'html') {
+                this.$emit('finish', { content: this.nodeListToHTML() });
+            }
+            return;
+        }
+        const node = nodeList[index];
+        if (node.name === 'img' && !node.attrs._uploaded) {
+            this.uploadImage(node).then(() => {
+            this.handleOutput(index + 1)
+            });
+        } else {
+            this.handleOutput(index + 1);
+        }
+    }
+    // 方法：将节点转为HTML
+    nodeListToHTML(){
+        return this.nodeList.map(node => `<${node.name} ${Object.keys(node.attrs).map(key => `${key}="${node.attrs[key]}"`).join(' ')}>${node.children ? this.htmlEncode(node.children[0].text) : ''}</${node.name}>`).join('');
+    }
+}
+</script>
+
+<style lang="less">
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1533802795939'); /* IE9*/
+  src: url('iconfont.eot?t=1533802795939#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,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') format('woff'),
+  url('iconfont.ttf?t=1533802795939') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1533802795939#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-image:before { content: "\e7de"; }
+
+.icon-align-left:before { content: "\e7f5"; }
+
+.icon-close:before { content: "\e7fc"; }
+
+.icon-plus:before { content: "\e7fe"; }
+
+.editor-wrapper {
+  width: 750rpx;
+  background: #F4F3F8;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.editor-submit-btn {
+  width: 700rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  margin-top: 40rpx;
+  border-radius: 0rpx;
+  background-color: #00D4D7;
+  color: #fff;
+}
+
+.editor-submit-btn::before, .editor-submit-btn::after {
+  border: none;
+}
+
+.editor-add-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 170rpx;
+  height: 95rpx;
+  margin: 0 auto;
+}
+
+.editor-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75rpx;
+  height: 75rpx;
+  border: dashed 4rpx #C0C4CC;
+  color: #C0C4CC;
+  box-sizing: border-box;
+}
+
+.editor-node-wrapper {
+  position: relative;
+  width: 700rpx;
+  margin: 0 auto;
+}
+
+.editor-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 40rpx;
+  height: 40rpx;
+  top: -16rpx;
+  right: -10rpx;
+  border-radius: 50%;
+  background: #F56C6C;
+  color: #fff;
+}
+
+.editor-textarea {
+  display: block;
+  width: 656rpx;
+  border: solid 2rpx #E4E7ED;
+  background: #fff;
+  padding: 20rpx;
+  min-height: 2.5em;
+  font-size: 32rpx;
+  /* box-sizing: border-box; */
+}
+
+.editor-image {
+  display: block;
+  width: 700rpx;
+}
+</style>

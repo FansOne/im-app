@@ -1,0 +1,84 @@
+<template lang="wxml">
+    <view class="userMsgItemBox" wx:for='{{syncTitle}}' wx:key=''>
+        <image src="{{item.cover}}" />
+        <view class="userMsgItemRight">
+            <view class="userMsgItemRightTop">
+                <view class="userMsg">
+                    <view>{{item.name}}</view>
+                    <view>{{item.lable}}</view>
+                </view>
+                <view class="userBtns">和他联系</view>
+            </view>
+            <view class="userMsgItemRightBottom">{{item.promptText}}</view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class userMsgItem extends wepy.component {
+    components = {};
+
+    data = {};
+    methods = {};
+
+    events = {};
+    props = {
+        syncTitle: {
+            type: Array,
+            default: null
+        }
+    }
+}
+</script>
+
+<style lang="less">
+    .userMsgItemBox{
+        width: 100%;
+        padding: 30rpx;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        margin-bottom: 30rpx;
+        image{
+            width: 118rpx;
+            height: 118rpx;
+            margin-right: 19rpx;
+        }
+        .userMsgItemRight{
+            flex:1;
+            height: 118rpx;
+            .userMsgItemRightTop{
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                .userMsg{
+                    :first-of-type{
+                        font-weight: normal;
+                    }
+                    :last-of-type{
+                        margin: 6rpx 0;
+                        font-size: 24rpx;
+                    }
+                }
+                .userBtns{
+                    height: 51rpx;
+                    width: 121rpx;
+                    text-align: center;
+                    line-height: 51rpx;
+                    color: #fff;
+                    font-size: 24rpx;
+                    background-color: #00D4D7;
+                }
+            }
+            .userMsgItemRightBottom{
+                width: 554rpx;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                font-size: 24rpx;
+                color: #999;
+            }   
+        }
+    }
+</style>

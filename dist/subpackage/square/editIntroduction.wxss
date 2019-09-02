@@ -1,0 +1,27 @@
+page {
+  background-color: #FAFAFA;
+}
+form {
+  width: 100%;
+}
+form .evaluateTopBox {
+  width: 100%;
+  padding: 45rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form .evaluateTopBox textarea {
+  width: 100%;
+  height: 315rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+  background-color: #fff;
+}
+form .evaluateTopBox .wordNum {
+  width: 100%;
+  padding: 10rpx 30rpx 80rpx 30rpx;
+  text-align: right;
+  font-size: 26rpx;
+  color: #888888;
+}

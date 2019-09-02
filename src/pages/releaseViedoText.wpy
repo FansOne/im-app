@@ -1,0 +1,73 @@
+<script>
+import wepy from 'wepy';
+
+export default class releaseViedoText extends wepy.page {
+    config = {
+        navigationBarTitleText: '发布视频',
+    };
+    components = {};
+
+    data = {
+        tempFilePath:''
+    };
+    methods = {
+        chooseVideo(){
+            wx.showModal({
+                title: '上传提示',
+                content: '建议上传视频时长不大于2分钟',
+                showCancel: false,
+                confirmText: '知道了',
+                confirmColor: '#3CC51F',
+                success: (result) => {
+                    if (result.confirm) {
+                        wx.chooseVideo({
+                            sourceType: ['album'],
+                            success:(res)=> {
+                                this.tempFilePath = res.tempFilePath
+                                this.$apply()
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    };
+
+    events = {};
+    onLoad() {};
+}
+</script>
+
+<template lang="wxml">
+    <view class="container">
+        <form @submit="formSubmit">
+            <textarea placeholder="请输入内容"></textarea>
+            <image wx:if='{{!tempFilePath}}' class="chooseVideo" src="../image/video.png" @tap='chooseVideo'/>
+            <video wx:else src='{{tempFilePath}}' style="width:100%;margin-bottom:100rpx;"/>
+            <view class="btn-area">
+                <button>保存</button>
+                <button form-type="submit">保存并发布</button>
+            </view>
+        </form>
+    </view>
+</template>
+
+<style lang="less">
+    form{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 30rpx;
+        textarea{
+            width: 100%;
+            box-sizing: border-box;
+            border: 1rpx solid #eee;
+            padding: 20rpx 30rpx;
+            margin-bottom: 40rpx;
+        }
+        .chooseVideo{
+            width: 140rpx;
+            height: 140rpx;
+            margin-bottom: 40rpx;
+        }
+    }
+</style>

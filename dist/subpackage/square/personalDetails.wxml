@@ -1,0 +1,178 @@
+
+    <block  wx:if="{{!isShow}}">
+        <view class="personalTopBox">
+            <view class="personalBg" style="background-image: url(http://pu041iqdq.bkt.clouddn.com/personalDetailsBanner.png);background-size: 100%"/>
+            <view class="personalMsgBox">
+                <view class="personalMsg">
+                    <view class="shareBox"><button open-type="share" class="topButtons"><wxc-icon size="36" type="share" color="#555"/></button></view>
+                    <view class="userMagBox">
+                        <image src="../../image/userIconIndex.png"/>
+                        <view class="userMsgRight">
+                            <view>花泽类</view>
+                            <view>岗前培训师｜销售<text> | </text>IT互联网</view>
+                        </view>
+                    </view>
+                    <view class="userContact">
+                        <view>上海市</view>
+                        <view style="font-size:26rpx;">182****9986</view>
+                        <view>上海领英</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- Tab -->
+        <view class="personalMsgTabBox">
+            <view class="borderStyle">
+                <view wx:for="{{navbar}}" wx:key="" class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+            </view>
+        </view>
+        <view class="personalMsgTabBox tabShow" wx:if="{{tabShow}}">
+            <view class="borderStyle">
+                <view wx:for="{{navbar}}" wx:key="" class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}" bindtap="navbarTap" data-wpynavbartap-a="{{index}}">{{item}}</view>
+            </view>
+        </view>
+        <!-- 基本资料 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox" style="padding-bottom:70rpx;">
+            <!-- 资料完整度 -->
+            <view class="dataIntegrityBox">
+                <view class="dataIntegrityTitle">
+                    个人资料完整度：中级<text>(完整资料有助于更多人脉、工作机会)</text>
+                </view>
+                <view class="progressBox">
+                    <view><wxc-progress percent="60" active-color="#00E4E7,#00CEE7" stroke-width="36" radius="50"/></view>
+                    <view class="progressTextPrompt">完整度60%</view>
+                </view>
+            </view>
+            <!-- 个人简介 -->
+            <view class="dataIntegrityTitleBox">
+                <view>个人简介</view>
+                <wxc-icon size="25" color="#777" type="arrow-right" bindtap="editIntroductionPage"/>
+            </view>
+            <view class="introductionMsg">
+                领英是全球知名的职场社交平台，覆盖全球6.1亿会员领英致力于打造“一站式职业发展平台”，帮助职场人连接无限机会。用LinkedIn领英，走好职业发展的每一步。
+            </view>
+            <!-- 我的人脉客户 -->
+            <view class="dataIntegrityTitleBox">
+                <view>我的人脉客户</view>
+                <wxc-icon size="25" color="#777" type="arrow-right" bindtap="editMsg" data-wpyeditmsg-a="人脉客户"/>
+            </view>
+            <!-- 推荐客户 -->
+            <view class="recommendPersonalBox">
+                <scroll-view scroll-x>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+            <!-- 职业经历 -->
+            <view class="dataIntegrityTitleBox">
+                <view>职业经历</view>
+                <wxc-icon size="25" color="#777" type="arrow-right" bindtap="editMsg" data-wpyeditmsg-a="编辑职业经历"/>
+            </view>
+            <view class="experienceBox">
+                <view class="experienceItem">
+                    <view>公司名字：</view>
+                    <view>领英 LinkedIn</view>
+                </view>
+                <view class="experienceItem">
+                    <view>职位头衔：</view>
+                    <view>销售主管</view>
+                </view>
+                <view class="experienceItem">
+                    <view>入职时间：</view>
+                    <view>2015.09</view>
+                </view>
+                <view class="experienceItem">
+                    <view>离职时间：</view>
+                    <view>2019.08</view>
+                </view>
+                <view class="experienceItem">
+                    <view>工作内容：</view>
+                    <view>广告、付费服务和额外优惠的工具。</view>
+                </view>
+            </view>
+            <!-- 个人技能 -->
+            <view class="dataIntegrityTitleBox">
+                <view>个人技能</view>
+                <wxc-icon size="25" color="#777" type="arrow-right" bindtap="personalSkillPage"/>
+            </view>
+            <view class="experienceBox personalSkillBox">
+                <view class="experienceItem" wx:for="{{personalSkill}}" wx:key="">
+                    <view style="font-size:30rpx;font-weight: normal">{{item.title}}</view>
+                    <view><wxc-progress percent="{{item.percent}}" active-color="#00E4E7,#00CEE7" stroke-width="36" radius="50"/></view>
+                </view>
+            </view>
+            <!-- 教育背景 -->
+            <view class="dataIntegrityTitleBox" style="padding-top:20rpx">
+                <view>教育背景</view>
+                <wxc-icon size="25" color="#777" type="arrow-right" bindtap="editMsg" data-wpyeditmsg-a="编辑教育经历"/>
+            </view>
+            <view class="experienceBox">
+                <view class="experienceItem">
+                    <view>学校名字：</view>
+                    <view>上海复旦大学</view>
+                </view>
+                <view class="experienceItem">
+                    <view>专业：</view>
+                    <view>市场营销</view>
+                </view>
+                <view class="experienceItem">
+                    <view>学历：</view>
+                    <view>研究生</view>
+                </view>
+                <view class="experienceItem">
+                    <view>入学时间：</view>
+                    <view>2011.09</view>
+                </view>
+                <view class="experienceItem">
+                    <view>毕业时间：</view>
+                    <view>2015.06</view>
+                </view>
+            </view>
+        </view>
+        <!-- 我的动态 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox">
+            <view class="dynamicBox" wx:for="{{dynamicData}}" wx:key="">
+                <!-- 图片 -->
+                <view class="previewImageBox">
+                    <image wx:for="{{item.previewImage}}" wx:key="" wx:for-index="idx" wx:for-item="itemName" src="{{itemName}}" mode="aspectFill" bindtap="previewImage" data-wpypreviewimage-a="{{index}}" data-wpypreviewimage-b="{{itemName}}"/>
+                </view>
+                <!-- 标题 -->
+                <view class="dynamicTitle">
+                    <view>{{item.title}}</view>
+                    <view>{{item.time}}</view>
+                </view>
+                <!-- 介绍 -->
+                <view class="dynamicIntroduce">{{item.jieshao}}</view>
+            </view>
+        </view>
+    </block>
+    <view  wx:if="{{isShow}}" style="width:100%;height:220rpx"/>
+    <wxc-abnor type="REQUEST_ERROR" title="请求服务器数据异常"  wx:if="{{isShow}}"/>

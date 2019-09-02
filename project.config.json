@@ -1,0 +1,221 @@
+{
+	"description": "A WePY project",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"autoAudits": false,
+		"checkInvalidKey": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxe3eabe7f1a86ef80",
+	"projectname": "myproject",
+	"miniprogramRoot": "dist/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 25,
+			"list": [
+				{
+					"id": -1,
+					"name": "淘产品",
+					"pathName": "pages/productClass",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "test",
+					"pathName": "pages/test",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "淘企业",
+					"pathName": "pages/enterpriseClass",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "产品列表",
+					"pathName": "pages/productList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "产品详情",
+					"pathName": "pages/productDetails",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "职位详情",
+					"pathName": "pages/positionDetails",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "编辑个人简介",
+					"pathName": "pages/editIntroduction",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "编辑个人技能",
+					"pathName": "pages/editPersonalSkill",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 10,
+					"name": "编辑人脉、教育、职业经历",
+					"pathName": "pages/editMsg",
+					"query": "title=人脉客户",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "发布",
+					"pathName": "pages/release",
+					"query": "title=人脉客户",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我要出货",
+					"pathName": "pages/personalReleaseDetails",
+					"query": "title=我要出货",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "管理",
+					"pathName": "pages/administration",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/about",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "大V发布图文",
+					"pathName": "pages/releaseImgText",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "大V发布视频",
+					"pathName": "pages/releaseViedoText",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 17,
+					"name": "个人注册",
+					"pathName": "subpackage/square/personalRegistration",
+					"query": "userId=YTosUtd5",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "搜索",
+					"pathName": "pages/search",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "需求详情",
+					"pathName": "pages/demandDetails",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "企业创建产品",
+					"pathName": "pages/productEstablish",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "聊天列表",
+					"pathName": "pages/chatIndexLists",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 21,
+					"name": "聊天详情",
+					"pathName": "subpackage/chatIM/chatDetails",
+					"query": "friendId=YT5T7wpmWgr_cpJrD&friendName=雪&friendAvatarUrl=https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563259106709&di=c3b823ff55e2736c1842b1b0530cf6ef&imgtype=0&src=http%3A%2F%2Fwww.81.cn%2Fjsdm%2Fattachement%2Fjpg%2Fsite351%2F20160709%2F155cdc8365571443847253.jpg",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "编辑企业详情",
+					"pathName": "subpackage/square/enterpriseMsgEdit",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 23,
+					"name": "企业详情",
+					"pathName": "subpackage/square/enterpriseDetails",
+					"query": "flag=0&id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "编辑个人简介",
+					"pathName": "subpackage/square/personalDetails",
+					"query": "id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "企业详情",
+					"pathName": "subpackage/square/enterpriseDetails",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "个人详情",
+					"pathName": "subpackage/square/personalDetails",
+					"scene": null
+				}
+			]
+		}
+	}
+}

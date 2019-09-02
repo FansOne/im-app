@@ -1,0 +1,335 @@
+<script>
+import wepy from 'wepy';
+import userMsgItem from '../components/userMsgItem'
+import registerPopup from '../components/registerPopup';
+import recommendUserMsgItem from '../components/recommendUserMsgItem'
+import releaseItem from '../components/releaseItem'
+
+export default class administration extends wepy.page {
+    config = {
+        navigationBarTitleText: '管理',
+        usingComponents: {
+            'wxc-price': '../../packages/@minui/wxc-price/dist/index',
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {
+        userMsgItem,
+        recommendUserMsgItem,
+        releaseItem,
+        registerPopup
+    };
+
+    data = {
+        topBoxHeight:0,
+        navbar: [
+            '我的发布',
+            '我的申请',
+            '职位管理'
+        ],
+        currentTab: 0,
+        addIcon:true,
+        recommend:[
+            {
+                follow:0,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'花泽类',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                previewImage:[
+                    'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+                ]
+            },
+        ],
+        recommend1:[
+            {
+                follow:1,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'李丽丽',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案文案材料，讲解方案文案材料，讲解方案文案材料',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:451
+            },
+            {
+                follow:0,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'花泽类',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:288,
+                previewImage:[
+                    'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+                    'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2085223376,536181091&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855388&di=4b037df9306c3669c2ca2205751aca23&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F63d0f703918fa0ec76d3f7b92d9759ee3d6ddb6a.jpg',
+                    'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=398659568,2690439867&fm=26&gp=0.jpg',
+                    'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2976842352,636810530&fm=26&gp=0.jpg',
+                    'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2479004758,2731067208&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561700076645&di=606e5153c9ace64b31a11c3ac33a80c4&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F12%2F69%2F74%2F84c58PICAKM.jpg'
+                ]
+            },
+            {
+                follow:1,
+                explain:['总经理','互联网行业','西安市雁塔区'],
+                userName:'汪望迋',
+                cover:'../image/indexRecommendUser.png',
+                demandDescribe:'文案材料，讲解方案',
+                work:'文案材料，讲解方案文案材料，讲解方案文案材 料，讲解方案',
+                targetIndustries:'IT/硬件',
+                targetAddress:'西安市雁塔区高新大都荟',
+                zanNums:366
+            },
+        ],
+        applyUser:[
+            {
+                cover:'../image/goods-img-default.png',
+                name:'花泽类',
+                lable:'IT互联网｜云计算',
+                promptText:'上海英淘上海英淘上海英淘上海英淘上海英淘上海英淘上海英淘',
+            },
+            {
+                cover:'../image/goods-img-default.png',
+                name:'花泽类',
+                lable:'IT互联网｜云计算',
+                promptText:'上海英淘上海英淘上海英淘上海英淘上海英淘上海英淘上海英淘',
+            }
+        ],
+        windowWidth:0,
+        windowHeight:0,
+        adminPopupShow:false,
+    };
+    methods = {
+        // tab切换
+        navbarTap(status){
+          this.currentTab = status;
+          this.$broadcast('currentStatus',status)
+          if(status == 1) {
+              this.addIcon = false
+          }else{
+              this.addIcon = true
+          }
+        },
+        // 查看全文
+        lookFullText(index){
+            if(this.currentTab == 0) this.recommend[index].show = true
+            if(this.currentTab == 1)this.recommend1[index].show = true
+        },
+        // 隐藏全文
+        hiddenFullText(index){
+            if(this.currentTab == 0) this.recommend[index].show = false
+            if(this.currentTab == 1) this.recommend1[index].show = false
+        },
+        // 图片预览
+        previewImage(index,img){
+            wx.previewImage({
+                current: img, // 当前显示图片的http链接
+                urls: this.recommend[index].previewImage // 需要预览的图片http链接列表
+            })
+        },
+        // 调出弹窗
+        adminPopupShow(currentTab){
+            wx.pageScrollTo({
+                scrollTop: 0
+            })
+            this.$broadcast('adminPopup',currentTab)
+            this.adminPopupShow = true
+        },
+        // 关闭弹窗
+        closeAdminPopup(currentTab){
+            this.adminPopupShow = false
+        }
+    };
+
+    events = {};
+    onReady(){
+        let query = wx.createSelectorQuery();
+        query.select('.personalMsgTabBox').boundingClientRect(rect=>{
+            this.topBoxHeight = rect.height
+            this.$apply()
+        }).exec();
+        // 获取窗口尺寸
+        wx.getSystemInfo({
+            success:(res)=> {
+                this.windowWidth = res.windowWidth
+                this.windowHeight = res.windowHeight
+                this.$apply()
+            }
+        })
+    }
+    onLoad() {
+        this.$broadcast('currentStatus',0)
+    };
+    // Other properties
+}
+</script>
+
+<template lang="wxml">
+    <view class="container" style="width:{{windowWidth}}px">
+        <!-- Tab -->
+        <view class="personalMsgTabBox">
+            <view class="borderStyle">
+                <view wx:for='{{navbar}}' wx:key='' class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}"  @tap="navbarTap({{index}})">{{item}}</view>
+            </view>
+            <image src="../image/addMsg.png" wx:if='{{addIcon}}' @tap='adminPopupShow({{currentTab}})'/>
+        </view>
+        <!-- 我的发布 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox" style="margin-top:{{topBoxHeight}}px">
+            <!-- 发布信息 -->
+            <releaseItem :recommendData.sync="recommend"/>
+            <!-- 申请者 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0rpx;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">申请者</view>
+                    <image src="../image/new.png" />
+                </view>
+            </view>
+            <userMsgItem :syncTitle.sync="applyUser"/>
+            <!-- 推荐 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">推荐</view>
+                    <image src="../image/new.png" />
+                </view>
+            </view>
+            <recommendUserMsgItem :syncTitle.sync="applyUser"/>
+        </view>
+        <!-- 我的申请 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox" style="margin-top:{{topBoxHeight}}px">
+            <releaseItem :recommendDatas.sync="recommend1"/>
+        </view>
+        <!-- 职位管理 -->
+        <view hidden="{{currentTab !== 2}}" class="tabContentBox" style="margin-top:{{topBoxHeight}}px">
+            <!-- 职位 -->
+            <view class="adminPositionBox">
+                <image src="../image/goods-img-default.png" />
+                <view class="adminPositionRight">
+                    <view class="adminPositionRightL">
+                        <view>项目对接</view>
+                        <view>西安市 雁塔区 某某某</view>
+                    </view>
+                    <wxc-price class="price-demo" value="8888" decimal="none"></wxc-price>
+                </view>
+            </view>
+            <!-- 申请者 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0rpx;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">申请者</view>
+                    <image src="../image/new.png" />
+                </view>
+            </view>
+            <userMsgItem :syncTitle.sync="applyUser"/>
+            <!-- 推荐 -->
+            <view class="amoyEnterpriseBox amoyElite" style="padding-top:0;padding-bottom:25rpx;">
+                <view class="amoyEliteTitle">
+                    <view class="redLine">推荐</view>
+                    <image src="../image/new.png" />
+                </view>
+            </view>
+            <recommendUserMsgItem :syncTitle.sync="applyUser"/>
+        </view>
+        <!-- 弹窗 -->
+        <scroll-view catchtouchmove="ture" scroll-y class="adminPopupBox" style="width:0px;height:{{windowHeight}}px;overflow: hidden;{{adminPopupShow?'width:'+windowWidth+'px;transition:  all .5s;':''}}">
+            <view class="closeIcon"><wxc-icon type='close' size = '35' color='#4444' @tap='closeAdminPopup'/></view>
+            <releaseItem :recommendDatas.sync="recommend1" wx:if='{{currentTab==0}}'/>
+            <userMsgItem :syncTitle.sync="applyUser" wx:if='{{currentTab==2}}'/>
+        </scroll-view>
+    </view>
+    <registerPopup/>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #f8f8f8;
+    }
+    .personalMsgTabBox{
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 20rpx;
+        background-color: #fff;
+        .personalMsgTabItem{
+            color: #bbb;
+            font-size: 30rpx !important;
+            margin-right: 95rpx !important;
+        }
+        .personalMsgTabActive{
+            font-size: 30rpx !important; 
+            font-weight: normal !important;
+            color: #000;
+        }
+        image{
+            width: 54rpx;
+            height: 54rpx;
+            position: absolute;
+            bottom: 24rpx;
+            right: 30rpx;
+        }
+    }
+    .tabContentBox{
+        width: 100%;
+    }
+    .amoyElite{
+        background-color: #f8f8f8;
+    }
+    .adminPositionBox{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 60rpx 45rpx 30rpx 30rpx;
+        margin-bottom: 25rpx;
+        background-color: #fff;
+        image{
+            width: 90rpx;
+            height: 90rpx;
+        }
+        .adminPositionRight{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .adminPositionRightL{
+                height: 90rpx;
+                padding-left: 17rpx;
+                :first-of-type{
+                    font-weight: 600;
+                }
+                :last-of-type{
+                    font-size: 26rpx;
+                    color: #777;
+                    margin-top: 10rpx;
+                }
+            }
+            .price-demo{
+                view{
+                    font-size: 38rpx;
+                    color: #00D4D7;
+                }
+            }
+        }
+    }
+    .adminPopupBox{
+        z-index: 99;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0rpx;
+        background-color: #f8f8f8;
+        .closeIcon{
+            width: 100%;
+            padding: 30rpx;
+        }
+    }
+</style>

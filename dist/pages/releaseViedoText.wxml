@@ -1,0 +1,12 @@
+
+    <view class="container">
+        <form bindsubmit="formSubmit">
+            <textarea placeholder="请输入内容"/>
+            <image  wx:if="{{!tempFilePath}}" class="chooseVideo" src="../image/video.png" bindtap="chooseVideo"/>
+            <video  wx:else src="{{tempFilePath}}" style="width:100%;margin-bottom:100rpx;"/>
+            <view class="btn-area">
+                <button>保存</button>
+                <button form-type="submit">保存并发布</button>
+            </view>
+        </form>
+    </view>

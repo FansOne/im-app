@@ -1,0 +1,214 @@
+<script>
+import wepy from 'wepy';
+import registerPopup from '../components/registerPopup';
+let util = require('../utils/util.js'); // 转换时间插件
+let im = require('../utils/webim_wx.js'); // 腾讯云 im 包
+let imhandler = require('../utils/im_handler.js'); // 这个是所有 im 事件的 js
+
+export default class chatIndexLists extends wepy.page {
+    config = {
+        navigationBarTitleText: '消息',
+        usingComponents: {
+            'wxc-abnor': '../../packages/@minui/wxc-abnor/dist/index',
+            'wxc-loading': '../../packages/@minui/wxc-loading/dist/index'
+        },
+    };
+    components = {
+        registerPopup
+    };
+
+    data = {
+        isNoData: false, // isNoData 用于判断是否无数据列表，然后页面做出无数据列表的反应 TODO 效果未实现
+        contactList:[],
+        isShow: true
+    };
+    methods = {
+        /**
+        * go chat.wxml
+        */
+        linkChat(e){
+            wx.navigateTo({
+            url: '/subpackage/chatIM/chatDetails?friendId=' + e.currentTarget.dataset.id
+                + '&friendName=' + e.currentTarget.dataset.name
+                + '&friendAvatarUrl=' + e.currentTarget.dataset.image,
+            })
+        }
+    };
+
+    events = {};
+    onShow(){
+        var that = this;
+        // 会话列表所需参数初始化 需将当前会话好友数据清空
+        imhandler.init({
+            accountMode: wepy.$instance.globalData.im.accountMode,
+            accountType: wepy.$instance.globalData.im.accountType,
+            sdkAppID: wepy.$instance.globalData.im.sdkAppID,
+            selType: im.SESSION_TYPE.C2C,
+            imId: wepy.$instance.globalData.im.imId,
+            imName: wepy.$instance.globalData.im.imName,
+            imAvatarUrl: wepy.$instance.globalData.im.imAvatarUrl,
+            friendId: null,
+            friendName: null,
+            friendAvatarUrl: null,
+            contactListThat: that,
+            chatThat: null
+        })
+        wepy.$instance.initImParams(function cbOk(){
+            // 检查是否登录返回 true 和 false,不登录则重新登录
+            if (im.checkLogin()) {
+                that.initRecentContactList();
+                // 初始化最近会话的消息未读数（监听新消息事件）
+                im.syncMsgs(imhandler.onMsgNotify());
+            } else {
+                imhandler.login(that, wepy.$instance.globalData, function () {
+                    that.initRecentContactList();
+                    // 初始化最近会话的消息未读数（监听新消息事件）
+                    im.syncMsgs(imhandler.onMsgNotify());
+                });
+            }
+            wx.hideLoading()
+        })
+    }
+    onLoad() {
+        // console.log(wepy.$instance.globalData)
+        let find = wx.getStorageSync('loginData').find;
+        if(find == 0){
+            this.isShow = false
+        }
+        else{
+            this.isShow = false
+            this.isNoData = true
+        }
+    };
+    /**
+    * 拉取最近联系人列表
+    */
+    initRecentContactList(){
+        im.Log.warn("开始拉取最近联系人列表");
+        var that = this;
+        // 真正获取会话列表的方法 count: 最近的会话数 ,最大可设置为 100 只获取有价值数据
+        im.getRecentContactList({ 'Count': 10 }, function (resp) {
+            
+            if (resp.SessionItem && resp.SessionItem.length > 0) {
+                var contactList = resp.SessionItem.map((item, index) => {
+                    return {
+                        "friendId": item.To_Account,
+                        "friendName": item.C2cNick,
+                        "friendAvatarUrl": item.C2cImage,
+                        "msgTime": util.getDateDiff(item.MsgTimeStamp * 1000),
+                        "msg": item.MsgShow,
+                        "unreadMsgCount": item.UnreadMsgCount
+                    }
+                })
+                // 设置联系人列表
+                that.contactList = contactList
+                that.isNoData = true
+                that.$apply()
+                that.updateUnread()
+            } else {
+                that.isNoData = false,
+                that.$apply()
+            }
+        })
+        im.Log.warn("成功拉取最近联系人列表");
+        this.isShow = false
+    }
+    /**
+     * 更新未读消息数
+    */
+    updateUnread(){
+        var that = this
+        // 还需要获取未读消息数
+        var sessionMap = im.MsgStore.sessMap();
+        var contactList = that.contactList
+        for (var i in sessionMap) {
+        var session = sessionMap[i]
+        if (session.unread() > 0) {
+            contactList = contactList.map((item, index) => {
+                if (item.friendId === session.id()) {
+                    item.unreadMsgCount = session.unread()
+                }
+                return item;
+            })
+        }
+        }
+        // 设置联系人列表
+        that.contactList = contactList
+        that.$apply()
+    }
+}
+</script>
+
+<template lang="wxml">
+    <view class="message-sec">
+        <view class="child" wx:for="{{contactList}}" wx:key="{{index}}" wx:if="{{contactList.length > 0}}" bindtap='linkChat'
+        data-id="{{item.friendId}}" data-name="{{item.friendName}}" data-image="{{item.friendAvatarUrl}}">
+            <image class="msgCover" wx:if="{{item.friendAvatarUrl == ''}}" src="{{noData}}" mode="aspectFill"></image>
+            <image class="msgCover" wx:if="{{item.friendAvatarUrl != ''}}" src="{{item.friendAvatarUrl}}" mode="aspectFill"></image>
+            <view class="msgListItemRight">
+                <view class="msgerMsgBox">
+                    <view class="msgerName" >{{item.friendName}}</view>
+                    <view class="msgContent" wx:if="{{item.unreadMsgCount == 0}}">{{item.msg}}</view>
+                    <view class="msgContent" wx:if="{{item.unreadMsgCount > 0}}"><text style="color:red">[{{item.unreadMsgCount}}条未读]</text> {{item.msg}}</view>
+                </view>
+                <view class="msgTime">{{item.msgTime}}</view>
+            </view>
+        </view>
+    </view>
+    <!-- 消息列表为空的视图 -->
+    <view wx:if='{{!contactList.length && !isShow}}' style="width:100%;height:220rpx"></view>
+    <wxc-abnor type="MESSAGE" wx:if='{{!contactList.length && !isShow}}'/>
+    <registerPopup/>
+    <wxc-loading
+        is-show="{{isShow}}"
+        image="http://pu041iqdq.bkt.clouddn.com/loadingMain.png"
+        slip="http://pu041iqdq.bkt.clouddn.com/loadingScend.png"
+    />
+</template>
+<style lang="less">
+    page{
+        border-top: 1rpx solid #f1f1f1;
+    }
+    .message-sec{
+        width: 100%;
+        .child{
+            width: 100%;
+            padding: 30rpx;
+            display: flex;
+            align-items: center;
+            border-bottom: 1rpx solid #f1f1f1;
+            .msgCover{
+                width: 90rpx;
+                height: 90rpx;
+            }
+            .msgListItemRight{
+                height: 90rpx;
+                flex: 1;
+                padding-left: 20rpx;
+                display: flex;
+                justify-content: space-between;
+                .msgerMsgBox{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding-bottom: 4rpx;
+                    .msgerName{
+                        
+                    }
+                    .msgContent{
+                        font-size: 26rpx;
+                        color: #777;
+                    }
+                }
+                .msgTime{
+                    font-size: 26rpx;
+                    color: #777;
+                }
+            }
+        }
+    }
+    view,button {
+        display: block;
+        overflow: initial;
+    }
+</style>

@@ -1,0 +1,231 @@
+<script>
+import wepy from 'wepy';
+import rightPicker from '../../components/rightPicker';
+
+export default class enterpriseMsgEdit extends wepy.page {
+    config = {
+        navigationBarTitleText: '编辑企业信息',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index'
+        },
+    };
+    components = {
+        rightPicker
+    };
+
+    data = {
+        tempFilePaths:'', //用户图像
+        enterpriseMsg:[
+            {
+                title:'企业简称',
+                placeholder:'请输入企业简称',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'企业全称',
+                placeholder:'请输入企业全称',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'行业',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['贸易','制造业','房地产','保健品','IT/互联网','通信/电子','汽车/配件','生物/环保','医疗/器械','金融/投资','能源/电力','建筑/建材','化工/纺织','零售/快消','教育/科研','广告/传媒','企业咨询'],
+                index:2,
+                selectorPicker:false
+            },
+            {
+                title:'业务标签',
+                placeholder:'业务标签最多输入三个',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'业务领域',
+                placeholder:'业务领域最多输入三个',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'公司规模',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['0-10人','11-50人','51-200人','201-500人','501-1000人','1001+人','5000+人','10000+'],
+                selectorPicker:false,
+                index:5,
+            },
+            {
+                title:'公司类型',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'selector',
+                pickerValue:0,
+                pickerRange:['上市公司','民营企业','政府机构','非营利性组织','外资企业','合资企业','个体经营'],
+                selectorPicker:false,
+                index:6,
+            },
+            {
+                title:'企业电话',
+                placeholder:'请输入企业电话',
+                arrow:false,
+                input:'input',
+                inputType:'number'
+            },
+            {
+                title:'公司网址',
+                placeholder:'请输入公司网址',
+                arrow:false,
+                input:'input',
+                inputType:'text'
+            },
+            {
+                title:'公司地区',
+                placeholder:'请选择',
+                arrow:true,
+                input:'picker',
+                inputType:'region',
+                pickerValue:[],
+                index:9
+            },
+        ],
+        chooseList: [
+			{ value: '云计算', name: '云计算' },
+			{ value: 'PASS', name: 'PASS'},
+			{ value: 'SASS', name: 'SASS'},
+			{ value: '超融合', name: '超融合'},
+			{ value: '服务器', name: '服务器'},
+			{ value: '数据库', name: '数据库'},
+			{ value: '工业互联网', name: '工业互联网'},
+			{ value: '应用交付', name: '应用交付'}
+        ],
+        multiple: true
+    };
+    methods = {
+        // 上传图像
+        chooseImage(){
+            wx.chooseImage({
+                count: this.count,
+                sizeType: ['original', 'compressed'],
+                sourceType: ['album', 'camera'],
+                success: (res)=> {
+                    this.tempFilePaths = res.tempFilePaths[0]
+                    this.$apply()
+                    // wx.uploadFile({
+                    //     url:'https://api.zhizubaba.com/api/up_images',
+                    //     filePath: element,
+                    //     header:{
+                    //         'Content-Type':'multipart/form-data'                                  
+                    //     },
+                    //     name: 'files',
+                    //     success:  (res)=> {
+                    //         pics.push(JSON.parse(res.data).message)
+                    //     }
+                    // })
+                }
+            })
+        },
+        // 行业选择
+        pickerChange2(e){
+            this.enterpriseMsg[2].pickerValue = e.detail.value
+            this.enterpriseMsg[2].selectorPicker = true
+        },
+        // 公司规模
+        pickerChange5(e){
+            this.enterpriseMsg[5].pickerValue = e.detail.value
+            this.enterpriseMsg[5].selectorPicker = true
+        },
+        // 公司类型
+        pickerChange6(e){
+            this.enterpriseMsg[6].pickerValue = e.detail.value
+            this.enterpriseMsg[6].selectorPicker = true
+        },
+        // 公司地区
+        pickerChange9(e){
+            this.enterpriseMsg[9].pickerValue = e.detail.value
+        },
+    };
+
+    events = {
+        choose:(e)=>{
+            this.chooseArray = e.detail.chooseArray
+        },
+    };
+    onLoad() {};
+    // Other properties
+}
+</script>
+
+<template lang="wxml">
+    <view class="list-warp">
+        <view class="personalCoverBox">
+            <image src="{{tempFilePaths?tempFilePaths:'../../image/unknownUser.png'}}" class="userCover" @tap="chooseImage" mode="aspectFill">
+                <image src="../../image/personalCameraUpdata.png"/>
+            </image>
+        </view>
+        <form bindsubmit="formSubmit">
+
+            <view class="personalInputItemBox" wx:for="{{enterpriseMsg}}" wx:key=''>
+                <view class="inputItem">
+                    <view class="inputTitle"><text>*</text> {{item.title}}</view>
+                    <input wx:if="{{item.input == 'input'}}" placeholder="{{item.placeholder}}" placeholder-style="color:#999;font-size:28rpx" name='input{{index}}' type="{{item.inputType}}"/>
+                    <picker wx:if="{{item.input == 'picker'}}" mode="{{item.inputType}}" @change="pickerChange{{item.index?item.index:index}}" @columnchange="columnchange{{item.index?item.index:index}}" value="{{item.pickerValue}}" range="{{item.pickerRange}}" name='picker{{index}}'>
+                        <!-- 地区选择器展示内容 -->
+                        <view class="picker" wx:if="{{item.inputType == 'region'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerValue[0]+' · '+item.pickerValue[1]+' · '+item.pickerValue[2]):item.placeholder}}
+                        </view>
+                        <!-- 多列选择器展示内容 -->
+                        <view class="picker" wx:elif="{{item.inputType == 'multiSelector'}}" style="font-size:28rpx;{{item.pickerValue.length?'':'color:#999'}}">
+                            {{item.pickerValue.length?(item.pickerRange[0][item.pickerValue[0]]+'-'+item.pickerRange[1][item.pickerValue[1]]+'-'+item.pickerRange[2][item.pickerValue[2]]):item.placeholder}}
+                        </view>
+                        <!-- 普通选择器 -->
+                        <view class="picker" wx:if="{{item.inputType == 'selector'}}" style="font-size:28rpx;{{item.selectorPicker?'':'color:#999'}}">
+                            {{item.selectorPicker?(item.pickerRange[item.pickerValue]):item.placeholder}}
+                        </view>
+                        <!-- 日期选择 -->
+                        <view class="picker" wx:if="{{item.inputType == 'date'}}" style="font-size:28rpx;{{selectData?'':'color:#999'}}">
+                            {{selectData?item.pickerValue:item.placeholder}}
+                        </view>
+                    </picker>
+                    <wxc-icon wx:if='{{item.arrow}}' size="25" type="arrow-right" color='#999'/>
+                </view>
+                <textarea wx:if="{{item.input == 'textarea'}}" placeholder="{{item.placeholder}}" placeholder-style="font-size:26rpx;color#c3c3c3" @confirm = 'bindconfirm' name='textarea{{index}}' style="height:{{item.height?item.height:''}}rpx"/>
+            </view>
+            <!-- 保存按钮 -->
+            <view class="btnsBox personalMsgBtnBox" style="margin-top:80rpx;">
+                <button form-type="submit">保存</button>
+            </view>
+        </form>
+    </view>
+    <rightPicker :chooseList.sync='chooseList' :multiple.sync='multiple'/>
+</template>
+
+<style lang="less">
+    .personalInputItemBox{
+        .inputItem{
+            input{
+                flex: 1;
+                padding-left: 15rpx;
+            }
+        }
+    }
+    .personalMsgBtnBox{
+        button{
+            width: 590rpx !important;
+            background-color: #00D4D7 !important;
+            margin-bottom: 40rpx;
+        }
+    }
+</style>

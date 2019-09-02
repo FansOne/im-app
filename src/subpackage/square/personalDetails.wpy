@@ -1,0 +1,548 @@
+<script>
+import wepy from 'wepy';
+import { personalMsg } from "../../api/api.js";
+import { request,toast } from '../../utils/utils.js';
+
+export default class personalDetails extends wepy.page {
+    config = {
+        navigationBarTitleText: '个人详情',
+        usingComponents: {
+            'wxc-icon': '../../packages/@minui/wxc-icon/dist/index',
+            'wxc-progress': '../../packages/@minui/wxc-progress/dist/index',
+            'wxc-abnor': '../../packages/@minui/wxc-abnor/dist/index'
+        },
+    };
+    components = {};
+
+    data = {
+        topBoxHeight:0,
+        isShow:false,
+        tabShow:false,
+        navbar: [
+            '基本资料',
+            '我的动态'
+        ],
+        currentTab: 0,
+        allData:null,
+        personalSkill:[
+            {
+                title:'团队建设',
+                percent:35
+            },
+            {
+                title:'Sass',
+                percent:68
+            },
+            {
+                title:'英语',
+                percent:80
+            }
+        ],
+        dynamicData:[
+            {
+                title:'英淘成功案例',
+                time:'2019-09-09',
+                jieshao:'案例介绍案例介绍案例介绍案例介绍案例介绍案例介绍案例介绍案例介绍案例介绍绍案例介绍案例介绍绍案例介绍案例介绍绍案例介绍案例介绍',
+                previewImage:[
+                    'http://img4.imgtn.bdimg.com/it/u=1266668071,1814072937&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855392&di=647bb6dc468284b329014455ca5d21da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20061031%2FImg246110560.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855391&di=72820d86de6fa16ccd4056e6dac42ccf&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170616%2F9e649cb9e00c424f96fc263273830a07_th.png',
+                    'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2085223376,536181091&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561699855388&di=4b037df9306c3669c2ca2205751aca23&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F63d0f703918fa0ec76d3f7b92d9759ee3d6ddb6a.jpg',
+                    'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=398659568,2690439867&fm=26&gp=0.jpg',
+                    'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2976842352,636810530&fm=26&gp=0.jpg',
+                    'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2479004758,2731067208&fm=26&gp=0.jpg',
+                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561700076645&di=606e5153c9ace64b31a11c3ac33a80c4&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F12%2F69%2F74%2F84c58PICAKM.jpg'
+                ]
+            }
+        ]
+    };
+    methods = {
+        // tab切换
+        navbarTap(status){
+          this.currentTab = status;
+        },
+        // 图片预览
+        previewImage(index,img){
+            wx.previewImage({
+                current: img, // 当前显示图片的http链接
+                urls: this.dynamicData[index].previewImage // 需要预览的图片http链接列表
+            })
+        },
+        // 编辑个人简介
+        editIntroductionPage(){
+            wx.navigateTo({
+                url: './editIntroduction'
+            })
+        },
+        // 编辑个人技能
+        personalSkillPage(){
+            wx.navigateTo({
+                url: './editPersonalSkill'
+            })
+        },
+        // 编辑人脉、职业经历、教育背景
+        editMsg(title){
+            wx.navigateTo({
+                url: `./editMsg?title=${title}`
+            })
+        }
+    };
+
+    events = {};
+    onReady(){
+        let query = wx.createSelectorQuery();
+        query.select('.personalTopBox').boundingClientRect(rect=>{
+            this.topBoxHeight = rect.height
+            this.$apply()
+        }).exec();
+    }
+    onLoad(options) {
+        // request(personalMsg,'POST',{id:options.id}).then(res=>{
+        //     // console.log(res.data.data)
+        //     if(res.data.code == 1){
+        //         this.isShow = false
+        //         this.allData = res.data.data
+        //     }else{
+        //         this.isShow = true
+        //     }
+        //     this.$apply()
+        // }).catch(()=>{
+        //     this.isShow = true
+        //     this.$apply()
+        // })
+    };
+    onPageScroll(e){
+        if(e.scrollTop>=this.topBoxHeight){
+            this.tabShow = true
+            this.$apply()
+        }else{
+            this.tabShow = false
+            this.$apply()
+        }
+    }
+}
+</script>
+
+<template lang="wxml">
+    <block wx:if='{{!isShow}}'>
+        <view class="personalTopBox">
+            <view class="personalBg" style="background-image: url(http://pu041iqdq.bkt.clouddn.com/personalDetailsBanner.png);background-size: 100%"></view>
+            <view class="personalMsgBox">
+                <view class="personalMsg">
+                    <view class="shareBox"><button open-type="share" class="topButtons"><wxc-icon size="36" type="share" color='#555'></wxc-icon></button></view>
+                    <view class="userMagBox">
+                        <image src="../../image/userIconIndex.png" />
+                        <view class="userMsgRight">
+                            <view>花泽类</view>
+                            <view>岗前培训师｜销售<text> | </text>IT互联网</view>
+                        </view>
+                    </view>
+                    <view class="userContact">
+                        <view>上海市</view>
+                        <view style="font-size:26rpx;">182****9986</view>
+                        <view>上海领英</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- Tab -->
+        <view class="personalMsgTabBox">
+            <view class="borderStyle">
+                <view wx:for='{{navbar}}' wx:key='' class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}"  @tap="navbarTap({{index}})">{{item}}</view>
+            </view>
+        </view>
+        <view class="personalMsgTabBox tabShow" wx:if='{{tabShow}}'>
+            <view class="borderStyle">
+                <view wx:for='{{navbar}}' wx:key='' class="personalMsgTabItem  {{currentTab==index ? 'personalMsgTabActive' : ''}}"  @tap="navbarTap({{index}})">{{item}}</view>
+            </view>
+        </view>
+        <!-- 基本资料 -->
+        <view hidden="{{currentTab !== 0}}" class="tabContentBox" style="padding-bottom:70rpx;">
+            <!-- 资料完整度 -->
+            <view class="dataIntegrityBox">
+                <view class="dataIntegrityTitle">
+                    个人资料完整度：中级<text>(完整资料有助于更多人脉、工作机会)</text>
+                </view>
+                <view class="progressBox">
+                    <view><wxc-progress percent="60" active-color="#00E4E7,#00CEE7" stroke-width='36' radius='50'/></view>
+                    <view class="progressTextPrompt">完整度60%</view>
+                </view>
+            </view>
+            <!-- 个人简介 -->
+            <view class="dataIntegrityTitleBox">
+                <view>个人简介</view>
+                <wxc-icon  size="25" color='#777' type="arrow-right" @tap="editIntroductionPage"/>
+            </view>
+            <view class="introductionMsg">
+                领英是全球知名的职场社交平台，覆盖全球6.1亿会员领英致力于打造“一站式职业发展平台”，帮助职场人连接无限机会。用LinkedIn领英，走好职业发展的每一步。
+            </view>
+            <!-- 我的人脉客户 -->
+            <view class="dataIntegrityTitleBox">
+                <view>我的人脉客户</view>
+                <wxc-icon  size="25" color='#777' type="arrow-right" @tap="editMsg('人脉客户')"/>
+            </view>
+            <!-- 推荐客户 -->
+            <view class="recommendPersonalBox">
+                <scroll-view scroll-x>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                    <view class="amoyPersonalBox">
+                        <view class="amoyProduct">
+                            <view>银川建筑设计院</view>
+                            <view>建筑 | 设计</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+            <!-- 职业经历 -->
+            <view class="dataIntegrityTitleBox">
+                <view>职业经历</view>
+                <wxc-icon  size="25" color='#777' type="arrow-right" @tap="editMsg('编辑职业经历')"/>
+            </view>
+            <view class="experienceBox">
+                <view class="experienceItem">
+                    <view>公司名字：</view>
+                    <view>领英 LinkedIn</view>
+                </view>
+                <view class="experienceItem">
+                    <view>职位头衔：</view>
+                    <view>销售主管</view>
+                </view>
+                <view class="experienceItem">
+                    <view>入职时间：</view>
+                    <view>2015.09</view>
+                </view>
+                <view class="experienceItem">
+                    <view>离职时间：</view>
+                    <view>2019.08</view>
+                </view>
+                <view class="experienceItem">
+                    <view>工作内容：</view>
+                    <view>广告、付费服务和额外优惠的工具。</view>
+                </view>
+            </view>
+            <!-- 个人技能 -->
+            <view class="dataIntegrityTitleBox">
+                <view>个人技能</view>
+                <wxc-icon  size="25" color='#777' type="arrow-right" @tap="personalSkillPage"/>
+            </view>
+            <view class="experienceBox personalSkillBox">
+                <view class="experienceItem" wx:for='{{personalSkill}}' wx:key=''>
+                    <view style="font-size:30rpx;font-weight: normal">{{item.title}}</view>
+                    <view><wxc-progress percent="{{item.percent}}" active-color="#00E4E7,#00CEE7" stroke-width='36' radius='50'/></view>
+                </view>
+            </view>
+            <!-- 教育背景 -->
+            <view class="dataIntegrityTitleBox" style="padding-top:20rpx">
+                <view>教育背景</view>
+                <wxc-icon  size="25" color='#777' type="arrow-right" @tap="editMsg('编辑教育经历')"/>
+            </view>
+            <view class="experienceBox">
+                <view class="experienceItem">
+                    <view>学校名字：</view>
+                    <view>上海复旦大学</view>
+                </view>
+                <view class="experienceItem">
+                    <view>专业：</view>
+                    <view>市场营销</view>
+                </view>
+                <view class="experienceItem">
+                    <view>学历：</view>
+                    <view>研究生</view>
+                </view>
+                <view class="experienceItem">
+                    <view>入学时间：</view>
+                    <view>2011.09</view>
+                </view>
+                <view class="experienceItem">
+                    <view>毕业时间：</view>
+                    <view>2015.06</view>
+                </view>
+            </view>
+        </view>
+        <!-- 我的动态 -->
+        <view hidden="{{currentTab !== 1}}" class="tabContentBox">
+            <view class="dynamicBox" wx:for='{{dynamicData}}' wx:key=''>
+                <!-- 图片 -->
+                <view class="previewImageBox">
+                    <image wx:for='{{item.previewImage}}' wx:key='' wx:for-index="idx" wx:for-item="itemName"  src="{{itemName}}" mode="aspectFill" @tap='previewImage({{index}},{{itemName}})'/>
+                </view>
+                <!-- 标题 -->
+                <view class="dynamicTitle">
+                    <view>{{item.title}}</view>
+                    <view>{{item.time}}</view>
+                </view>
+                <!-- 介绍 -->
+                <view class="dynamicIntroduce">{{item.jieshao}}</view>
+            </view>
+        </view>
+    </block>
+    <view wx:if='{{isShow}}' style="width:100%;height:220rpx"></view>
+    <wxc-abnor type="REQUEST_ERROR" title='请求服务器数据异常' wx:if='{{isShow}}'/>
+</template>
+
+<style lang="less">
+    page{
+        background-color: #fefefe;
+    }
+    .personalTopBox{
+        width: 100%;
+        height: 536rpx;
+        .personalBg{
+            width: 100%;
+            height: 356rpx;
+        }
+        .personalMsgBox{
+            z-index: 10;
+            width: 100%;
+            padding: 0 30rpx;
+            transform: translateY(-161rpx);
+            .personalMsg{
+                background-color: #fff;
+                width: 100%;
+                height: 331rpx;
+                box-shadow: 0 0 10rpx #F3F1F1;
+                padding: 20rpx 40rpx 30rpx 40rpx;
+                .shareBox{
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-end;
+                    .topButtons{
+                        width: 36rpx;
+                        height: 36rpx;
+                    }
+                }
+                .userMagBox{
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    image{
+                        width: 116rpx;
+                        height: 116rpx;
+                        border-radius: 7rpx;
+                    }
+                    .userMsgRight{
+                        height: 116rpx;
+                        padding: 10rpx 20rpx;
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        :first-of-type{
+                            
+                            font-size: 34rpx;
+                            letter-spacing: 3rpx;
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+                        }
+                        :last-of-type{
+                            font-size: 24rpx;
+                            color: #666;
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+                .userContact{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-top: 70rpx;
+                    view{
+                        font-size: 24rpx;
+                        
+                    }
+                }
+            }
+        }
+    }
+    .tabContentBox{
+        width: 100%;
+        padding: 70rpx 30rpx 0rpx 30rpx;
+        .dataIntegrityBox{
+            .dataIntegrityTitle{
+                font-size: 28rpx;
+                
+                text{
+                    display: inline-block;
+                    padding-left: 8rpx;
+                    font-size: 24rpx;
+                    color: #999;
+                    font-weight: normal;
+                }
+            }
+            .progressBox{
+                margin-top: 30rpx;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                :first-of-type{
+                    width: 460rpx;
+                }
+                .progressTextPrompt{
+                    font-size: 24rpx;
+                    color: #999;
+                    padding-left: 15rpx;
+                }
+            }
+        }
+        .dataIntegrityTitleBox{
+            width: 100%;
+            padding: 70rpx 0 21rpx 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            :first-of-type{
+                font-size: 32rpx;
+                
+            }
+            wxc-icon{
+                flex: 1;
+                text-align: right;
+            }
+        }
+        .introductionMsg{
+            font-size: 26rpx;
+        }
+        .recommendPersonalBox{
+            width: 100%;
+            scroll-view{
+                height: 198rpx;
+                width: 100%;
+                white-space: nowrap;
+                .amoyPersonalBox{
+                    margin-right: 20rpx;
+                    margin-top: 10rpx;
+                    display:inline-block;
+                    width: 282rpx;
+                    height: 178rpx;
+                    background-color: #fff;
+                    box-shadow: 0 0 10rpx rgb(235, 235, 235);
+                    padding: 40rpx 0;
+                    .amoyProduct{
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        view{
+                            text-align: center;
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+                        }
+                        :first-of-type{
+                            font-size: 26rpx;
+                            
+                        }
+                        :last-of-type{
+                            font-size: 26rpx;
+                            color: #666;
+                        }
+                    }
+                }
+            }
+        }
+        .experienceBox{
+            width: 100%;
+            box-shadow: 0 0 10rpx rgb(235, 235, 235);
+            padding: 10rpx 20rpx 20rpx 20rpx;
+            .experienceItem{
+                display: flex;
+                align-items: flex-start;
+                margin-top: 10rpx;
+                :first-of-type{
+                    flex: .24;
+                    font-size: 24rpx;
+                    
+                }
+                :last-of-type{
+                    flex: .76;
+                    font-size: 24rpx;
+                    color: #999;
+                }
+            }
+        }
+        .personalSkillBox{
+            box-shadow:none;
+            .experienceItem{
+                margin-bottom: 40rpx;
+            }
+        }
+        .dynamicBox{
+            margin-bottom: 50rpx;
+            width: 100%;
+            box-shadow: 0 0 10rpx rgb(235, 235, 235);
+            padding: 0rpx 0rpx 30rpx 0rpx;
+            .previewImageBox{
+                width: 100%;
+                padding: 30rpx 15rpx 0rpx 30rpx;
+                display: flex;
+                flex-wrap: wrap;
+                image{
+                    width: 200rpx;
+                    height: 170rpx;
+                    margin-right: 15rpx;
+                    margin-bottom: 15rpx;
+                }
+            }
+            .dynamicTitle{
+                width: 100%;
+                padding: 15rpx 30rpx 10rpx 30rpx;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                :first-of-type{
+                    
+                }
+                :last-of-type{
+                    font-size: 24rpx;
+                    color: #999;
+                }
+            }
+            .dynamicIntroduce{
+                padding: 0 30rpx;
+                font-size: 24rpx;
+                color: #999;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+            }
+        }
+    }
+    .tabShow{
+        background-color: #fff;
+        height: 145rpx;
+        border-top: 1rpx solid #f1f1f1;
+        position: fixed;
+        top: 0;
+        z-index: 10;
+    }
+</style>

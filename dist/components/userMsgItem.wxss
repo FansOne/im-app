@@ -1,0 +1,46 @@
+.userMsgItemBox {
+  width: 100%;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 30rpx;
+}
+.userMsgItemBox image {
+  width: 118rpx;
+  height: 118rpx;
+  margin-right: 19rpx;
+}
+.userMsgItemBox .userMsgItemRight {
+  flex: 1;
+  height: 118rpx;
+}
+.userMsgItemBox .userMsgItemRight .userMsgItemRightTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.userMsgItemBox .userMsgItemRight .userMsgItemRightTop .userMsg :first-of-type {
+  font-weight: normal;
+}
+.userMsgItemBox .userMsgItemRight .userMsgItemRightTop .userMsg :last-of-type {
+  margin: 6rpx 0;
+  font-size: 24rpx;
+}
+.userMsgItemBox .userMsgItemRight .userMsgItemRightTop .userBtns {
+  height: 51rpx;
+  width: 121rpx;
+  text-align: center;
+  line-height: 51rpx;
+  color: #fff;
+  font-size: 24rpx;
+  background-color: #00D4D7;
+}
+.userMsgItemBox .userMsgItemRight .userMsgItemRightBottom {
+  width: 554rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 24rpx;
+  color: #999;
+}
